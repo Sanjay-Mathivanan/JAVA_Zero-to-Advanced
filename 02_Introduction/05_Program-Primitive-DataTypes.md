@@ -32,12 +32,26 @@ public class DataTypeRange {
 
 ---
 
-### Explanation
+### Output
 
-* Java provides wrapper classes (Integer, Byte, etc.)
-* MAX_VALUE → largest possible value
-* MIN_VALUE → smallest possible value
-* Useful to understand limits of memory
+```text
+Int Range: -2147483648 to 2147483647
+Byte Range: -128 to 127
+Short Range: -32768 to 32767
+Long Range: -9223372036854775808 to 9223372036854775807
+```
+
+---
+
+### How This Program Works
+
+* Java provides wrapper classes like Integer, Byte, Short, Long.
+* Each wrapper class has constants:
+
+  * MAX_VALUE → maximum limit
+  * MIN_VALUE → minimum limit
+* These values are stored in variables and printed.
+* This helps us understand how much data each type can store.
 
 ---
 
@@ -63,19 +77,35 @@ public class OverflowDemo {
 
 ---
 
-### Explanation
+### Output
 
-* Overflow: when value exceeds maximum limit
-* Underflow: when value goes below minimum limit
+```text
+Original Max: 2147483647
+After Overflow: -2147483648
+Original Min: -2147483648
+After Underflow: 2147483647
+```
 
-#### Important Behavior
+---
+
+### How This Program Works
+
+* int has a fixed size of 4 bytes.
+* When max value is exceeded:
+
+  * It wraps around to the minimum value.
+* When min value is decreased:
+
+  * It wraps around to the maximum value.
+
+#### Important Concept
 
 ```text
 Max + 1 → becomes Min
 Min - 1 → becomes Max
 ```
 
-This happens due to fixed memory size.
+This happens because memory size is fixed and values rotate.
 
 ---
 
@@ -109,44 +139,49 @@ public class TypeCastingDemo {
 
 ---
 
-### Explanation
+### Output
+
+```text
+Byte to Int: 100
+After Division: 50
+Short Division: 16000
+Long Value: 21474836471234
+```
+
+---
+
+### How This Program Works
 
 #### Implicit Casting
 
-* Smaller → larger type
-* Happens automatically
+* Smaller data type automatically converts to larger type.
+* Example:
 
-Example:
-
-```java
-byte → int
-```
+  * byte → int
+* No data loss happens.
 
 ---
 
 #### Explicit Casting
 
-* Larger → smaller type
-* Must be done manually
+* Larger type converted to smaller type manually.
+* Example:
 
-Example:
-
-```java
-int → byte
-```
+  * int → byte
+* May cause data loss.
 
 ---
 
-#### Why Casting is Needed
+#### Important Behavior
 
-When performing operations:
+* When performing arithmetic operations:
+
+  * Java converts byte and short into int automatically.
+* So we must cast back:
 
 ```java
 byte result = (byte) (value / 2);
 ```
-
-* Java converts result to int by default
-* So we must convert back to byte manually
 
 ---
 
