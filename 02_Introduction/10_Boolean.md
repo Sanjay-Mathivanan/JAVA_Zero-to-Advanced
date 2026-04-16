@@ -1,31 +1,29 @@
-# Boolean in Java
+# Boolean Data Type in Java
 
 ---
 
 ## Introduction
 
-In Java, the `boolean` data type is used to represent logical values.
+The `boolean` data type is used to store logical values.
 
-It can store only two values:
+It can have only two possible values:
 
 * true
 * false
-
-This type is mainly used in decision-making and control flow.
 
 ---
 
 ## Basic Example
 
 ```java
-public class Main {
+public class BooleanDemo {
     public static void main(String[] args) {
 
-        boolean isJavaEasy = true;
-        boolean isRainy = false;
+        boolean isJavaFun = true;
+        boolean isFishFlying = false;
 
-        System.out.println(isJavaEasy);
-        System.out.println(isRainy);
+        System.out.println(isJavaFun);
+        System.out.println(isFishFlying);
     }
 }
 ```
@@ -41,27 +39,25 @@ false
 
 ---
 
-## Where Boolean is Used
+## Why Boolean is Important
 
-Boolean is mainly used in:
-
-* Conditions (if, else)
-* Loops (while, for)
-* Comparisons
-* Logical operations
+* Used in decision making
+* Controls program flow
+* Used in conditions (if, loops)
 
 ---
 
-## Example with Condition
+## Boolean in Conditions
 
 ```java
-public class BooleanExample {
+public class ConditionDemo {
     public static void main(String[] args) {
 
-        int age = 20;
-        boolean isAdult = age >= 18;
+        int age = 18;
 
-        System.out.println(isAdult);
+        boolean isEligible = age >= 18;
+
+        System.out.println(isEligible);
     }
 }
 ```
@@ -79,21 +75,21 @@ true
 ### Explanation
 
 * age >= 18 → condition
-* Result is true or false
+* Result → true or false
 * Stored in boolean variable
 
 ---
 
-## Boolean in If Statement
+## Boolean with If Statement
 
 ```java
-public class CheckNumber {
+public class IfExample {
     public static void main(String[] args) {
 
-        int number = 10;
+        boolean isRaining = true;
 
-        if (number > 0) {
-            System.out.println("Positive");
+        if (isRaining) {
+            System.out.println("Take umbrella");
         }
     }
 }
@@ -101,64 +97,75 @@ public class CheckNumber {
 
 ---
 
-## Logical Operators with Boolean
+## Boolean Expressions
 
-| Operator | Meaning |   |    |
-| -------- | ------- | - | -- |
-| &&       | AND     |   |    |
-|          |         |   | OR |
-| !        | NOT     |   |    |
+```java
+boolean result = (10 > 5);
+System.out.println(result);
+```
 
 ---
 
-## Example
+### Output
+
+```text
+true
+```
+
+---
+
+## Important Note
+
+In Java:
+
+* boolean is not a number
+* You cannot use 0 or 1
+
+Wrong:
 
 ```java
-public class LogicalDemo {
+boolean x = 1; // error
+```
+
+Correct:
+
+```java
+boolean x = true;
+```
+
+---
+
+## Memory Concept
+
+```text
+boolean → stores only true or false
+```
+
+(Java internally handles storage, not exactly 1 bit in practice)
+
+---
+
+## Real-World Example
+
+```java
+public class LoginCheck {
     public static void main(String[] args) {
 
-        int age = 20;
-        boolean hasID = true;
+        String password = "admin123";
+        boolean isCorrect = password.equals("admin123");
 
-        if (age >= 18 && hasID) {
-            System.out.println("Allowed");
-        }
+        System.out.println(isCorrect);
     }
 }
 ```
-
----
-
-## Output
-
-```text
-Allowed
-```
-
----
-
-## Boolean Flow Diagram
-
-```text
-Condition → Evaluation → true/false → Action
-```
-
----
-
-## Important Points
-
-* Boolean does not store numbers (0 or 1)
-* Only true or false values allowed
-* Used in decision making
-* Helps control program flow
 
 ---
 
 ## Common Mistakes
 
-* Writing True or False (must be lowercase)
-* Using 0 or 1 instead of boolean
+* Using 0/1 instead of true/false
 * Confusing assignment (=) with comparison (==)
+* Not understanding boolean expressions
 
 ---
 
@@ -166,25 +173,25 @@ Condition → Evaluation → true/false → Action
 
 ### Challenge 1
 
-Check if a number is even using boolean.
+Check if a number is greater than 100.
 
 ---
 
 ### Challenge 2
 
-Check if a person is eligible to vote.
+Store result of (5 < 3) and print it.
 
 ---
 
 ### Challenge 3
 
-Use logical operators to combine conditions.
+Check if a number is even using boolean.
 
 ---
 
 ### Challenge 4
 
-Create a program that checks login condition using boolean.
+Create a login check using boolean condition.
 
 ---
 
@@ -192,27 +199,27 @@ Create a program that checks login condition using boolean.
 
 ```text
 Boolean
-   ↓
+ ↓
 true / false
-   ↓
+ ↓
 Conditions
-   ↓
-Decision Making
+ ↓
+Program Flow Control
 ```
 
 ---
 
 ## Key Takeaways
 
-* Boolean stores only true or false
-* Used in conditions and control flow
-* Logical operators work with boolean
-* Essential for decision-making programs
+* boolean stores true or false
+* Used in conditions and decision making
+* Cannot use numbers like 0 or 1
+* Essential for control flow
 
 ---
 
 ## Conclusion
 
-Boolean is one of the most important data types in programming because it controls how decisions are made in a program.
+Boolean is the foundation of decision-making in programming.
 
-Understanding boolean properly will make control statements much easier.
+Without boolean logic, programs cannot make choices or react dynamically.
