@@ -2,42 +2,316 @@
 
 ## Introduction
 
-In the previous chapter, we learned about:
+In this chapter, we will learn how Java handles variables in different scopes using a practical example.
 
-```text
-Class Scope
-Method Scope
-Block Scope
-Variable Shadowing
-```
+This program demonstrates:
 
-This chapter demonstrates all these concepts using a practical Java program.
-
-We will learn:
-
-- Public vs Private Variables
-- Local Variables
+- Class Scope
+- Local Scope
+- Block Scope
 - Variable Shadowing
-- this Keyword
+- `this` Keyword
 - Inner Classes
-- Accessing Outer Class Variables
+- `OuterClass.this`
+
+Understanding this example is important because many Java interview questions are based on scope resolution and variable shadowing.
 
 ---
 
 # Problem Statement
 
-Consider the following class:
+Create a program that demonstrates how Java resolves variables when the same variable name exists in multiple scopes.
+
+The program should show:
+
+- A variable inside the `main()` method.
+- A variable inside the outer class.
+- A variable inside an inner class.
+- A variable inside a method.
+
+The program should also demonstrate:
+
+- How local variables hide class variables.
+- How `this` accesses the current object's variable.
+- How `OuterClass.this` accesses the outer class variable.
+
+---
+
+# Full Code
+
+## Main.java
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        int privateVariable = 10;
+
+        ScopeOfVariable scopeCheck =
+                new ScopeOfVariable();
+
+        ScopeOfVariable.InnerClass innerClass =
+                scopeCheck.new InnerClass();
+
+        innerClass.multiplier();
+    }
+}
+```
+
+---
+
+## ScopeOfVariable.java
 
 ```java
 public class ScopeOfVariable {
 
     public int publicVariable = 1;
+
     private int privateVariable = 1;
 
+    public void checkingScope() {
+
+        System.out.println(
+                "The Private Variable is "
+                + privateVariable
+                + " and the public Variable is "
+                + publicVariable);
+    }
+
+    public int getPrivateVariable() {
+
+        return privateVariable;
+    }
+
+    public void multiplier() {
+
+        int privateVariable = 3;
+
+        for(int i = 0; i < 5; i++) {
+
+            System.out.println(
+                    i +
+                    " multiplied by "
+                    + this.privateVariable
+                    + " is : "
+                    + (i * this.privateVariable));
+        }
+    }
+
+    public class InnerClass {
+
+        int privateVariable = 4;
+
+        public InnerClass() {
+
+            System.out.println(
+                    "This is from InnerClass, and the value for privateVar : "
+                    + privateVariable);
+        }
+
+        public void multiplier() {
+
+            int privateVariable = 2;
+
+            for(int i = 0; i < 5; i++) {
+
+                System.out.println(
+                        i +
+                        " multiplied by "
+                        + ScopeOfVariable.this.privateVariable
+                        + " is : "
+                        + (i * ScopeOfVariable.this.privateVariable));
+            }
+        }
+    }
 }
 ```
 
-We have:
+---
+
+# Output
+
+```text
+This is from InnerClass, and the value for privateVar : 4
+
+0 multiplied by 1 is : 0
+1 multiplied by 1 is : 1
+2 multiplied by 1 is : 2
+3 multiplied by 1 is : 3
+4 multiplied by 1 is : 4
+```
+
+---
+
+# Understanding the Problem
+
+This program contains four different variables with the same name:
+
+```java
+privateVariable
+```
+
+---
+
+## Variable 1
+
+Inside `main()`
+
+```java
+int privateVariable = 10;
+```
+
+Scope:
+
+```text
+Only inside main()
+```
+
+---
+
+## Variable 2
+
+Inside `ScopeOfVariable`
+
+```java
+private int privateVariable = 1;
+```
+
+Scope:
+
+```text
+Entire ScopeOfVariable class
+```
+
+---
+
+## Variable 3
+
+Inside `multiplier()`
+
+```java
+int privateVariable = 3;
+```
+
+Scope:
+
+```text
+Only inside multiplier()
+```
+
+---
+
+## Variable 4
+
+Inside `InnerClass`
+
+```java
+int privateVariable = 4;
+```
+
+Scope:
+
+```text
+Entire InnerClass
+```
+
+---
+
+# Scope Hierarchy
+
+```text
+Main Method
+│
+├── privateVariable = 10
+│
+▼
+
+ScopeOfVariable
+│
+├── privateVariable = 1
+│
+▼
+
+InnerClass
+│
+├── privateVariable = 4
+│
+▼
+
+multiplier()
+│
+└── privateVariable = 2
+```
+
+---
+
+# Program Flow
+
+```text
+main()
+    │
+    ▼
+
+Create ScopeOfVariable Object
+    │
+    ▼
+
+Create InnerClass Object
+    │
+    ▼
+
+InnerClass Constructor Executes
+    │
+    ▼
+
+Call multiplier()
+    │
+    ▼
+
+Print Multiplication Table
+```
+
+---
+
+# Step-by-Step Execution
+
+## Step 1
+
+Program starts.
+
+```java
+public static void main(String[] args)
+```
+
+---
+
+## Step 2
+
+Create local variable.
+
+```java
+int privateVariable = 10;
+```
+
+This variable belongs only to:
+
+```text
+main()
+```
+
+---
+
+## Step 3
+
+Create outer class object.
+
+```java
+ScopeOfVariable scopeCheck =
+        new ScopeOfVariable();
+```
+
+Memory:
 
 ```text
 publicVariable = 1
@@ -45,120 +319,152 @@ publicVariable = 1
 privateVariable = 1
 ```
 
-Both belong to:
+---
 
-```text
-Class Scope
+## Step 4
+
+Create InnerClass object.
+
+```java
+ScopeOfVariable.InnerClass innerClass =
+        scopeCheck.new InnerClass();
 ```
 
-because they are declared directly inside the class.
+Constructor executes automatically.
+
+```java
+public InnerClass()
+```
+
+Output:
+
+```text
+This is from InnerClass, and the value for privateVar : 4
+```
 
 ---
 
-# Understanding Class Scope
+## Step 5
+
+Call:
 
 ```java
-public class ScopeOfVariable {
-
-    public int publicVariable = 1;
-    private int privateVariable = 1;
-}
+innerClass.multiplier();
 ```
 
-Memory View:
+---
 
-```text
-ScopeOfVariable Object
----------------------
+# Understanding Variable Shadowing
 
-publicVariable  = 1
+Inside:
 
+```java
+public void multiplier()
+```
+
+we create:
+
+```java
+int privateVariable = 2;
+```
+
+But we already have:
+
+```java
+privateVariable = 4
+```
+
+inside InnerClass.
+
+And:
+
+```java
 privateVariable = 1
-
----------------------
 ```
 
-These variables exist as long as the object exists.
+inside ScopeOfVariable.
+
+Now three variables have the same name.
 
 ---
 
-# Example 1: Accessing Class Variables
+# Variable Resolution Order
 
-## Code
-
-```java
-public void checkingScope(){
-
-    System.out.println(
-            "The Private Variable is "
-            + privateVariable
-            + " and the public Variable is "
-            + publicVariable);
-}
-```
-
----
-
-## Output
+Java searches variables in this order:
 
 ```text
-The Private Variable is 1 and the public Variable is 1
+Current Block
+      ↓
+Current Method
+      ↓
+Current Class
+      ↓
+Outer Class
+      ↓
+Parent Class
 ```
+
+The nearest variable is used.
 
 ---
 
-# Why Does This Work?
+# Understanding this Keyword
 
-Because:
+Example:
+
+```java
+this.privateVariable
+```
+
+Meaning:
 
 ```text
-checkingScope()
+Use the current object's variable.
 ```
 
-belongs to the same class.
-
-Therefore it can access:
+For InnerClass:
 
 ```java
-privateVariable
+this.privateVariable
 ```
 
-and
+refers to:
 
 ```java
-publicVariable
-```
-
-directly.
-
----
-
-# Example 2: Accessing Private Variable Using Getter
-
-## Code
-
-```java
-public int getPrivateVariable() {
-
-    return privateVariable;
-}
+privateVariable = 4
 ```
 
 ---
 
-## Main
+# Understanding OuterClass.this
+
+Example:
 
 ```java
-ScopeOfVariable scopeCheck =
-        new ScopeOfVariable();
-
-System.out.println(
-        scopeCheck.getPrivateVariable());
+ScopeOfVariable.this.privateVariable
 ```
 
----
+Meaning:
 
-## Output
+```text
+Go to ScopeOfVariable
+
+Use its privateVariable
+```
+
+Value:
+
+```java
+privateVariable = 1
+```
+
+Therefore:
+
+```java
+ScopeOfVariable.this.privateVariable
+```
+
+returns:
 
 ```text
 1
@@ -166,463 +472,163 @@ System.out.println(
 
 ---
 
-# Why Use Getter?
+# Iteration Breakdown
 
-Direct access:
-
-```java
-scopeCheck.privateVariable
-```
-
-is not allowed because:
+## i = 0
 
 ```java
-privateVariable
+0 * 1
 ```
 
-is private.
-
-So we use:
-
-```java
-getPrivateVariable()
-```
-
----
-
-# Example 3: Variable Shadowing
-
-## Code
-
-```java
-public void multiplier(){
-
-    int privateVariable = 3;
-
-    for(int i = 0; i < 5; i++) {
-
-        System.out.println(
-                i +
-                " multiplied by 3 is : "
-                + (i * privateVariable));
-    }
-}
-```
-
----
-
-# Important Observation
-
-Inside the method:
-
-```java
-int privateVariable = 3;
-```
-
-A new variable is created.
-
----
-
-Class Variable:
-
-```java
-private int privateVariable = 1;
-```
-
-Method Variable:
-
-```java
-int privateVariable = 3;
-```
-
----
-
-# Variable Shadowing
-
-```text
-Class Variable
-      │
-      ▼
-
-privateVariable = 1
-
-      ▲
-
-Hidden By
-
-      │
-
-Method Variable
-
-privateVariable = 3
-```
-
-The local variable hides the class variable.
-
----
-
-# Output
-
-```text
-0 multiplied by 3 is : 0
-
-1 multiplied by 3 is : 3
-
-2 multiplied by 3 is : 6
-
-3 multiplied by 3 is : 9
-
-4 multiplied by 3 is : 12
-```
-
----
-
-# Example 4: Using this Keyword
-
-Modified Code:
-
-```java
-public void multiplier(){
-
-    int privateVariable = 3;
-
-    for(int i = 0; i < 5; i++) {
-
-        System.out.println(
-                i +
-                " multiplied by "
-                + this.privateVariable
-                + " is : "
-                + (i * this.privateVariable));
-    }
-}
-```
-
----
-
-# What is this.privateVariable?
-
-```java
-this.privateVariable
-```
-
-means:
-
-```text
-Use the Class Variable
-```
-
-instead of the local variable.
-
----
-
-# Visualization
-
-```text
-Class Variable
-
-this.privateVariable = 1
-
-
-Local Variable
-
-privateVariable = 3
-```
-
----
-
-# Output
+Output:
 
 ```text
 0 multiplied by 1 is : 0
+```
 
+---
+
+## i = 1
+
+```java
+1 * 1
+```
+
+Output:
+
+```text
 1 multiplied by 1 is : 1
+```
 
+---
+
+## i = 2
+
+```java
+2 * 1
+```
+
+Output:
+
+```text
 2 multiplied by 1 is : 2
+```
 
+---
+
+## i = 3
+
+```java
+3 * 1
+```
+
+Output:
+
+```text
 3 multiplied by 1 is : 3
+```
 
+---
+
+## i = 4
+
+```java
+4 * 1
+```
+
+Output:
+
+```text
 4 multiplied by 1 is : 4
 ```
-
----
-
-# Understanding Inner Class
-
-## Code
-
-```java
-public class InnerClass {
-
-    int privateVariable = 4;
-}
-```
-
-This creates another scope.
-
----
-
-# Scope Hierarchy
-
-```text
-Main Class
-     │
-     ▼
-
-ScopeOfVariable
-     │
-     ▼
-
-InnerClass
-```
-
----
-
-# Inner Class Constructor
-
-```java
-public InnerClass(){
-
-    System.out.println(
-            "This is from innerClass, and the value for privateVar : "
-            + privateVariable);
-}
-```
-
----
-
-# Output
-
-```text
-This is from innerClass,
-and the value for privateVar : 4
-```
-
----
-
-# Why 4?
-
-Because:
-
-```java
-int privateVariable = 4;
-```
-
-belongs to:
-
-```java
-InnerClass
-```
-
----
-
-# Creating Inner Class Object
-
-## Main Class
-
-```java
-ScopeOfVariable scopeCheck =
-        new ScopeOfVariable();
-
-ScopeOfVariable.InnerClass innerClass =
-        scopeCheck.new InnerClass();
-```
-
----
-
-# Visualization
-
-```text
-ScopeOfVariable Object
-          │
-          ▼
-
-     InnerClass Object
-```
-
----
-
-# Example 5: Accessing Outer Class Variable
-
-## Code
-
-```java
-public void multiplier(){
-
-    int privateVariable = 2;
-
-    for(int i = 0; i < 5; i++) {
-
-        System.out.println(
-                i +
-                " multiplied by "
-                + ScopeOfVariable.this.privateVariable
-                + " is : "
-                + (i *
-                ScopeOfVariable.this.privateVariable));
-    }
-}
-```
-
----
-
-# Why Not Use privateVariable?
-
-Inside InnerClass we have:
-
-```java
-int privateVariable = 4;
-```
-
-Inside method:
-
-```java
-int privateVariable = 2;
-```
-
-Inside outer class:
-
-```java
-privateVariable = 1;
-```
-
-Now there are:
-
-```text
-3 Different Variables
-```
-
-with the same name.
-
----
-
-# Scope Resolution
-
-```text
-Method Variable
-privateVariable = 2
-
-      │
-
-      ▼
-
-Inner Class Variable
-privateVariable = 4
-
-      │
-
-      ▼
-
-Outer Class Variable
-privateVariable = 1
-```
-
----
-
-# Accessing Outer Variable
-
-```java
-ScopeOfVariable.this.privateVariable
-```
-
-means:
-
-```text
-Use the variable
-from ScopeOfVariable class
-```
-
----
-
-# Output
-
-```text
-0 multiplied by 1 is : 0
-
-1 multiplied by 1 is : 1
-
-2 multiplied by 1 is : 2
-
-3 multiplied by 1 is : 3
-
-4 multiplied by 1 is : 4
-```
-
----
-
-# Complete Scope Diagram
-
-```text
-ScopeOfVariable
-
-privateVariable = 1
-        │
-        ▼
-
-InnerClass
-
-privateVariable = 4
-        │
-        ▼
-
-multiplier()
-
-privateVariable = 2
-```
-
----
-
-# Variable Lookup Order
-
-When Java sees:
-
-```java
-privateVariable
-```
-
-it searches:
-
-```text
-1. Current Block
-
-2. Current Method
-
-3. Current Class
-
-4. Outer Class
-
-5. Parent Classes
-```
-
-First match wins.
 
 ---
 
 # Memory Representation
 
 ```text
+Main Method
+│
+├── privateVariable = 10
+│
+▼
+
 ScopeOfVariable Object
-
---------------------------------
-
-publicVariable  = 1
-
-privateVariable = 1
-
---------------------------------
-
-        │
-
-        ▼
+│
+├── publicVariable = 1
+├── privateVariable = 1
+│
+▼
 
 InnerClass Object
+│
+├── privateVariable = 4
+│
+▼
 
---------------------------------
-
-privateVariable = 4
-
---------------------------------
+multiplier()
+│
+├── privateVariable = 2
+│
+└── i = 0 → 4
 ```
+
+---
+
+# Code Line Explanation
+
+## Outer Class Variable
+
+```java
+private int privateVariable = 1;
+```
+
+Class-level variable.
+
+Accessible throughout the outer class.
+
+---
+
+## Local Variable
+
+```java
+int privateVariable = 3;
+```
+
+Method-level variable.
+
+Hides the class variable.
+
+---
+
+## Current Object Reference
+
+```java
+this.privateVariable
+```
+
+Accesses the current object's variable.
+
+---
+
+## Outer Class Reference
+
+```java
+ScopeOfVariable.this.privateVariable
+```
+
+Accesses the outer class variable.
+
+---
+
+## Inner Class Object Creation
+
+```java
+ScopeOfVariable.InnerClass innerClass =
+        scopeCheck.new InnerClass();
+```
+
+Creates an object of the inner class.
 
 ---
 
@@ -630,78 +636,57 @@ privateVariable = 4
 
 ## Class Scope
 
-```java
-private int privateVariable = 1;
-```
+Variables declared directly inside a class.
 
 ---
 
 ## Local Scope
 
-```java
-int privateVariable = 3;
-```
+Variables declared inside methods.
 
 ---
 
 ## Variable Shadowing
 
-```java
-Local variable hides
-Class variable
-```
+Local variables hide outer variables with the same name.
 
 ---
 
 ## this Keyword
 
-```java
-this.privateVariable
-```
-
-Access class variable.
+Refers to the current object.
 
 ---
 
 ## Inner Class
 
-```java
-class InnerClass
-```
-
-Creates a nested scope.
+A class defined inside another class.
 
 ---
 
-## Outer Class Access
+## OuterClass.this
 
-```java
-ScopeOfVariable.this.privateVariable
-```
-
-Access outer class variable.
+Accesses members of the outer class from an inner class.
 
 ---
 
 # Interview Questions
 
+### What is Scope?
+
+The region where a variable can be accessed.
+
 ### What is Variable Shadowing?
 
-A local variable hides a class variable with the same name.
+When a local variable hides another variable with the same name.
 
----
+### What does `this` refer to?
 
-### What does this.variable mean?
+The current object.
 
-Access the current object's variable.
+### What does `OuterClass.this` refer to?
 
----
-
-### What does OuterClass.this.variable mean?
-
-Access the outer class variable from an inner class.
-
----
+The outer class object.
 
 ### Can an Inner Class access Outer Class variables?
 
@@ -709,33 +694,17 @@ Yes.
 
 ---
 
-### Which variable has higher priority?
-
-```text
-Local Variable
-
-↓
-
-Class Variable
-
-↓
-
-Outer Class Variable
-```
-
----
-
 # Key Takeaways
 
 - Scope determines variable visibility.
-- Local variables can hide class variables.
-- `this` refers to the current object.
-- Inner classes create additional scopes.
-- `OuterClass.this.variable` accesses outer class members.
-- Java searches from the nearest scope outward.
+- Local variables have higher priority than class variables.
+- Variable shadowing occurs when names are duplicated.
+- `this` accesses the current object's members.
+- `OuterClass.this` accesses the outer object's members.
+- Inner classes create an additional level of scope.
 
 ---
 
 # Conclusion
 
-This example demonstrates how Java handles scope, variable shadowing, inner classes, and the `this` keyword. Understanding these concepts is essential for writing clean, maintainable, and bug-free Java programs, especially in large applications where multiple variables may share the same name across different scopes.
+This example provides a complete understanding of Java scope resolution. It demonstrates how Java handles variables declared in different locations, how variable shadowing works, and how `this` and `OuterClass.this` help resolve ambiguity when multiple variables share the same name.
