@@ -6,7 +6,7 @@
 
 # Introduction
 
-In **Part 1-A**, we learned:
+In **01_ArrayList**, we learned:
 
 - What is ArrayList?
 - Why ArrayList?
