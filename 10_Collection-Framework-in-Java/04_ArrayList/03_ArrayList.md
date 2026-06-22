@@ -6,7 +6,7 @@
 
 # Introduction
 
-In **Part 1**, we learned:
+In **02_ArrayList**, we learned:
 
 - Creating an ArrayList
 - add()
