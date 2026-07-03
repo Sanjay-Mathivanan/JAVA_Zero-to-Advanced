@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 13px; text-anchor: middle; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; text-anchor: middle; fill: #4a5568; }
+    
+    .type-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 2; rx: 6; }
+    .type-text { fill: #2d3748; font-family: monospace; font-size: 14px; font-weight: bold; }
+    
+    .flow-arrow { stroke: #4a5568; stroke-width: 2; fill: none; }
+    .flow-arrow-head { fill: #4a5568; }
+    
+    .widening-text { fill: #2f855a; font-family: 'Inter', system-ui, sans-serif; font-weight: bold; font-size: 12px; }
+    .narrowing-text { fill: #c53030; font-family: 'Inter', system-ui, sans-serif; font-weight: bold; font-size: 12px; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .type-box { fill: #1a202c; stroke: #4a5568; }
+      .type-text { fill: #e2e8f0; }
+      .desc { fill: #a0aec0; }
+      .flow-arrow { stroke: #718096; }
+      .flow-arrow-head { fill: #718096; }
+      .widening-text { fill: #48bb78; }
+      .narrowing-text { fill: #f56565; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Type Nodes -->
+  <!-- byte (1B) -->
+  <g transform="translate(40, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">byte</text>
+    <text class="desc" x="35" y="55">1 Byte</text>
+  </g>
+
+  <!-- short (2B) -->
+  <g transform="translate(160, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">short</text>
+    <text class="desc" x="35" y="55">2 Bytes</text>
+  </g>
+
+  <!-- int (4B) -->
+  <g transform="translate(280, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">int</text>
+    <text class="desc" x="35" y="55">4 Bytes</text>
+  </g>
+
+  <!-- long (8B) -->
+  <g transform="translate(400, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">long</text>
+    <text class="desc" x="35" y="55">8 Bytes</text>
+  </g>
+
+  <!-- float (4B) -->
+  <g transform="translate(520, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">float</text>
+    <text class="desc" x="35" y="55">4 Bytes</text>
+  </g>
+
+  <!-- double (8B) -->
+  <g transform="translate(640, 90)">
+    <rect class="type-box" width="70" height="40" />
+    <text class="type-text" x="35" y="25">double</text>
+    <text class="desc" x="35" y="55">8 Bytes</text>
+  </g>
+
+  <!-- Top Arrow (Widening Conversion) -->
+  <g>
+    <path class="flow-arrow" d="M 80 70 L 670 70" stroke-width="2.5" />
+    <polygon class="flow-arrow-head" points="670,66 678,70 670,74" />
+    <text class="widening-text" x="375" y="55" text-anchor="middle">Widening (Implicit Conversion) - Safe, Automatic</text>
+  </g>
+
+  <!-- Bottom Arrow (Narrowing Conversion) -->
+  <g>
+    <path class="flow-arrow" d="M 670 160 L 80 160" stroke-width="2.5" />
+    <polygon class="flow-arrow-head" points="80,164 72,160 80,156" />
+    <text class="narrowing-text" x="375" y="185" text-anchor="middle">Narrowing (Explicit Casting Required) - Risks Precision Loss</text>
+  </g>
+
+  <!-- Connectors between intermediate nodes -->
+  <g stroke="#a0aec0" stroke-width="1.5" fill="none">
+    <path d="M 110 110 L 160 110" />
+    <path d="M 230 110 L 280 110" />
+    <path d="M 350 110 L 400 110" />
+    <path d="M 470 110 L 520 110" />
+    <path d="M 590 110 L 640 110" />
+  </g>
+</svg>
