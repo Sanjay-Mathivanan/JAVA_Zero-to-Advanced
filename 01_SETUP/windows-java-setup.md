@@ -1,21 +1,21 @@
-# 🪟 Java Development Setup Guide for Windows
+# Java Development Setup Guide for Windows
 
 This guide provides a comprehensive, step-by-step walkthrough to configure your Microsoft Windows environment for Java development.
 
 ---
 
-## 🚦 Installation Checklist
-- [ ] Download & Install Java JDK (LTS 17 or 21)
+## Installation Checklist
+- [ ] Download and Install Java JDK (LTS 17 or 21)
 - [ ] Configure `JAVA_HOME` System Variable
 - [ ] Add JDK Binaries to the System `PATH`
 - [ ] Verify JDK Installation via command-line
 - [ ] Install IDE (IntelliJ IDEA / VS Code)
-- [ ] Install Git & verify version control
+- [ ] Install Git and verify version control
 - [ ] Compile and run a "Hello World" test program
 
 ---
 
-## 📦 Step 1: Install Java JDK
+## Step 1: Install Java JDK
 
 1. Visit the official Oracle Java Downloads page or Eclipse Temurin (Adoptium):
    * [Oracle JDK Downloads](https://www.oracle.com/java/technologies/downloads/)
@@ -29,7 +29,7 @@ This guide provides a comprehensive, step-by-step walkthrough to configure your 
 
 ---
 
-## ⚙️ Step 2: Configure Environment Variables
+## Step 2: Configure Environment Variables
 
 For Windows to locate the Java compiler (`javac`) and launcher (`java`), you must register their paths in your environment variables.
 
@@ -53,7 +53,7 @@ For Windows to locate the Java compiler (`javac`) and launcher (`java`), you mus
 
 ---
 
-## 🔍 Step 3: Verify the Installation
+## Step 3: Verify the Installation
 
 To verify that Java is installed and registered correctly:
 1. Open a new instance of **Command Prompt** (`cmd`) or **PowerShell**.
@@ -76,18 +76,18 @@ javac 21.0.1
 
 ---
 
-## 🛠️ Step 4: Install Recommended IDEs
+## Step 4: Install Recommended IDEs
 
 Install one of the following recommended code editors for Java development:
 
 * **IntelliJ IDEA (Recommended)**: Download the free Community Edition from JetBrains.
   * [Download IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
-* **Visual Studio Code**: Ensure you install the **Extension Pack for Java** extension.
+* **Visual Studio Code**: Ensure you install the "Extension Pack for Java" extension.
   * [Download VS Code](https://code.visualstudio.com/)
 
 ---
 
-## 📦 Step 5: Install Git Version Control
+## Step 5: Install Git Version Control
 
 1. Download the Windows installer from [Git SCM Windows](https://git-scm.com/download/win).
 2. Run the installer, select default settings, and finish installation.
@@ -99,7 +99,7 @@ git --version
 
 ---
 
-## 🚀 Step 6: Write, Compile, and Run Your First Program
+## Step 6: Write, Compile, and Run Your First Program
 
 Let's test the environment manually from scratch:
 
@@ -135,18 +135,18 @@ Hello, Windows Java Development!
 
 ---
 
-## ⚠️ Common Issues & Troubleshooting
+## Common Issues and Troubleshooting
 
 > [!WARNING]
-> ### `'javac' is not recognized as an internal or external command`
+> ### 'javac' is not recognized as an internal or external command
 > * **Cause**: The `PATH` environment variable does not point to your JDK `bin` directory.
 > * **Fix**: Re-verify Step 2. Make sure `%JAVA_HOME%\bin` is added to your Path, and that you **opened a brand new Command Prompt** since applying those changes.
 
 > [!IMPORTANT]
-> ### `Error: JAVA_HOME points to a JRE instead of a JDK`
+> ### Error: JAVA_HOME points to a JRE instead of a JDK
 > * **Cause**: You might have downloaded the Java Runtime Environment (JRE) instead of the Java Development Kit (JDK). JRE can run programs but lacks compile tools like `javac`.
 > * **Fix**: Uninstall JRE, download JDK from Adoptium or Oracle, and update your `JAVA_HOME` path.
 
 ---
 
-➡️ **Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)
+**Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)

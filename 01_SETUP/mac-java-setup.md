@@ -1,4 +1,4 @@
-# 🍏 Java Development Setup Guide for macOS (Intel-Based)
+# Java Development Setup Guide for macOS (Intel-Based)
 
 This guide provides a comprehensive walkthrough to install and configure the Java development environment on Intel-based macOS systems.
 
@@ -7,9 +7,9 @@ This guide provides a comprehensive walkthrough to install and configure the Jav
 
 ---
 
-## 🚦 Installation Checklist
+## Installation Checklist
 - [ ] Install Homebrew Package Manager
-- [ ] Download & Install Java JDK (LTS 17 or 21)
+- [ ] Download and Install Java JDK (LTS 17 or 21)
 - [ ] Set `JAVA_HOME` in Zsh configuration (`.zshrc`)
 - [ ] Verify JDK Installation via Terminal
 - [ ] Install IDE (IntelliJ IDEA / VS Code)
@@ -18,7 +18,7 @@ This guide provides a comprehensive walkthrough to install and configure the Jav
 
 ---
 
-## 📦 Step 1: Install Homebrew (Recommended)
+## Step 1: Install Homebrew (Recommended)
 
 Homebrew is the standard package manager for macOS, making it simple to install and update software.
 
@@ -37,7 +37,7 @@ brew -v
 
 ---
 
-## ☕ Step 2: Install Java JDK
+## Step 2: Install Java JDK
 
 ### Option A: Installing via Homebrew (Recommended)
 This installs the latest open-source JDK distribution and links it directly to macOS System frameworks.
@@ -62,7 +62,7 @@ sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtua
 
 ---
 
-## ⚙️ Step 3: Configure Environment Variables
+## Step 3: Configure Environment Variables
 
 Modern macOS uses `zsh` as the default shell. You need to configure it to automatically export the `JAVA_HOME` path.
 
@@ -85,7 +85,7 @@ Modern macOS uses `zsh` as the default shell. You need to configure it to automa
 
 ---
 
-## 🔍 Step 4: Verify the Installation
+## Step 4: Verify the Installation
 
 Execute the following commands to confirm that Java compiles and runs successfully:
 
@@ -105,7 +105,7 @@ javac 21.0.1
 
 ---
 
-## 🛠️ Step 5: Install Recommended IDEs & Tools
+## Step 5: Install Recommended IDEs and Tools
 
 Install one of the primary code editors below:
 
@@ -116,7 +116,7 @@ Install one of the primary code editors below:
 
 ---
 
-## 📦 Step 6: Install Git Version Control
+## Step 6: Install Git Version Control
 
 1. Install Git directly using Homebrew:
    ```bash
@@ -129,7 +129,7 @@ Install one of the primary code editors below:
 
 ---
 
-## 🚀 Step 7: Write, Compile, and Run Your First Program
+## Step 7: Write, Compile, and Run Your First Program
 
 Let's test the command line compiler interface:
 
@@ -155,10 +155,10 @@ Hello, macOS Java!
 
 ---
 
-## ⚠️ Common Issues & Troubleshooting
+## Common Issues and Troubleshooting
 
 > [!WARNING]
-> ### `Permission Denied` during symlinking
+> ### Permission Denied during symlinking
 > * **Cause**: The symlink command requires root privileges.
 > * **Fix**: Ensure you prefix the command with `sudo` (`sudo ln -sfn ...`). Enter your Mac administrator login password when prompted.
 
@@ -169,4 +169,4 @@ Hello, macOS Java!
 
 ---
 
-➡️ **Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)
+**Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)

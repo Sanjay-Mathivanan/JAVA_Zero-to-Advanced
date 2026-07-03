@@ -1,10 +1,10 @@
-# 🚀 Java Development Setup Guide for Apple Silicon (M1/M2/M3)
+# Java Development Setup Guide for Apple Silicon (M1/M2/M3)
 
 This guide provides a comprehensive walkthrough to configure a native ARM64 Java development environment optimized for Apple Silicon (M1/M2/M3) Macs.
 
 ---
 
-## 🚦 Installation Checklist
+## Installation Checklist
 - [ ] Install Homebrew Package Manager
 - [ ] Add Homebrew to your shell environment paths
 - [ ] Install native ARM64 Java JDK (LTS 17 or 21)
@@ -16,7 +16,7 @@ This guide provides a comprehensive walkthrough to configure a native ARM64 Java
 
 ---
 
-## 📦 Step 1: Install Homebrew
+## Step 1: Install Homebrew
 
 Homebrew installs binary packages natively in `/opt/homebrew` on Apple Silicon Macs.
 
@@ -42,7 +42,7 @@ brew -v
 
 ---
 
-## ☕ Step 2: Install Native ARM64 Java JDK
+## Step 2: Install Native ARM64 Java JDK
 
 Avoid running Intel-compiled JDK versions through Rosetta translation, as they consume more power and run slower.
 
@@ -70,7 +70,7 @@ brew install --cask zulu
 
 ---
 
-## ⚙️ Step 3: Configure Environment Variables
+## Step 3: Configure Environment Variables
 
 1. Open your Zsh profile configuration:
    ```bash
@@ -91,7 +91,7 @@ brew install --cask zulu
 
 ---
 
-## 🔍 Step 4: Verify the Installation
+## Step 4: Verify the Installation
 
 Confirm that Java runs natively on Apple Silicon:
 
@@ -110,7 +110,7 @@ OpenJDK 64-Bit Server VM Temurin-21.0.1+12 (build 21.0.1+12-LTS, mixed mode, sha
 
 ---
 
-## 🛠️ Step 5: Install Native ARM64 IDEs
+## Step 5: Install Native ARM64 IDEs
 
 Make sure you download the Apple Silicon builds of your favorite editors:
 
@@ -121,7 +121,7 @@ Make sure you download the Apple Silicon builds of your favorite editors:
 
 ---
 
-## 📦 Step 6: Install Git Version Control
+## Step 6: Install Git Version Control
 
 1. Install native Git:
    ```bash
@@ -134,7 +134,7 @@ Make sure you download the Apple Silicon builds of your favorite editors:
 
 ---
 
-## 🚀 Step 7: Write, Compile, and Run Your First Program
+## Step 7: Write, Compile, and Run Your First Program
 
 Let's test compilation and execution:
 
@@ -160,7 +160,7 @@ Hello, Apple Silicon Java!
 
 ---
 
-## 💡 Important Notes for Apple Silicon
+## Important Notes for Apple Silicon
 
 > [!TIP]
 > * **Check Architecture**: If you want to check whether your Java processes are running natively or through Rosetta translation, run `ps aux | grep java` while a program is running, or open Activity Monitor, find the `java` process, and check the type column (should say **Apple** and not **Intel**).
@@ -168,7 +168,7 @@ Hello, Apple Silicon Java!
 
 ---
 
-## ⚠️ Common Issues & Troubleshooting
+## Common Issues and Troubleshooting
 
 > [!WARNING]
 > ### `zsh: command not found: brew`
@@ -181,4 +181,4 @@ Hello, Apple Silicon Java!
 
 ---
 
-➡️ **Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)
+**Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)

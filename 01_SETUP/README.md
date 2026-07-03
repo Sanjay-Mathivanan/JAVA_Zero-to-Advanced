@@ -1,10 +1,10 @@
-# ⚙️ Java Development Environment Setup
+# Java Development Environment Setup
 
 ![Java Setup & Environment Config](../assets/images/setup-banner.svg)
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 By the end of this module, you will be able to:
 * **Understand** the core components of the Java platform: **JDK, JRE, and JVM**.
@@ -16,7 +16,7 @@ By the end of this module, you will be able to:
 
 ---
 
-## 🚦 Learning Progress
+## Learning Progress
 - [x] Theoretical understanding of JDK vs JRE vs JVM
 - [ ] JDK Download and installation
 - [ ] Environment variable configuration (`JAVA_HOME` & `PATH`)
@@ -25,7 +25,7 @@ By the end of this module, you will be able to:
 
 ---
 
-## 💻 Prerequisites & System Requirements
+## Prerequisites and System Requirements
 
 Here is a quick look at the minimal system requirements and platform specifications:
 
@@ -38,7 +38,7 @@ Here is a quick look at the minimal system requirements and platform specificati
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 This setup module is organized into the following guides:
 
@@ -53,7 +53,7 @@ This setup module is organized into the following guides:
 
 ---
 
-## 📘 Theory: JDK vs. JRE vs. JVM
+## Theory: JDK vs. JRE vs. JVM
 
 To understand what you are installing, you must understand the relationship between the three main building blocks of Java execution:
 
@@ -75,7 +75,7 @@ Here is how these components nest within each other:
 
 ---
 
-## 🔄 Compilation & Execution Workflow
+## Compilation and Execution Workflow
 
 Java is a hybrid language—it is **both compiled and interpreted**. The execution flow goes through these steps:
 
@@ -87,20 +87,20 @@ Java is a hybrid language—it is **both compiled and interpreted**. The executi
 
 ---
 
-## 🛠️ Step-by-Step Installation Guides
+## Step-by-Step Installation Guides
 
 Select the guide below that matches your operating system:
 
 | Platform | Setup Guide Link | Primary Method |
 | :--- | :--- | :--- |
-| 🪟 **Windows** | [Windows Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/windows-java-setup.md) | Executable installer (`.exe`) + Manual Path Configuration |
-| 🍎 **macOS (Intel)** | [macOS Intel Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/mac-java-setup.md) | Homebrew Package Manager / Manual DMG Installer |
-| 🚀 **Apple Silicon** | [Apple Silicon M1/M2/M3 Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/apple-silicon-java-setup.md) | Native ARM64 builds via Homebrew / Zulu JDK |
-| 🛠️ **Tools Breakdown** | [Recommended Software Tools Catalog](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/Tools.md) | Detailed look at IDEs, Terminals, and Command Utilities |
+| **Windows** | [Windows Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/windows-java-setup.md) | Executable installer (`.exe`) + Manual Path Configuration |
+| **macOS (Intel)** | [macOS Intel Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/mac-java-setup.md) | Homebrew Package Manager / Manual DMG Installer |
+| **Apple Silicon** | [Apple Silicon M1/M2/M3 Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/apple-silicon-java-setup.md) | Native ARM64 builds via Homebrew / Zulu JDK |
+| **Tools Breakdown** | [Recommended Software Tools Catalog](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/Tools.md) | Detailed look at IDEs, Terminals, and Command Utilities |
 
 ---
 
-## ⚡ First Program: Compiling & Running via CLI
+## First Program: Compiling and Running via CLI
 
 Once your environment is set up, let's write and run a simple program to verify everything works.
 
@@ -115,7 +115,7 @@ public class HelloWorld {
 }
 ```
 
-### 🔍 Code Explanation
+### Code Explanation
 * **`public class HelloWorld`**: Declares a public class named `HelloWorld`. In Java, the file name **must** exactly match the public class name (case-sensitive).
 * **`public static void main(String[] args)`**: The entry point of any Java application. The JVM looks for this exact signature to start executing code.
   * `public`: Accessible from anywhere.
@@ -150,7 +150,7 @@ Hello, Java World!
 
 ---
 
-## 💡 Best Practices
+## Best Practices
 
 * **Use LTS Versions**: For learning and production, stick to Long-Term Support (LTS) releases of Java (e.g., Java 17, Java 21) rather than experimental intermediate versions.
 * **Path Variables**: Avoid putting spaces in directory paths where JDK is installed. (e.g., `C:\Java\jdk-21` is safer than `C:\Program Files\Java\jdk-21` on some older command-line tools, though modern versions handle spaces better).
@@ -159,7 +159,7 @@ Hello, Java World!
 
 ---
 
-## ⚠️ Common Mistakes & Troubleshooting
+## Common Mistakes and Troubleshooting
 
 > [!WARNING]
 > ### 1. Error: `javac: command not found` or `'javac' is not recognized...`
@@ -178,7 +178,7 @@ Hello, Java World!
 
 ---
 
-## 🤝 Interview Questions (FAQ)
+## Interview Questions (FAQ)
 
 <details>
 <summary><b>1. What is the difference between JDK, JRE, and JVM?</b></summary>
@@ -211,10 +211,10 @@ The **Just-In-Time (JIT) Compiler** is part of the JVM's execution engine. While
 
 ---
 
-## 🔗 Related Topics & Next Steps
+## Related Topics and Next Steps
 
 * [Tools Setup Catalog](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/Tools.md)
 * [Windows Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/windows-java-setup.md)
 * [macOS Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/mac-java-setup.md)
 
-➡️ **Next Module:** Let's learn about Java syntax, primitives, variables, and type casting in [02_Introduction](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction)
+**Next Module:** Let's learn about Java syntax, primitives, variables, and type casting in [02_Introduction](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction)
