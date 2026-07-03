@@ -1,0 +1,405 @@
+# Method References
+
+Sometimes a Lambda Expression only calls an existing method.
+
+Instead of
+
+```java
+x -> System.out.println(x)
+```
+
+we can write
+
+```java
+System.out::println
+```
+
+This is called a Method Reference.
+
+---
+
+# Types of Method References
+
+```
+Method References
+
+│
+
+├── Static Method
+
+├── Instance Method
+
+├── Particular Object Method
+
+└── Constructor Reference
+```
+
+---
+
+# Static Method Reference
+
+```java
+class Demo {
+
+    static void display() {
+
+        System.out.println("Hello");
+
+    }
+
+}
+
+interface Test {
+
+    void show();
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Test t = Demo::display;
+
+        t.show();
+
+    }
+
+}
+```
+
+---
+
+# Instance Method Reference
+
+```java
+class Demo {
+
+    void message() {
+
+        System.out.println("Welcome");
+
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Demo d = new Demo();
+
+        Runnable r = d::message;
+
+        r.run();
+
+    }
+
+}
+```
+
+---
+
+# Constructor Reference
+
+```java
+class Student {
+
+    Student() {
+
+        System.out.println("Constructor");
+
+    }
+
+}
+
+interface Demo {
+
+    Student create();
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Demo d = Student::new;
+
+        d.create();
+
+    }
+
+}
+```
+
+---
+
+# Built-in Functional Interfaces
+
+Java provides many ready-made Functional Interfaces.
+
+```
+java.util.function
+
+│
+
+├── Predicate
+
+├── Consumer
+
+├── Supplier
+
+├── Function
+
+├── UnaryOperator
+
+└── BinaryOperator
+```
+
+---
+
+# Predicate
+
+Used for testing conditions.
+
+```java
+Predicate<Integer> even = n -> n % 2 == 0;
+
+System.out.println(even.test(10));
+```
+
+Output
+
+```
+true
+```
+
+---
+
+# Consumer
+
+Consumes data.
+
+```java
+Consumer<String> print = System.out::println;
+
+print.accept("Java");
+```
+
+---
+
+# Supplier
+
+Supplies data.
+
+```java
+Supplier<Double> random = Math::random;
+
+System.out.println(random.get());
+```
+
+---
+
+# Function
+
+Converts one value into another.
+
+```java
+Function<String,Integer> length = String::length;
+
+System.out.println(length.apply("Java"));
+```
+
+---
+
+# Lambda with Collections
+
+```java
+List<String> list = Arrays.asList("Java","Python","C++");
+
+list.forEach(System.out::println);
+```
+
+---
+
+# Lambda with Sorting
+
+```java
+Collections.sort(list,(a,b)->a.compareTo(b));
+```
+
+---
+
+# Lambda with Threads
+
+```java
+Thread t = new Thread(() -> {
+
+    System.out.println("Thread Running");
+
+});
+
+t.start();
+```
+
+---
+
+# Internal JVM Working
+
+Java does not generate a separate class like Anonymous Classes.
+
+Instead,
+
+the JVM uses
+
+```
+invokedynamic
+```
+
+instruction.
+
+```
+Lambda
+
+    │
+
+    ▼
+
+invokedynamic
+
+    │
+
+    ▼
+
+Runtime Object
+```
+
+This improves performance.
+
+---
+
+# Anonymous Class vs Lambda
+
+| Anonymous Class | Lambda |
+|-----------------|---------|
+| More Code | Less Code |
+| Java 1.1 | Java 8 |
+| Creates Class | Uses invokedynamic |
+| Slower | Faster |
+| Verbose | Concise |
+
+---
+
+# Lambda vs Method Reference
+
+| Lambda | Method Reference |
+|----------|-----------------|
+| `(x)->System.out.println(x)` | `System.out::println` |
+| More Flexible | More Readable |
+
+---
+
+# Real-World Uses
+
+- Stream API
+- Collections
+- Thread Creation
+- Event Handling
+- Spring Boot
+- Hibernate
+- Android
+- Reactive Programming
+
+---
+
+# Interview Questions
+
+### Beginner
+
+1. What is a Lambda Expression?
+2. Why was it introduced?
+3. What is a Functional Interface?
+
+### Intermediate
+
+4. Lambda vs Anonymous Class?
+5. Lambda vs Method Reference?
+6. Can Lambda throw exceptions?
+
+### Advanced
+
+7. What is `invokedynamic`?
+8. How are Lambda Expressions implemented by JVM?
+9. Why are Lambdas faster than Anonymous Classes?
+
+---
+
+# Practice Programs
+
+### Easy
+
+- Print numbers using Lambda.
+- Add two numbers.
+- Find maximum.
+
+### Medium
+
+- Sort a list.
+- Filter even numbers.
+- Create a Runnable.
+
+### Difficult
+
+- Employee sorting.
+- Student filtering.
+- Build custom Functional Interface.
+- Use Stream API with Lambdas.
+
+---
+
+# Concept Map
+
+```
+Lambda Expressions
+
+        │
+
+        ├── Functional Interface
+
+        ├── Method Reference
+
+        ├── Predicate
+
+        ├── Consumer
+
+        ├── Supplier
+
+        ├── Function
+
+        ├── Streams
+
+        └── invokedynamic
+```
+
+---
+
+# Summary
+
+Lambda Expressions revolutionized Java programming by introducing functional programming concepts. They significantly reduce boilerplate code, improve readability, and integrate seamlessly with Streams, Collections, and modern Java APIs.
+
+---
+
+# Key Takeaways
+
+- Introduced in Java 8.
+- Require Functional Interfaces.
+- Support concise code.
+- Improve performance using `invokedynamic`.
+- Work well with Streams and Collections.
+- Method References simplify Lambdas further.
+
+---
+
+# Conclusion
+
+Lambda Expressions are one of the most powerful features of modern Java. They enable developers to write cleaner, more expressive, and more maintainable code. Mastering Lambdas is essential for Java interviews and for working with frameworks such as Spring Boot, Hibernate, and the Java Stream API.
