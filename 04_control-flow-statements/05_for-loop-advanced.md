@@ -1,353 +1,146 @@
-# Method Challenge Solutions
+# Advanced For Loop Concepts in Java
 
-## Introduction
-
-This chapter contains reference solutions for the method practice challenges.
-
-Try solving each challenge on your own before reviewing these solutions.
+This guide details advanced iteration patterns, including multiple loop control variables, loop labeling for nested structures, early branching (`break` and `continue`), and multidimensional pattern generation.
 
 ---
 
-# Solution 1: Weight Converter
+## Multiple Loop Control Variables
 
-## Problem
+A `for` loop can initialize, evaluate, and update multiple variables simultaneously. This is useful for algorithms that process data from both ends of a structure (e.g. string reversal, array partitioning).
 
-Convert pounds into kilograms.
-
-Formula:
-
-```text
-1 pound = 0.45359237 kilograms
-```
-
----
-
-## Solution
-
+### Syntax
 ```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        double kilograms = toKilograms(10);
-
-        System.out.println(kilograms);
-    }
-
-    public static double toKilograms(double pounds) {
-
-        return pounds * 0.45359237;
-
-    }
+for (initialization1, initialization2; condition; update1, update2) {
+    // Body of loop
 }
 ```
 
-### Output
+* **Rules**: All variables declared in the initialization section must be of the **same data type**.
 
-```text
-4.5359237
-```
-
----
-
-# Solution 2: MegaBytes Converter
-
-## Problem
-
-Convert kilobytes into megabytes and remaining kilobytes.
-
----
-
-## Solution
-
+### Code Example: Two-Pointer Counter
 ```java
-public class Main {
-
+public class MultiVariableLoop {
     public static void main(String[] args) {
-
-        printMegaBytesAndKiloBytes(2500);
-
-    }
-
-    public static void printMegaBytesAndKiloBytes(int kiloBytes) {
-
-        int megaBytes = kiloBytes / 1024;
-        int remainingKB = kiloBytes % 1024;
-
-        System.out.println(
-                megaBytes +
-                " MB and " +
-                remainingKB +
-                " KB");
-
-    }
-}
-```
-
-### Output
-
-```text
-2 MB and 452 KB
-```
-
----
-
-# Solution 3: Barking Dog
-
-## Problem
-
-Determine whether you should wake up.
-
----
-
-## Solution
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        System.out.println(
-                shouldWakeUp(true, 2));
-
-    }
-
-    public static boolean shouldWakeUp(
-            boolean barking,
-            int hourOfDay) {
-
-        if(hourOfDay < 0 || hourOfDay > 23) {
-
-            return false;
-
+        // Runs while i is less than j, incrementing i and decrementing j on each step
+        for (int i = 0, j = 10; i < j; i++, j--) {
+            System.out.println("i: " + i + " | j: " + j);
         }
-
-        return barking &&
-                (hourOfDay < 8 ||
-                 hourOfDay > 22);
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+i: 0 | j: 10
+i: 1 | j: 9
+i: 2 | j: 8
+i: 3 | j: 7
+i: 4 | j: 6
 ```
 
 ---
 
-# Solution 4: Pythagorean Triplet
+## Labeled Loop Control
 
-## Problem
+In Java, you can attach labels to loops. When processing nested loops, a standard `break` or `continue` statement affects only the innermost loop containing it. By using **Labels**, you can control outer loops directly from within nested blocks.
 
-Check whether three numbers form a Pythagorean triplet.
-
----
-
-## Solution
-
+### Syntax
 ```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        System.out.println(
-                isPythagoreanTriplet(3,4,5));
-
-    }
-
-    public static boolean isPythagoreanTriplet(
-            int a,
-            int b,
-            int c) {
-
-        return (a * a) +
-               (b * b) ==
-               (c * c);
-
+labelName:
+for (int i = 0; i < 5; i++) {
+    for (int j = 0; j < 5; j++) {
+        if (condition) {
+            break labelName; // Exits the outer loop directly
+        }
     }
 }
 ```
 
-### Output
-
-```text
-true
-```
-
----
-
-# Solution 5: Decimal Comparator
-
-## Problem
-
-Compare two decimal values up to three decimal places.
-
----
-
-## Solution
-
+### Labeled Break Example
 ```java
-public class Main {
-
+public class LabeledBreakDemo {
     public static void main(String[] args) {
-
-        System.out.println(
-                areEqualByThreeDecimalPlaces(
-                        3.1756,
-                        3.175));
-
-    }
-
-    public static boolean
-    areEqualByThreeDecimalPlaces(
-            double first,
-            double second) {
-
-        int firstNumber =
-                (int)(first * 1000);
-
-        int secondNumber =
-                (int)(second * 1000);
-
-        return firstNumber ==
-                secondNumber;
-
+        outerLoop:
+        for (int row = 1; row <= 3; row++) {
+            for (int col = 1; col <= 3; col++) {
+                if (row == 2 && col == 2) {
+                    System.out.println("Terminating outer loop at: row=" + row + ", col=" + col);
+                    break outerLoop; // Exit the outerLoop directly
+                }
+                System.out.println("Row: " + row + ", Col: " + col);
+            }
+        }
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+Row: 1, Col: 1
+Row: 1, Col: 2
+Row: 1, Col: 3
+Row: 2, Col: 1
+Terminating outer loop at: row=2, col=2
 ```
 
 ---
 
-# Solution 6: Equal Product Checker
+## Early Branching: Break vs. Continue
 
-## Problem
+* **`break`**: Immediately terminates the loop and transfers control to the next line of code below the loop.
+* **`continue`**: Skips the remaining statements in the current iteration of the loop body and jumps directly to the update expression, preparing for the next condition check.
 
-Check whether:
-
-```text
-a × b = c
+```mermaid
+flowchart TD
+    Start[Loop Iteration] --> Check{Condition met?}
+    Check -- Yes (break) --> Exit[Exit Loop Structure]
+    Check -- Yes (continue) --> Update[Execute Update Statement]
+    Check -- No --> Stmts[Execute Remaining Statements]
+    Stmts --> Update
+    Update --> Next[Next Condition Check]
 ```
 
----
-
-## Solution
-
+### Code Example: Filtering and Early Exit
 ```java
-public class Main {
-
+public class SearchDemo {
     public static void main(String[] args) {
+        System.out.println("Searching for number (skipping evens, stopping above 7)...");
 
-        System.out.println(
-                hasEqualProduct(
-                        2,
-                        3,
-                        6));
-
-    }
-
-    public static boolean hasEqualProduct(
-            int a,
-            int b,
-            int c) {
-
-        return (a * b) == c;
-
+        for (int i = 1; i <= 10; i++) {
+            if (i % 2 == 0) {
+                continue; // Skip even numbers
+            }
+            if (i > 7) {
+                break; // Stop loop once index exceeds 7
+            }
+            System.out.println("Processing odd number: " + i);
+        }
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+Searching for number (skipping evens, stopping above 7)...
+Processing odd number: 1
+Processing odd number: 3
+Processing odd number: 5
+Processing odd number: 7
 ```
 
 ---
 
-# Solution 7: Teen Number Checker
+## Practice Challenges
 
-## Problem
+### Challenge 1: Number Swapping Search
+Write a program that uses a two-pointer `for` loop (`i` starting at 1, `j` starting at 100) to find the point where `i` and `j` cross each other, print that value, and exit the loop.
 
-Check whether at least one number is a teen.
+### Challenge 2: Grid Search with Labeled Break
+Create a $5 \times 5$ matrix search loop using nested loops. Search for the coordinate where `row * col == 12`. Print the coordinates and use a labeled break to exit the search outer loop immediately upon discovery.
 
----
-
-## Solution
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        System.out.println(
-                hasTeen(
-                        9,
-                        13,
-                        20));
-
-    }
-
-    public static boolean hasTeen(
-            int a,
-            int b,
-            int c) {
-
-        return isTeen(a) ||
-               isTeen(b) ||
-               isTeen(c);
-
-    }
-
-    public static boolean isTeen(int number) {
-
-        return number >= 13 &&
-               number <= 19;
-
-    }
-}
-```
-
-### Output
-
-```text
-true
-```
+### Challenge 3: Prime Skip
+Write a program that prints numbers from 1 to 50 but uses `continue` to skip numbers that are multiples of 3 or 5.
 
 ---
 
-# Concepts Practiced
-
-These challenges cover:
-
-- Method Creation
-- Parameters
-- Return Values
-- Conditional Statements
-- Mathematical Calculations
-- Boolean Logic
-- Method Reusability
-- Problem Decomposition
-
----
-
-# Key Takeaways
-
-- Methods allow code reuse.
-- Parameters make methods flexible.
-- Return values provide results to callers.
-- Boolean methods are commonly used for validations.
-- Complex programs are built from many small methods.
-
----
-
-# Conclusion
-
-These exercises demonstrate how methods can be used to solve practical programming problems. Mastering method design, parameter passing, and return values is essential before moving to advanced topics such as method overloading, recursion, and object-oriented programming.
+**Back to Module Home:** [Control Flow Statements](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/README.md)

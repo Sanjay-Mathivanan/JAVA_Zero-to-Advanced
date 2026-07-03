@@ -1,743 +1,116 @@
-# Do-While Loop in Java
+# The Do-While Loop in Java
+
+This guide details the specifications of the post-test `do-while` loop, its at-least-once execution guarantee, syntax requirements, and structural comparison differences with pre-test `while` loops.
+
+---
 
 ## Introduction
 
-In the previous chapter, we learned about the `while` loop.
+In some program architectures, a block of statements must execute *at least once* before evaluating a termination criteria. A classic example is a console menu interface: the menu must render and prompt for a choice before the application checks if the user selected the exit command.
 
-A while loop checks its condition **before** executing the loop body.
-
-This means:
-
-```text
-If the condition is false initially,
-the loop will never execute.
-```
-
-However, there are situations where we want the loop body to execute **at least once**, regardless of the condition.
-
-Java provides:
-
-```java
-do-while
-```
-
-for such scenarios.
+In Java, post-test condition iteration is implemented using the **`do-while`** loop.
 
 ---
 
-# What is a Do-While Loop?
-
-## Definition
-
-A do-while loop executes the loop body first and then checks the condition.
-
-This guarantees that the loop body runs at least one time.
-
----
-
-# Real-World Analogy
-
-Imagine an ATM machine.
-
-```text
-Insert Card
-      ↓
-Enter PIN
-      ↓
-Validate PIN
-      ↓
-Correct?
-      ↓
-Yes → Continue
-No  → Ask Again
-```
-
-The user gets at least one chance to enter a PIN.
-
-Similarly, a do-while loop executes once before checking the condition.
-
----
-
-# Syntax
+## Syntax and Structure
 
 ```java
 do {
+    // Body of loop executed at least once
+} while (condition); // Notice the mandatory terminating semicolon!
+```
 
-    // code block
+* **Post-Test Nature**: The statements inside the `do` block are executed first. Afterwards, the `while` condition is evaluated.
+* **`while (condition);`**: Requires a terminating semicolon `;` at the end of the line. Omitting this semicolon results in a compilation error.
 
-} while(condition);
+---
+
+## Workflow Mechanics
+
+The `do-while` loop executes the body prior to evaluating the conditional expression:
+
+```mermaid
+flowchart TD
+    Start[Reach do-while structure] --> Body[Execute loop body statements]
+    Body --> Eval[Evaluate boolean condition]
+    Eval --> Test{Is condition true?}
+    Test -- Yes --> LoopBack[Loop back and execute body again]
+    LoopBack --> Body
+    Test -- No --> End[Exit loop structure]
 ```
 
 ---
 
-# Components of Do-While Loop
+## Basic Loop Code Examples
+
+### 1. Guarantee of Single Execution
+Even if the condition is false initially, the loop body runs once:
 
 ```java
-do {
-
-    System.out.println(i);
-
-} while(i <= 5);
-```
-
-| Part | Purpose |
-|--------|----------|
-| do | Starts loop |
-| { } | Loop body |
-| while | Condition check |
-| condition | Controls repetition |
-
----
-
-# How Do-While Works
-
-```text
-Execute Body
-      ↓
-Check Condition
-      ↓
-Condition True?
-      ↓
-Repeat Body
-```
-
----
-
-# Flow Diagram
-
-```text
-Loop Body
-    ↓
-Condition
-    ↓
- ┌──┴──┐
- │     │
-True False
- │     │
-Repeat Exit
-```
-
----
-
-# First Example
-
-```java
-public class Main {
-
+public class SingleExecution {
     public static void main(String[] args) {
-
-        int i = 1;
-
-        do {
-
-            System.out.println(i);
-
-            i++;
-
-        } while(i <= 5);
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-1
-2
-3
-4
-5
-```
-
----
-
-# Step-by-Step Execution
-
-## Step 1
-
-```java
-i = 1
-```
-
----
-
-## Step 2
-
-Loop body executes.
-
-Output:
-
-```text
-1
-```
-
----
-
-## Step 3
-
-Update:
-
-```java
-i = 2
-```
-
----
-
-## Step 4
-
-Condition:
-
-```java
-i <= 5
-```
-
-Result:
-
-```text
-true
-```
-
-Loop repeats.
-
----
-
-The process continues until:
-
-```java
-i = 6
-```
-
-Condition:
-
-```text
-6 <= 5
-```
-
-False.
-
-Loop ends.
-
----
-
-# Difference Between While and Do-While
-
-## While Loop
-
-```java
-int i = 10;
-
-while(i < 5) {
-
-    System.out.println(i);
-
-}
-```
-
-Output:
-
-```text
-No Output
-```
-
-Condition is false initially.
-
----
-
-## Do-While Loop
-
-```java
-int i = 10;
-
-do {
-
-    System.out.println(i);
-
-} while(i < 5);
-```
-
-Output:
-
-```text
-10
-```
-
-The loop executes once before checking.
-
----
-
-# Important Rule
-
-```text
-Do-While Loop Executes At Least Once
-```
-
-This is the biggest difference from a while loop.
-
----
-
-# Example: Print Numbers from 1 to 10
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        int i = 1;
-
-        do {
-
-            System.out.println(i);
-
-            i++;
-
-        } while(i <= 10);
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-```
-
----
-
-# Example: Reverse Counting
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
         int i = 10;
 
         do {
-
-            System.out.println(i);
-
-            i--;
-
-        } while(i >= 1);
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-10
-9
-8
-7
-6
-5
-4
-3
-2
-1
-```
-
----
-
-# Example: Sum of Numbers
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        int i = 1;
-        int sum = 0;
-
-        do {
-
-            sum += i;
-
+            System.out.println("Execution value: " + i);
             i++;
-
-        } while(i <= 10);
-
-        System.out.println(sum);
-
+        } while (i < 5); // False initially (10 is not less than 5)
     }
 }
 ```
 
----
-
-# Output
-
+### Output
 ```text
-55
+Execution value: 10
 ```
 
----
-
-# Internal Working
-
-```text
-sum = 0
-
-1 → sum = 1
-2 → sum = 3
-3 → sum = 6
-4 → sum = 10
-...
-10 → sum = 55
-```
-
----
-
-# Example: Menu-Driven Program
-
+### 2. Menu Input Interaction
 ```java
-public class Main {
+import java.util.Scanner;
 
+public class ConsoleMenu {
     public static void main(String[] args) {
-
-        int choice = 1;
+        Scanner input = new Scanner(System.in);
+        int choice;
 
         do {
+            System.out.println("--- System Options ---");
+            System.out.println("1. Start Diagnostics");
+            System.out.println("2. System Exit");
+            System.out.print("Enter choice: ");
+            choice = input.nextInt();
+        } while (choice != 2);
 
-            System.out.println(
-                    "Displaying Menu");
-
-            choice--;
-
-        } while(choice > 0);
-
+        System.out.println("Exiting Console menu.");
+        input.close();
     }
 }
 ```
 
 ---
 
-# Output
+## Comparisons: While vs. Do-While
 
-```text
-Displaying Menu
-```
-
----
-
-# Why Do-While is Useful Here
-
-Menus should display at least once.
-
-Using do-while guarantees:
-
-```text
-Menu Appears
-Before Condition Check
-```
+| Feature | `while` Loop | `do-while` Loop |
+| :--- | :--- | :--- |
+| **Check Position** | Pre-test (evaluated at entry). | Post-test (evaluated at exit). |
+| **Minimum Runs** | 0 iterations. | 1 iteration (guaranteed). |
+| **Semicolon Rule** | No semicolon allowed after condition. | Semicolon is mandatory after condition. |
+| **Best For** | Processing records, streams (where empty is possible). | User menus, interactive input prompts. |
 
 ---
 
-# Memory Representation
+## Practice Challenges
 
-Example:
+### Challenge 1: Upward Progress
+Write a program that prints numbers from `1` to `20` using a `do-while` loop.
 
-```java
-int i = 1;
-```
+### Challenge 2: Range Accumulator
+Write a program that calculates the sum of all integers between `1` and `100` using a `do-while` loop.
 
-Stack Memory:
-
-```text
-Stack Memory
--------------------
-i → 1
--------------------
-```
-
-Loop:
-
-```text
-i → 2
-i → 3
-i → 4
-i → 5
-i → 6
-```
-
-Condition becomes false.
-
-Loop ends.
+### Challenge 3: Password retry check
+Write a program that prompts for user input password (e.g. read via Scanner inside `do`). Keep prompting if password is not equal to `"12345"`. Print `"Unlocked"` once correct password is submitted.
 
 ---
 
-# Infinite Do-While Loop
-
-```java
-do {
-
-    System.out.println("Running");
-
-} while(true);
-```
-
----
-
-# Output
-
-```text
-Running
-Running
-Running
-...
-```
-
-Never stops.
-
----
-
-# Why Infinite Loop Happens
-
-Condition:
-
-```java
-while(true)
-```
-
-always evaluates to:
-
-```text
-true
-```
-
-Loop never exits.
-
----
-
-# Do-While vs While
-
-| Feature | While | Do-While |
-|----------|----------|----------|
-| Condition Check | Before Execution | After Execution |
-| Minimum Executions | 0 | 1 |
-| Suitable For | General Repetition | Menu Systems |
-| First Iteration Guaranteed | No | Yes |
-
----
-
-# Real-World Applications
-
-## ATM Machines
-
-```text
-Show Menu Once
-Then Check User Choice
-```
-
----
-
-## Login Systems
-
-```text
-Allow First Attempt
-Then Validate
-```
-
----
-
-## Game Menus
-
-```text
-Display Menu
-Until User Exits
-```
-
----
-
-## User Input Validation
-
-```text
-Ask Input
-Until Valid Input Entered
-```
-
----
-
-# Common Mistakes
-
-## Missing Semicolon
-
-Wrong:
-
-```java
-do {
-
-} while(i <= 5)
-```
-
-Correct:
-
-```java
-do {
-
-} while(i <= 5);
-```
-
----
-
-## Forgetting Update
-
-Wrong:
-
-```java
-do {
-
-    System.out.println(i);
-
-} while(i <= 5);
-```
-
-Infinite Loop.
-
----
-
-## Wrong Condition
-
-Wrong:
-
-```java
-while(i >= 5)
-```
-
-when:
-
-```java
-i = 1
-```
-
-Loop executes only once.
-
----
-
-# Concept Map
-
-```text
-Loops
- │
- ├── For Loop
- │
- ├── While Loop
- │
- └── Do-While Loop
-        │
-        ├── Execute First
-        ├── Check Later
-        └── Runs At Least Once
-```
-
----
-
-# Interview Questions
-
-## What is a do-while loop?
-
-A loop that executes the body first and checks the condition afterward.
-
----
-
-## How many times does a do-while loop execute minimum?
-
-```text
-1 Time
-```
-
----
-
-## What is the main difference between while and do-while?
-
-While checks first.
-
-Do-while executes first.
-
----
-
-## Can a do-while loop execute only once?
-
-Yes.
-
-If the condition becomes false after the first iteration.
-
----
-
-## Can a do-while loop be infinite?
-
-Yes.
-
-Example:
-
-```java
-while(true)
-```
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Print numbers from 1 to 20 using do-while.
-
----
-
-## Challenge 2
-
-Print even numbers between 2 and 50.
-
----
-
-## Challenge 3
-
-Calculate the sum of numbers from 1 to 100.
-
----
-
-## Challenge 4
-
-Create a menu system using do-while.
-
----
-
-## Challenge 5
-
-Create a simple login retry system.
-
----
-
-# Key Takeaways
-
-- Do-while executes before checking the condition.
-- The loop body always runs at least once.
-- Useful for menus and user interaction systems.
-- Requires a semicolon after the condition.
-- Infinite loops occur if the condition never becomes false.
-- Ideal when first execution must be guaranteed.
-
----
-
-# Conclusion
-
-The do-while loop is a powerful looping structure used when a block of code must execute at least one time before condition checking. It is widely used in menu-driven applications, login systems, user input validation, and interactive programs. Understanding the difference between while and do-while is essential for choosing the correct looping structure in real-world Java applications.
+**Back to Module Home:** [Control Flow Statements](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/README.md)

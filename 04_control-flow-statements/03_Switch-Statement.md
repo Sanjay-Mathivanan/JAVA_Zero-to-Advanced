@@ -1,391 +1,103 @@
-# Switch Statement in Java
+# The Switch Statement in Java
+
+This guide details the specifications of the `switch` multi-way branch structure, matching rules, break and fall-through mechanics, supported data types, and performance differences against if-else ladders.
+
+---
 
 ## Introduction
 
-In the previous chapters, we used:
+When an application must evaluate a single variable against multiple potential discrete values (such as processing numeric menu options, checking character grades, or routing user commands), chain-linking multiple `else-if` blocks makes source code long and difficult to read.
 
-- if
-- if-else
-
-to make decisions.
-
-These statements work well when there are only a few conditions.
-
-However, when a program needs to compare one variable against many possible values, using multiple `if-else` statements becomes difficult to read and maintain.
-
-Java provides the:
-
-```java
-switch
-```
-
-statement to simplify such situations.
-
-The switch statement is a multi-way decision-making structure that selects one block of code from many possible options.
+In Java, multi-way branch routing is handled by the **`switch`** statement.
 
 ---
 
-# What is a Switch Statement?
-
-## Definition
-
-A switch statement allows a program to execute different code blocks based on the value of a variable or expression.
-
-Instead of checking multiple conditions using `if-else-if`, Java directly jumps to the matching case.
-
----
-
-# Real-World Analogy
-
-Think of an elevator.
-
-```text
-Press Floor Number
-        ↓
-   Elevator Checks
-        ↓
- ┌───────────────┐
- │ 1 → Ground    │
- │ 2 → Office    │
- │ 3 → Cafeteria │
- │ 4 → Parking   │
- └───────────────┘
-```
-
-The elevator chooses one destination based on the selected floor.
-
-Similarly, a switch statement selects one block based on a value.
-
----
-
-# Why Use Switch?
-
-Consider:
+## Syntax and Structure
 
 ```java
-int day = 3;
-```
-
-Using if-else:
-
-```java
-if(day == 1)
-{
-    System.out.println("Monday");
-}
-else if(day == 2)
-{
-    System.out.println("Tuesday");
-}
-else if(day == 3)
-{
-    System.out.println("Wednesday");
-}
-```
-
-As options increase, the code becomes lengthy.
-
-Switch provides a cleaner solution.
-
----
-
-# Syntax
-
-```java
-switch(expression)
-{
+switch (expression) {
     case value1:
-        // code
+        // Executed only if expression equals value1
         break;
-
     case value2:
-        // code
+        // Executed only if expression equals value2
         break;
-
     default:
-        // code
+        // Executed if no case matches the expression
+        break;
 }
 ```
 
----
-
-# Components of Switch Statement
-
-```java
-switch(day)
-```
-
-| Part | Purpose |
-|--------|----------|
-| switch | Decision keyword |
-| day | Expression |
-| case | Possible value |
-| break | Exit switch |
-| default | Executes if no match found |
+* **`expression`**: The variable or value being checked.
+* **`case`**: Declares a discrete literal check. Case labels must be constant expressions of the same type as the switch expression.
+* **`break`**: Branching statement. Exits the switch structure immediately.
+* **`default`**: Optional block. Runs if no matching case is found.
 
 ---
 
-# First Example
+## Workflow Mechanics
 
+The JVM directly routes execution to the matching case label. If no `break` keyword is specified, execution continues downwards through subsequent cases.
+
+![Switch Statement Flow](../assets/images/switch-flow.svg)
+
+---
+
+## Supported Data Types
+
+Unlike if-else statements which accept any boolean checks, the `switch` statement supports only specific data types:
+
+* Primitives: `byte`, `short`, `char`, `int` (and their respective wrapper classes `Byte`, `Short`, `Character`, `Integer`).
+* Objects: `java.lang.String`.
+* Structures: **`enum`** types.
+
+> [!WARNING]
+> Floating-point types (`float`, `double`) and `boolean` are **not** supported by switch expressions.
+
+---
+
+## Implementation Examples
+
+### 1. Basic Switch Case
 ```java
-public class Main {
-
+public class DayOfWeek {
     public static void main(String[] args) {
-
         int day = 3;
 
-        switch(day) {
-
+        switch (day) {
             case 1:
                 System.out.println("Monday");
                 break;
-
             case 2:
                 System.out.println("Tuesday");
                 break;
-
             case 3:
                 System.out.println("Wednesday");
                 break;
-
             default:
-                System.out.println("Invalid Day");
-
+                System.out.println("Invalid day index.");
+                break;
         }
     }
 }
 ```
 
----
-
-# Output
-
-```text
-Wednesday
-```
-
----
-
-# Step-by-Step Execution
-
-## Step 1
-
-Variable:
-
+### 2. Evaluator Using Strings
 ```java
-day = 3
-```
-
----
-
-## Step 2
-
-Switch checks:
-
-```java
-case 1
-```
-
-No match.
-
----
-
-## Step 3
-
-Checks:
-
-```java
-case 2
-```
-
-No match.
-
----
-
-## Step 4
-
-Checks:
-
-```java
-case 3
-```
-
-Match found.
-
----
-
-## Step 5
-
-Executes:
-
-```java
-System.out.println("Wednesday");
-```
-
----
-
-## Step 6
-
-```java
-break;
-```
-
-exits the switch block.
-
----
-
-# Internal Working
-
-```text
-Switch Expression
-        ↓
-Compare with Cases
-        ↓
-Matching Case Found
-        ↓
-Execute Code
-        ↓
-Break Statement
-        ↓
-Exit Switch
-```
-
----
-
-# Flow Diagram
-
-```text
-Switch Expression
-        ↓
- ┌─────────────┐
- │ Compare     │
- │ Each Case   │
- └──────┬──────┘
-        ↓
- Match Found?
-        ↓
-     Yes
-        ↓
- Execute Case
-        ↓
- Break
-        ↓
- Exit
-```
-
----
-
-# Example: Month Names
-
-```java
-public class Main {
-
+public class SecurityConsole {
     public static void main(String[] args) {
-
-        int month = 5;
-
-        switch(month) {
-
-            case 1:
-                System.out.println("January");
-                break;
-
-            case 2:
-                System.out.println("February");
-                break;
-
-            case 3:
-                System.out.println("March");
-                break;
-
-            case 4:
-                System.out.println("April");
-                break;
-
-            case 5:
-                System.out.println("May");
-                break;
-
-            default:
-                System.out.println("Invalid Month");
-        }
-    }
-}
-```
-
----
-
-# Output
-
-```text
-May
-```
-
----
-
-# Example: Character Switch
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        char grade = 'A';
-
-        switch(grade) {
-
-            case 'A':
-                System.out.println("Excellent");
-                break;
-
-            case 'B':
-                System.out.println("Good");
-                break;
-
-            case 'C':
-                System.out.println("Average");
-                break;
-
-            default:
-                System.out.println("Unknown Grade");
-        }
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Excellent
-```
-
----
-
-# Example: String Switch
-
-Java supports Strings inside switch statements.
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
         String role = "Admin";
 
-        switch(role) {
-
+        switch (role) {
             case "Admin":
-                System.out.println("Full Access");
+                System.out.println("Full system access granted.");
                 break;
-
             case "User":
-                System.out.println("Limited Access");
+                System.out.println("Standard read access granted.");
                 break;
-
             default:
-                System.out.println("Guest Access");
+                System.out.println("Guest restricted access.");
+                break;
         }
     }
 }
@@ -393,323 +105,62 @@ public class Main {
 
 ---
 
-# Output
+## The Break Keyword and Fall-Through Behavior
 
-```text
-Full Access
-```
+If a `break` statement is omitted, the program executes the statements of the matching case and continues down into the blocks of subsequent cases unconditionally. This is known as **Fall-Through**.
 
----
-
-# What is Break?
-
-The break statement immediately exits the switch block.
-
-Example:
-
+### Fall-Through Code Example
 ```java
-case 1:
-    System.out.println("Monday");
-    break;
-```
-
-Without break:
-
-Java continues executing the next cases.
-
----
-
-# Fall Through Example
-
-```java
-public class Main {
-
+public class FallThroughDemo {
     public static void main(String[] args) {
+        int priority = 1;
 
-        int day = 1;
-
-        switch(day) {
-
+        switch (priority) {
             case 1:
-                System.out.println("Monday");
-
+                System.out.println("Enable High Alert Checks.");
             case 2:
-                System.out.println("Tuesday");
-
+                System.out.println("Verify System Sensors.");
             case 3:
-                System.out.println("Wednesday");
+                System.out.println("Notify Administrators.");
+                break;
+            default:
+                System.out.println("Normal Operations.");
+                break;
         }
     }
 }
 ```
 
----
-
-# Output
-
+### Output
 ```text
-Monday
-Tuesday
-Wednesday
+Enable High Alert Checks.
+Verify System Sensors.
+Notify Administrators.
 ```
 
 ---
 
-# Why?
+## Comparisons: Switch vs. If-Else
 
-Because there is no:
-
-```java
-break;
-```
-
-statement.
-
-This behavior is called:
-
-```text
-Fall Through
-```
+| Parameter | `switch` Statement | `if-else` Ladders |
+| :--- | :--- | :--- |
+| **Matching Style** | Discrete values matching (equality check). | Relational check (ranges, complex logic). |
+| **Data Types** | Integer primitives, String, Enum. | Any expression resolving to boolean. |
+| **Performance** | Faster on large case sets (uses jump tables). | Slower (evaluates each condition sequentially). |
 
 ---
 
-# Default Case
+## Practice Challenges
 
-The default block executes when no case matches.
+### Challenge 1: Calculator operations
+Write a program that takes two double operands and a character operator (`+`, `-`, `*`, `/`). Use a switch statement to perform the calculation and print the result.
 
-Example:
+### Challenge 2: Season display
+Write a program that takes an integer month (1 to 12) and prints the corresponding season (Winter, Spring, Summer, Autumn) using a switch statement. Combine cases utilizing fall-through features where appropriate.
 
-```java
-int day = 10;
-```
-
-```java
-default:
-    System.out.println("Invalid Day");
-```
+### Challenge 3: Menu Console
+Create a console interface check where a user picks options: `1` (Update profile), `2` (Settings), `3` (Logout). Output text actions for each case.
 
 ---
 
-# Output
-
-```text
-Invalid Day
-```
-
----
-
-# Memory Representation
-
-```java
-int day = 2;
-```
-
-Stack Memory:
-
-```text
-Stack Memory
--------------------
-day → 2
--------------------
-```
-
-Switch reads:
-
-```text
-2
-```
-
-and jumps directly to:
-
-```java
-case 2
-```
-
----
-
-# Switch vs If-Else
-
-| Feature | Switch | If-Else |
-|----------|----------|----------|
-| Multiple Fixed Values | Excellent | Good |
-| Range Checking | No | Yes |
-| Readability | Better | Moderate |
-| Complex Conditions | Limited | Excellent |
-
----
-
-# When to Use Switch
-
-Use switch when:
-
-- Comparing fixed values
-- Menu-driven programs
-- Day selection
-- Month selection
-- User role management
-- Calculator operations
-
----
-
-# Common Mistakes
-
-## Missing Break
-
-Wrong:
-
-```java
-case 1:
-    System.out.println("One");
-```
-
-May cause unwanted fall-through.
-
----
-
-## Duplicate Cases
-
-Wrong:
-
-```java
-case 1:
-case 1:
-```
-
-Compiler Error.
-
----
-
-## Using Unsupported Types
-
-Wrong:
-
-```java
-double number = 10.5;
-
-switch(number)
-```
-
-Switch does not support double.
-
----
-
-# Supported Types in Switch
-
-```java
-byte
-short
-int
-char
-String
-enum
-```
-
----
-
-# Concept Map
-
-```text
-Switch Statement
-        │
-        ▼
-   Expression
-        │
-        ▼
-      Cases
-        │
- ┌──────┼──────┐
- │      │      │
-Case1 Case2 Case3
- │      │      │
-Break Break Break
-        │
-        ▼
-      Default
-```
-
----
-
-# Interview Questions
-
-## What is a switch statement?
-
-A control flow statement used to select one block of code from multiple options.
-
----
-
-## Why is break used?
-
-To exit the switch block.
-
----
-
-## What happens if break is omitted?
-
-Fall-through occurs.
-
----
-
-## What is the default case?
-
-A block that executes when no case matches.
-
----
-
-## Can switch work with Strings?
-
-Yes.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create a program that displays month names using switch.
-
----
-
-## Challenge 2
-
-Create a simple calculator using switch.
-
----
-
-## Challenge 3
-
-Display grade descriptions:
-
-```text
-A → Excellent
-B → Good
-C → Average
-```
-
----
-
-## Challenge 4
-
-Create a menu-driven food ordering system.
-
----
-
-## Challenge 5
-
-Display the day of the week using switch.
-
----
-
-# Key Takeaways
-
-- Switch simplifies multiple-value decision making.
-- It is cleaner than long if-else chains.
-- Break prevents fall-through.
-- Default handles unmatched values.
-- Switch improves readability and maintainability.
-- Best suited for fixed-value comparisons.
-
----
-
-# Conclusion
-
-The switch statement is an efficient decision-making structure used when a variable can have multiple predefined values. It provides cleaner and more readable code than long if-else chains and is widely used in menus, calculators, role management systems, and many real-world Java applications.
+**Back to Module Home:** [Control Flow Statements](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/README.md)
