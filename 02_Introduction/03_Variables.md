@@ -111,13 +111,16 @@ In Java, naming identifiers must adhere to strict rules:
 * **Primitive Variables**: Store the actual raw data values directly on the stack memory frame.
 * **Reference Variables**: Store the memory address location (pointer) of the object allocated on the heap.
 
-```text
-Stack Frame (Local variables)           Heap Memory (Dynamic Allocation)
-┌─────────────────────────┐             ┌─────────────────────────┐
-│ int age = 20            │             │                         │
-├─────────────────────────┤             │   String Object         │
-│ String name = 0x7a8b    ├────────────►│   Value: "Sanjay"       │
-└─────────────────────────┘             └─────────────────────────┘
+```mermaid
+graph LR
+    subgraph Stack [Stack Frame: Local Variables]
+        age[int age = 20]
+        name[String name = 0x7a8b]
+    end
+    subgraph Heap [Heap Memory: Dynamic Allocation]
+        obj[String Object<br>Value: &quot;Sanjay&quot;]
+    end
+    name --> obj
 ```
 
 ---

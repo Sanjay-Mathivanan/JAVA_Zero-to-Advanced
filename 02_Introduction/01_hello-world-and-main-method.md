@@ -56,23 +56,13 @@ Java has a strict syntax system. Every keyword in the main method signature serv
 
 ## Execution Flow
 
-```text
-Write Code (.java)
-      │
-      ▼
-Compile (javac Compiler)
-      │
-      ▼
-Bytecode (.class Binary)
-      │
-      ▼
-JVM Loads Class
-      │
-      ▼
-Locates main() Entry Signature
-      │
-      ▼
-Executes Instructions
+```mermaid
+flowchart TD
+    A[Write Code - .java] --> B[Compile - javac Compiler]
+    B --> C[Bytecode - .class Binary]
+    C --> D[JVM Loads Class]
+    D --> E[Locates main Entry Signature]
+    E --> F[Executes Instructions]
 ```
 
 ---

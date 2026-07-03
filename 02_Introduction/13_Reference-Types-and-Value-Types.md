@@ -92,13 +92,17 @@ secondArray: [0, 0, 99, 0, 0]
 ### Memory Allocation
 Both reference variables reside on the Stack but contain the same heap address pointer `0x7b2f`:
 
-```text
-Stack Frame (Local Refs)            Heap Memory (Actual Array Object)
-┌──────────────────────┐            ┌────────────────────────────────┐
-│ firstArray  = 0x7b2f ├───────────►│                                │
-├──────────────────────┤            │   [ 0 ] [ 0 ] [ 99 ] [ 0 ] [ 0 ]
-│ secondArray = 0x7b2f ├───────────►│                                │
-└──────────────────────┘            └────────────────────────────────┘
+```mermaid
+graph LR
+    subgraph Stack [Stack Frame: Local References]
+        firstArray[firstArray = 0x7b2f]
+        secondArray[secondArray = 0x7b2f]
+    end
+    subgraph Heap [Heap Memory: Actual Array Object]
+        arrObj["[ 0 ] [ 0 ] [ 99 ] [ 0 ] [ 0 ]"]
+    end
+    firstArray --> arrObj
+    secondArray --> arrObj
 ```
 
 ---

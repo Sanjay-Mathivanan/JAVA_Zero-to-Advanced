@@ -32,20 +32,12 @@ Java is a hybrid compiled-interpreted system:
 1. **Compilation Phase**: The Java Compiler (`javac`) reads the high-level `.java` source file and translates it into an intermediate form called **Bytecode** stored in `.class` files.
 2. **Runtime Execution Phase**: The Java Virtual Machine (JVM) loads this bytecode, verifies it for safety, and translates it dynamically into native machine code.
 
-```text
-Java Source Code (.java)
-        │
-        ▼
-Java Compiler (javac)
-        │
-        ▼
-Intermediate Bytecode (.class)
-        │
-        ▼
-Java Virtual Machine (JVM)
-        │
-        ▼
-Native Machine Code (Operating System)
+```mermaid
+flowchart TD
+    A[Java Source Code - .java] --> B[Java Compiler - javac]
+    B --> C[Intermediate Bytecode - .class]
+    C --> D[Java Virtual Machine - JVM]
+    D --> E[Native Machine Code - Operating System]
 ```
 
 ---
@@ -65,13 +57,14 @@ Understanding the breakdown of these three terms is crucial for debugging and co
   * Contains the JRE as well as development command-line tools like the compiler (`javac`), debugger (`jdb`), and archiver (`jar`).
 
 ### System Containment Hierarchy
-```text
-[ JDK (Development Kit)
-  [ JRE (Runtime Environment)
-    [ JVM (Virtual Machine) + Core Class Libraries ]
-  ]
-]
-```
+* **JDK (Java Development Kit)**: The complete platform package.
+  * Includes development tools (compiler `javac`, debugger `jdb`, archiver `jar`).
+  * Includes the **JRE (Java Runtime Environment)**:
+    * Standard runtime libraries (Core APIs, base packages, configurations).
+    * Includes the **JVM (Java Virtual Machine)**:
+      * Execution Engine (Interpreter + JIT Compiler).
+      * Memory Areas (Stack, Heap, Method Area).
+      * Class Loader.
 
 ---
 
