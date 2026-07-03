@@ -1,462 +1,188 @@
 # Operators and Operands in Java
 
----
-
-# Introduction
-
-Operators are symbols used to perform operations on values and variables.
-
-Operands are the values on which operators perform operations.
+This guide details the specifications of Java's operator system, addressing evaluation rules, relational logic, short-circuit execution, unary increments, bitwise operations, and precedence order.
 
 ---
 
-## Example
+## Introduction
 
-```java id="onkhx4"
+In Java, programming logic is constructed using operators and operands:
+* **Operator**: A symbol that represents a specific computation or manipulation (e.g., `+`, `*`, `&&`).
+* **Operand**: The target values or variables on which the operation is performed.
+
+```java
 int sum = 10 + 20;
 ```
+* `10` and `20` are **operands**.
+* `+` is the **operator**.
 
-Here:
+---
 
-```text id="x7i89x"
-10 and 20 → Operands
-+         → Operator
+## Category of Operators in Java
+
+Java divides operators into categories based on their functionality and the number of operands they manipulate (Unary, Binary, or Ternary).
+
+---
+
+## 1. Arithmetic Operators
+
+Used to perform basic mathematical operations on numeric types:
+
+| Operator | Operation | Example (`a = 10`, `b = 3`) | Result |
+| :--- | :--- | :--- | :--- |
+| **`+`** | Addition | `a + b` | `13` |
+| **`-`** | Subtraction | `a - b` | `7` |
+| **`*`** | Multiplication | `a * b` | `30` |
+| **`/`** | Division | `a / b` | `3` (Integer division discards fractional remainder) |
+| **`%`** | Modulus (Remainder) | `a % b` | `1` (10 divided by 3 leaves a remainder of 1) |
+
+---
+
+## 2. Assignment Operators
+
+Used to write values to variables. Java provides compound assignment operators to shorten common arithmetic expressions:
+
+```java
+int x = 10;
+
+x += 5; // Equivalent to: x = x + 5 (x becomes 15)
+x -= 2; // Equivalent to: x = x - 2 (x becomes 13)
+x *= 2; // Equivalent to: x = x * 2 (x becomes 26)
+x /= 2; // Equivalent to: x = x / 2 (x becomes 13)
+x %= 5; // Equivalent to: x = x % 5 (x becomes 3)
 ```
 
 ---
 
-# Types of Operators in Java
+## 3. Relational (Comparison) Operators
 
-Java provides several types of operators:
+Compare two operands and return a boolean result (`true` or `false`):
 
-* Arithmetic Operators
-* Assignment Operators
-* Relational Operators
-* Logical Operators
-* Unary Operators
-* Ternary Operator
-* Bitwise Operators
-
----
-
-# 1. Arithmetic Operators
-
-Used for mathematical calculations.
-
-| Operator | Meaning        |
-| -------- | -------------- |
-| +        | Addition       |
-| -        | Subtraction    |
-| *        | Multiplication |
-| /        | Division       |
-| %        | Modulus        |
+| Operator | Comparison | Example (`a = 10`, `b = 20`) | Result |
+| :--- | :--- | :--- | :--- |
+| **`==`** | Equal to | `a == b` | `false` |
+| **`!=`** | Not equal to | `a != b` | `true` |
+| **`>`** | Greater than | `a > b` | `false` |
+| **`<`** | Less than | `a < b` | `true` |
+| **`>=`** | Greater than or equal to | `a >= b` | `false` |
+| **`<=`** | Less than or equal to | `a <= b` | `true` |
 
 ---
 
-## Example Program
+## 4. Logical Operators
 
-```java id="nm2r8j"
-public class Main {
+Used to construct compound boolean expressions:
 
-    public static void main(String[] args) {
+| Operator | Logical Operation | Rule |
+| :--- | :--- | :--- |
+| **`&&`** | Conditional-AND (Short-circuit) | Returns `true` only if both operands are true. |
+| **`\|\|`** | Conditional-OR (Short-circuit) | Returns `true` if at least one operand is true. |
+| **`!`** | Logical-NOT (Unary negation) | Inverts the boolean state (true becomes false). |
 
-        int a = 10;
-        int b = 3;
+### Short-Circuit Evaluation
+Logical operators `&&` and `||` employ short-circuit logic for performance:
+* **For `&&`**: If the first operand evaluates to `false`, the JVM skips evaluating the second operand because the overall result is guaranteed to be false.
+* **For `||`**: If the first operand evaluates to `true`, the JVM skips evaluating the second operand because the overall result is guaranteed to be true.
 
-        System.out.println("Addition: " + (a + b));
-        System.out.println("Subtraction: " + (a - b));
-        System.out.println("Multiplication: " + (a * b));
-        System.out.println("Division: " + (a / b));
-        System.out.println("Modulus: " + (a % b));
-    }
+```java
+// If obj is null, the program does not throw a NullPointerException 
+// because standard evaluation short-circuits on the first false condition.
+if (obj != null && obj.isValid()) {
+    // Safe execution block
 }
 ```
 
 ---
 
-## Output
+## 5. Unary Operators (Increment/Decrement)
 
-```text id="2g2r3k"
-Addition: 13
-Subtraction: 7
-Multiplication: 30
-Division: 3
-Modulus: 1
-```
+Unary operators require only a single operand. The increment (`++`) and decrement (`--`) operators behave differently based on their position relative to the variable:
 
----
-
-## Important Concept
-
-```java id="hq5plq"
-5 / 2 = 2
-```
-
-Because:
-
-* int division removes decimal part.
-
----
-
-# 2. Assignment Operators
-
-Used to assign values.
-
-| Operator | Example |
-| -------- | ------- |
-| =        | x = 10  |
-| +=       | x += 5  |
-| -=       | x -= 5  |
-| *=       | x *= 2  |
-| /=       | x /= 2  |
-
----
-
-## Example
-
-```java id="ew4a4o"
-int x = 10;
-
-x += 5;
-
-System.out.println(x);
-```
-
----
-
-## Output
-
-```text id="fqvvzd"
-15
-```
-
----
-
-# 3. Relational Operators
-
-Used to compare values.
-
-| Operator | Meaning          |
-| -------- | ---------------- |
-| ==       | Equal            |
-| !=       | Not Equal        |
-| >        | Greater Than     |
-| <        | Less Than        |
-| >=       | Greater or Equal |
-| <=       | Less or Equal    |
-
----
-
-## Example
-
-```java id="m20n0u"
-int a = 10;
-int b = 20;
-
-System.out.println(a < b);
-System.out.println(a == b);
-```
-
----
-
-## Output
-
-```text id="sjlwmj"
-true
-false
-```
-
----
-
-# 4. Logical Operators
-
-Used with boolean expressions.
-
-| Operator | Meaning |
-| -------- | ------- |
-| &&       | AND     |
-| ||       | OR      |
-| !        | NOT     |
-
----
-
-## Example
-
-```java id="f34px4"
-boolean x = true;
-boolean y = false;
-
-System.out.println(x && y);
-System.out.println(x || y);
-System.out.println(!x);
-```
-
----
-
-## Output
-
-```text id="nyy6xt"
-false
-true
-false
-```
-
----
-
-# 5. Unary Operators
-
-Operate on single operand.
-
-| Operator | Meaning   |
-| -------- | --------- |
-| ++       | Increment |
-| --       | Decrement |
-| +        | Positive  |
-| -        | Negative  |
-
----
-
-# Pre Increment vs Post Increment
-
----
-
-## Post Increment
-
-```java id="kizld2"
+### Post-Increment (`x++`)
+Uses the current value of the variable in the active expression first, and then increments the variable value by `1` in memory.
+```java
 int x = 5;
-
-System.out.println(x++);
-System.out.println(x);
+System.out.println(x++); // Prints 5 (value used first)
+System.out.println(x);   // Prints 6 (value updated in memory)
 ```
 
----
-
-## Output
-
-```text id="k4v9hk"
-5
-6
-```
-
----
-
-## Explanation
-
-```text id="9mhwtq"
-Use value first
-Then increment
-```
-
----
-
-## Pre Increment
-
-```java id="j4ls6v"
+### Pre-Increment (`++x`)
+Increments the variable value by `1` in memory first, and then uses the new updated value in the active expression.
+```java
 int x = 5;
-
-System.out.println(++x);
+System.out.println(++x); // Prints 6 (value incremented first)
 ```
 
 ---
 
-## Output
+## 6. Ternary Operator
 
-```text id="t3ujeb"
-6
+The ternary operator (`? :`) is a shorthand alternative to basic `if-else` blocks. It consists of three operands:
+```java
+variable = (condition) ? valueIfTrue : valueIfFalse;
 ```
 
----
-
-## Explanation
-
-```text id="tyof73"
-Increment first
-Then use value
-```
-
----
-
-# 6. Ternary Operator
-
-Short form of if-else.
-
----
-
-## Syntax
-
-```java id="mtrzy0"
-condition ? value1 : value2;
-```
-
----
-
-## Example
-
-```java id="pqmyx2"
+For example:
+```java
 int age = 18;
-
-String result = (age >= 18) ? "Eligible" : "Not Eligible";
-
-System.out.println(result);
+String status = (age >= 18) ? "Eligible" : "Not Eligible";
 ```
 
 ---
 
-## Output
+## 7. Bitwise Operators
 
-```text id="1wz6j0"
-Eligible
+Operate on the binary digit representation (bits) of integer types:
+
+* **`&` (Bitwise AND)**: Compares matching bits; returns `1` if both bits are 1.
+* **`|` (Bitwise OR)**: Compares matching bits; returns `1` if at least one bit is 1.
+* **`^` (Bitwise XOR)**: Returns `1` if the matching bits are different.
+* **`~` (Bitwise Complement)**: Inverts all bits (0 becomes 1, and vice versa).
+* **`<<` (Left Shift)**: Shifts bits to the left, filling empty spaces on the right with zeros.
+* **`>>` (Signed Right Shift)**: Shifts bits to the right, preserving the sign bit (leftmost bit).
+
+---
+
+## Operator Precedence Hierarchy
+
+When multiple operators appear in a single expression, they are evaluated according to their precedence ranking. Operators with higher precedence are evaluated first:
+
+| Precedence Rank | Operator Type | Symbols |
+| :--- | :--- | :--- |
+| 1 (Highest) | Postfix | `expr++` `expr--` |
+| 2 | Unary | `++expr` `--expr` `+` `-` `!` `~` |
+| 3 | Multiplicative | `*` `/` `%` |
+| 4 | Additive | `+` `-` |
+| 5 | Shift | `<<` `>>` `>>>` |
+| 6 | Relational | `<` `>` `<=` `>=` `instanceof` |
+| 7 | Equality | `==` `!=` |
+| 8 | Bitwise AND | `&` |
+| 9 | Bitwise XOR | `^` |
+| 10 | Bitwise OR | `\|` |
+| 11 | Logical AND | `&&` |
+| 12 | Logical OR | `\|\|` |
+| 13 | Ternary | `? :` |
+| 14 (Lowest) | Assignment | `=` `+=` `-=` `*=` `/=` `%=` |
+
+---
+
+## Practice Challenges
+
+### Challenge 1: Increments Evaluation
+Predict the console values printed by this program:
+```java
+public class IncrementChallenge {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = a++ + ++a;
+        System.out.println("a: " + a + ", b: " + b);
+    }
+}
 ```
 
----
-
-# 7. Bitwise Operators (Basic Intro)
-
-Operate on binary bits.
-
-| Operator | Meaning     |
-| -------- | ----------- |
-| &        | Bitwise AND |
-| |        | Bitwise OR  |
-| ^        | XOR         |
-| ~        | Complement  |
+### Challenge 2: Leap Year Check
+Write a program that takes a year as integer input and uses logical operators to check if it is a leap year. A year is a leap year if it is divisible by 4, but not divisible by 100, unless it is also divisible by 400.
 
 ---
 
-## Example
-
-```java id="89r9z8"
-int a = 5;
-int b = 3;
-
-System.out.println(a & b);
-```
-
----
-
-## Binary Explanation
-
-```text id="n2vks8"
-5 → 101
-3 → 011
----------
-    001 → 1
-```
-
----
-
-# Operator Precedence
-
-Some operators execute before others.
-
-Example:
-
-```java id="w5okaj"
-int result = 10 + 5 * 2;
-```
-
-Output:
-
-```text id="br53qt"
-20
-```
-
-Because:
-
-* Multiplication executes first.
-
----
-
-# Memory Perspective
-
-Operators manipulate:
-
-* Values
-* References
-* Memory data
-
-Operations happen inside CPU registers.
-
----
-
-# Real-World Analogy
-
-Operators are like tools:
-
-```text id="9x00wo"
-+  → calculator addition
-== → comparison checker
-&& → decision maker
-```
-
-Operands are the materials being processed.
-
----
-
-# Common Mistakes
-
-* Confusing = and ==
-* Forgetting integer division behavior
-* Misunderstanding ++ operator
-* Wrong operator precedence
-
----
-
-# Practice Challenges
-
-### Challenge 1
-
-Perform all arithmetic operations on two numbers.
-
----
-
-### Challenge 2
-
-Check if a number is even using modulus operator.
-
----
-
-### Challenge 3
-
-Use ternary operator to find largest number.
-
----
-
-### Challenge 4
-
-Predict outputs of pre and post increment.
-
----
-
-# Concept Map
-
-```text id="4u8kdo"
-Operators
-   ↓
-Arithmetic
-Relational
-Logical
-Unary
-Ternary
-Bitwise
-```
-
----
-
-# Key Takeaways
-
-* Operators perform operations
-* Operands are values being operated on
-* Different operators serve different purposes
-* Increment operators are important in loops
-* Operator precedence affects results
-
----
-
-# Conclusion
-
-Operators are fundamental to all programming logic.
-
-Every calculation, comparison, and condition in Java depends on operators and operands.
-
-Mastering them improves problem-solving and debugging skills.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/README.md)

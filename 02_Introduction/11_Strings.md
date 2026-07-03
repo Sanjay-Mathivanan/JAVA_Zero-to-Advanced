@@ -1,248 +1,136 @@
 # Strings in Java
 
+This guide details the specifications of the `String` class in Java, addressing object allocation, memory pooling, immutability behaviors, standard method APIs, and reference vs. value comparisons.
+
 ---
 
 ## Introduction
 
-A String in Java is used to store a sequence of characters.
-
-Unlike primitive data types, String is a **non-primitive (reference) type** and is actually an object.
-
----
-
-## Basic Example
+A `String` in Java represents a sequence of characters. Unlike primitive types (like `int` or `char`), `String` is a **non-primitive reference type**. Under the hood, it is represented as an object of the pre-defined `java.lang.String` class.
 
 ```java
 public class StringDemo {
     public static void main(String[] args) {
-
-        String name = "Sanjay";
-        System.out.println(name);
+        String greeting = "Hello, Java!";
+        System.out.println(greeting);
     }
 }
 ```
 
 ---
 
-## Output
+## Character vs. String Literals
 
-```text
-Sanjay
-```
+Understanding the compiler differentiation between char and String representations:
+
+* **Character literal** (`char`): Enclosed in single quotes (e.g., `'A'`). Represents a single UTF-16 code point primitive value.
+* **String literal** (`String`): Enclosed in double quotes (e.g., `"A"`). Allocates a full String object in memory, even if it contains only one character.
 
 ---
 
-## String vs char (Important Difference)
+## Memory Architecture: The String Pool
 
+To optimize memory usage and prevent duplicate allocations, the Java Virtual Machine contains a specialized storage zone inside the Heap called the **String Constant Pool (SCP)**.
+
+### How it operates:
+1. When you declare a string using a literal (e.g., `String s1 = "Java"`), the JVM searches the String Constant Pool.
+2. If the value `"Java"` already exists in the pool, the JVM does not create a new object; it returns a reference pointing to the existing pool instance.
+3. If it does not exist, a new String object is allocated in the pool.
+
+However, if you instantiate a string using the `new` keyword:
 ```java
-char c = 'A';      // single character
-String s = "A";    // sequence of characters
+String s2 = new String("Java");
 ```
-
-* char → primitive
-* String → object
+This bypasses standard pool lookups, forcing the JVM to allocate a new, distinct String object in the general heap memory space.
 
 ---
 
-## How Strings Work Internally
+## String Immutability
 
-```text
-String name = "Java";
+In Java, String objects are **immutable**. Once a String object is instantiated in memory, its character sequence cannot be altered.
 
-Memory:
-[ name ] → "Java"
-```
-
-Strings are stored in a special memory area called **String Pool**.
-
----
-
-## String Immutability (Very Important)
-
-Strings cannot be changed after creation.
-
+### Modification Under the Hood:
+Consider the following operations:
 ```java
 String str = "Hello";
 str = str + " World";
 ```
 
+1. Initially, `"Hello"` is allocated in the String Pool.
+2. When concatenated with `" World"`, the JVM does **not** modify the original object.
+3. Instead, it allocates a completely new String object containing `"Hello World"` and updates the variable `str` to point to this new memory address.
+4. The original `"Hello"` remains unchanged in the pool.
+
+> [!NOTE]
+> If your application performs heavy, repetitive string manipulation (such as inside a loop), use **`StringBuilder`** or **`StringBuffer`** to perform modifications in-place, preventing excessive object allocations on the heap.
+
 ---
 
-### What Happens Internally?
+## String Comparison: `==` vs. `equals()`
 
-```text
-"Hello" → old object
-"Hello World" → new object created
-```
+A common programming pitfall is using incorrect comparison checks.
 
----
-
-## String Concatenation
+* **The `==` Operator**: Compares **memory reference addresses** (i.e., checks if two variables point to the exact same object location).
+* **The `equals()` Method**: Compares **actual character content** (checks if the character sequences are identical, case-sensitive).
 
 ```java
-String first = "Hello";
-String second = "World";
-
-String result = first + " " + second;
-System.out.println(result);
-```
-
----
-
-### Output
-
-```text
-Hello World
-```
-
----
-
-## String Methods (Common)
-
-### length()
-
-```java
-String name = "Java";
-System.out.println(name.length());
-```
-
----
-
-### toUpperCase()
-
-```java
-System.out.println(name.toUpperCase());
-```
-
----
-
-### toLowerCase()
-
-```java
-System.out.println(name.toLowerCase());
-```
-
----
-
-### charAt()
-
-```java
-System.out.println(name.charAt(0));
-```
-
----
-
-### equals()
-
-```java
-String a = "Java";
-String b = "Java";
-
-System.out.println(a.equals(b));
-```
-
----
-
-## Important: == vs equals()
-
-```java
-String a = "Java";
-String b = new String("Java");
-
-System.out.println(a == b);        // false
-System.out.println(a.equals(b));  // true
-```
-
----
-
-### Explanation
-
-* == → compares memory address
-* equals() → compares actual content
-
----
-
-## String Input Example
-
-```java
-import java.util.Scanner;
-
-public class InputString {
+public class ComparisonDemo {
     public static void main(String[] args) {
+        String s1 = "Java";
+        String s2 = "Java";
+        String s3 = new String("Java");
 
-        Scanner sc = new Scanner(System.in);
-
-        String name = sc.nextLine();
-        System.out.println(name);
+        System.out.println("Literal vs Literal (s1 == s2):       " + (s1 == s2));      // true (same pool object)
+        System.out.println("Literal vs New Object (s1 == s3):     " + (s1 == s3));      // false (different objects)
+        System.out.println("Content Equality check (s1.equals(s3)): " + s1.equals(s3)); // true (same contents)
     }
 }
 ```
 
 ---
 
-## Common Mistakes
+## Common String API Methods
 
-* Using == instead of equals()
-* Confusing char and String
-* Expecting String to be mutable
-* Using next() instead of nextLine() for full input
+The `String` class provides a rich library of methods to query and manipulate character data:
+
+### 1. length()
+Returns the total number of characters in the string:
+```java
+String text = "Coding";
+System.out.println(text.length()); // Outputs 6
+```
+
+### 2. charAt(int index)
+Returns the character character located at the specified 0-indexed position:
+```java
+System.out.println(text.charAt(0)); // Outputs 'C'
+```
+
+### 3. toUpperCase() & toLowerCase()
+Returns a new, modified version of the string representing case changes:
+```java
+System.out.println(text.toUpperCase()); // Outputs "CODING"
+```
+
+### 4. substring(int beginIndex, int endIndex)
+Returns a subsegment of the string starting from `beginIndex` (inclusive) to `endIndex` (exclusive):
+```java
+System.out.println(text.substring(0, 4)); // Outputs "Codi"
+```
 
 ---
 
 ## Practice Challenges
 
-### Challenge 1
+### Challenge 1: Case Comparison
+Write a program that takes two strings, compares them using `equals()`, and then compares them ignoring case differences using `equalsIgnoreCase()`.
 
-Print length of a string.
+### Challenge 2: Character Printer
+Write a program containing a string (e.g., `"Java"`). Print each character of the string on a new line using a loop and the `charAt()` method.
 
----
-
-### Challenge 2
-
-Convert a string to uppercase.
-
----
-
-### Challenge 3
-
-Check if two strings are equal.
+### Challenge 3: Path Parsing
+Declare a string containing a file path (e.g., `/home/user/document.txt`). Write code that extracts the file extension from this path using string query methods.
 
 ---
 
-### Challenge 4
-
-Print each character using charAt().
-
----
-
-## Concept Map
-
-```text
-String
- ↓
-Object (Non-Primitive)
- ↓
-Immutable
- ↓
-String Pool
- ↓
-Methods
-```
-
----
-
-## Key Takeaways
-
-* String is a non-primitive data type
-* Strings are immutable
-* Stored in String Pool
-* equals() is used for comparison
-* Many built-in methods available
-
----
-
-## Conclusion
-
-Strings are one of the most used data types in Java.
-
-Understanding how they work internally is essential for writing efficient and correct programs.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/README.md)

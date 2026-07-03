@@ -1,262 +1,133 @@
 # Float and Double in Java
 
+This guide details the specifications, formatting, precision differences, and binary division characteristics of floating-point representations (`float` and `double`) in Java.
+
 ---
 
 ## Introduction
 
-In Java, float and double are used to store decimal (floating-point) numbers.
+In Java, decimal fractional values are represented using floating-point data types. The JVM implements these based on the IEEE 754 standard for binary floating-point arithmetic.
 
-They differ mainly in:
-
-* Precision
-* Memory usage
-* Range
+Java provides two primitive types for decimals:
+* `float`: Single-precision 32-bit floating-point type.
+* `double`: Double-precision 64-bit floating-point type.
 
 ---
 
-## Basic Example
+## Technical Specifications and Limits
+
+This program demonstrates how to fetch the exact limit values of floating-point variables:
 
 ```java
-public class Main {
+public class FloatingLimits {
     public static void main(String[] args) {
+        float floatMax = Float.MAX_VALUE;
+        float floatMin = Float.MIN_VALUE; // Smallest positive non-zero value
 
-        float floatMaxValue = Float.MAX_VALUE;
-        float floatMinValue = Float.MIN_VALUE;
+        double doubleMax = Double.MAX_VALUE;
+        double doubleMin = Double.MIN_VALUE; // Smallest positive non-zero value
 
-        System.out.println(floatMaxValue);
-        System.out.println(floatMinValue);
-
-        double doubleMaxValue = Double.MAX_VALUE;
-        double doubleMinValue = Double.MIN_VALUE;
-
-        System.out.println(doubleMaxValue);
-        System.out.println(doubleMinValue);
+        System.out.println("Float Max:  " + floatMax);
+        System.out.println("Float Min:  " + floatMin);
+        System.out.println("Double Max: " + doubleMax);
+        System.out.println("Double Min: " + doubleMin);
     }
 }
 ```
 
----
-
-## Output (Approximate)
-
+### Output
 ```text
-3.4028235E38
-1.4E-45
-1.7976931348623157E308
-4.9E-324
+Float Max:  3.4028235E38
+Float Min:  1.4E-45
+Double Max: 1.7976931348623157E308
+Double Min: 4.9E-324
 ```
 
----
-
-## Understanding the Output
-
-The values are printed in scientific notation.
-
-Example:
-
-```text
-3.4E38 = 3.4 × 10^38
-```
+### Scientific Notation
+The character `E` represents a power of ten. For example:
+* `3.4028235E38` means $3.4028235 \times 10^{38}$.
+* `1.4E-45` means $1.4 \times 10^{-45}$.
 
 ---
 
-## Key Differences
+## Comparison of Properties
 
-| Feature      | float   | double  |
-| ------------ | ------- | ------- |
-| Size         | 4 bytes | 8 bytes |
-| Precision    | Less    | High    |
-| Default type | No      | Yes     |
-| Range        | Smaller | Larger  |
-
----
-
-## Important Rules
-
-### Float Requires 'f'
-
-```java
-float x = 10.5f;
-```
-
-Without 'f' → error (Java treats decimal as double)
+| Property | float | double |
+| :--- | :--- | :--- |
+| **Size** | 4 Bytes (32 bits) | 8 Bytes (64 bits) |
+| **IEEE Standard** | Single Precision (32-bit) | Double Precision (64-bit) |
+| **Significant Digits** | ~6 to 7 decimal digits | ~15 to 16 decimal digits |
+| **Literal Suffix** | Requires `f` or `F` (e.g., `1.5f`) | Optional `d` or `D` (default type) |
+| **Performance** | Faster on older 32-bit CPUs | Standard on modern 64-bit CPUs |
 
 ---
 
-### Double is Default
+## Precision Loss Demonstration
 
-```java
-double y = 10.5;
-```
-
-No suffix needed.
-
----
-
-## Precision Example
+Because floating-point numbers represent fractions in base-2 (binary) memory, they cannot represent certain base-10 fractions (like `0.1`) exactly. This causes rounding errors.
 
 ```java
 public class PrecisionDemo {
     public static void main(String[] args) {
+        float fValue = 5.123456789f;
+        double dValue = 5.123456789;
 
-        float f = 5.123456789f;
-        double d = 5.123456789;
-
-        System.out.println(f);
-        System.out.println(d);
+        System.out.println("Float value:  " + fValue);
+        System.out.println("Double value: " + dValue);
     }
 }
 ```
 
----
-
 ### Output
-
 ```text
-5.123457
-5.123456789
+Float value:  5.123457
+Double value: 5.123456789
 ```
+* **Explanation**: The `float` variable truncates or rounds the value after the 7th digit due to its 32-bit limit, while the `double` variable preserves the full string.
 
 ---
 
-### Explanation
+## Floating-Point Arithmetic Division Behaviors
 
-* float loses precision after some digits
-* double maintains higher accuracy
-
----
-
-## Division Behavior
+Be careful not to mix integer and floating-point division rules:
 
 ```java
 public class DivisionDemo {
     public static void main(String[] args) {
+        int intDiv = 5 / 2;
+        float floatDiv = 5f / 2f;
+        double mixedDiv = 5 / 2.0;
 
-        int a = 5 / 2;
-        float b = 5f / 2f;
-        double c = 5 / 2.0;
-
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
+        System.out.println("Integer Division (5 / 2):     " + intDiv);
+        System.out.println("Float Division (5f / 2f):     " + floatDiv);
+        System.out.println("Double Division (5 / 2.0):    " + mixedDiv);
     }
 }
 ```
 
----
-
 ### Output
-
 ```text
-2
-2.5
-2.5
+Integer Division (5 / 2):     2
+Float Division (5f / 2f):     2.5
+Double Division (5 / 2.0):    2.5
 ```
+* **Integer Division**: Discards the remainder (fractional part) and returns an integer.
+* **Mixed Division**: If at least one operand is a decimal, the other is promoted to a decimal, resulting in fractional division.
 
 ---
 
-### Explanation
+## Best Practices
 
-* int → integer division
-* float/double → decimal division
-
----
-
-## Memory Representation Concept
-
-```text
-float  → 32 bits
-double → 64 bits
-```
-
-More bits → more precision and range.
+* **Default to double**: For standard mathematical calculations, use `double` to minimize precision loss.
+* **Do not use for currency**: Never use `float` or `double` to represent money, as rounding errors accumulate quickly. Use `java.math.BigDecimal` or store values as integer cents instead.
+* **Avoid direct comparisons**: Do not use the equality operator `==` to compare floating-point values. Instead, check if the difference is smaller than a tiny tolerance value (epsilon).
+  ```java
+  double a = 0.3;
+  double b = 0.1 + 0.2;
+  double epsilon = 0.00001;
+  boolean isEqual = Math.abs(a - b) < epsilon;
+  ```
 
 ---
 
-## When to Use What
-
-### Use float:
-
-* Memory optimization needed
-* Large arrays of decimals
-
-### Use double:
-
-* Most calculations
-* Financial / precise operations
-
----
-
-## Analogy
-
-Think of:
-
-* float → small measuring scale
-* double → high precision measuring instrument
-
----
-
-## Common Mistakes
-
-* Forgetting 'f' in float
-* Expecting float to be highly precise
-* Using int division instead of decimal
-* Ignoring scientific notation
-
----
-
-## Practice Challenges
-
-### Challenge 1
-
-Print max and min values of float and double.
-
----
-
-### Challenge 2
-
-Compare precision between float and double.
-
----
-
-### Challenge 3
-
-Perform division using int, float, and double.
-
----
-
-### Challenge 4
-
-Store a large decimal number and observe output.
-
----
-
-## Concept Map
-
-```text
-Decimal Types
-   ↓
-float (low precision)
-   ↓
-double (high precision)
-   ↓
-Scientific Notation
-```
-
----
-
-## Key Takeaways
-
-* float and double store decimal values
-* double is more precise and commonly used
-* float requires 'f' suffix
-* Scientific notation is used for large/small values
-* Precision matters in real applications
-
----
-
-## Conclusion
-
-Understanding float and double is important for handling decimal values correctly.
-
-Always choose the right type based on precision and memory needs.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/README.md)
