@@ -1,353 +1,202 @@
 # Method Challenge Solutions
 
-## Introduction
-
-This chapter contains reference solutions for the method practice challenges.
-
-Try solving each challenge on your own before reviewing these solutions.
+This document contains reference implementations for the method practice challenges. Use these solutions to verify your work or research reference algorithms.
 
 ---
 
-# Solution 1: Weight Converter
+## Solution 1: Weight Converter
 
-## Problem
-
-Convert pounds into kilograms.
-
-Formula:
-
-```text
-1 pound = 0.45359237 kilograms
-```
-
----
-
-## Solution
+Converts pounds into kilograms using static arithmetic operations.
 
 ```java
-public class Main {
-
+public class WeightConverter {
     public static void main(String[] args) {
-
-        double kilograms = toKilograms(10);
-
-        System.out.println(kilograms);
+        double result = toKilograms(10.0);
+        System.out.println("10 lbs in kg: " + result);
     }
 
     public static double toKilograms(double pounds) {
-
+        if (pounds < 0) {
+            return -1.0; // Return invalid marker for negative inputs
+        }
         return pounds * 0.45359237;
-
     }
 }
 ```
 
 ### Output
-
 ```text
-4.5359237
+10 lbs in kg: 4.5359237
 ```
 
 ---
 
-# Solution 2: MegaBytes Converter
+## Solution 2: MegaBytes Converter
 
-## Problem
-
-Convert kilobytes into megabytes and remaining kilobytes.
-
----
-
-## Solution
+Demonstrates integer division (`/`) to find full Megabytes and remainder modulus (`%`) to retrieve leftover Kilobytes.
 
 ```java
-public class Main {
-
+public class MegaBytesConverter {
     public static void main(String[] args) {
-
         printMegaBytesAndKiloBytes(2500);
-
+        printMegaBytesAndKiloBytes(-1024);
     }
 
     public static void printMegaBytesAndKiloBytes(int kiloBytes) {
+        if (kiloBytes < 0) {
+            System.out.println("Invalid Value");
+            return;
+        }
 
         int megaBytes = kiloBytes / 1024;
         int remainingKB = kiloBytes % 1024;
 
-        System.out.println(
-                megaBytes +
-                " MB and " +
-                remainingKB +
-                " KB");
-
+        System.out.println(kiloBytes + " KB = " + megaBytes + " MB and " + remainingKB + " KB");
     }
 }
 ```
 
 ### Output
-
 ```text
-2 MB and 452 KB
+2500 KB = 2 MB and 452 KB
+Invalid Value
 ```
 
 ---
 
-# Solution 3: Barking Dog
+## Solution 3: Barking Dog
 
-## Problem
-
-Determine whether you should wake up.
-
----
-
-## Solution
+Evaluates time ranges using compound logical conditional operators (`&&`, `||`).
 
 ```java
-public class Main {
-
+public class BarkingDog {
     public static void main(String[] args) {
-
-        System.out.println(
-                shouldWakeUp(true, 2));
-
+        System.out.println("Wake up? " + shouldWakeUp(true, 2));   // true
+        System.out.println("Wake up? " + shouldWakeUp(true, 8));   // false
+        System.out.println("Wake up? " + shouldWakeUp(false, 6));  // false
     }
 
-    public static boolean shouldWakeUp(
-            boolean barking,
-            int hourOfDay) {
-
-        if(hourOfDay < 0 || hourOfDay > 23) {
-
+    public static boolean shouldWakeUp(boolean barking, int hourOfDay) {
+        // Range validation
+        if (hourOfDay < 0 || hourOfDay > 23) {
             return false;
-
         }
 
-        return barking &&
-                (hourOfDay < 8 ||
-                 hourOfDay > 22);
+        // Logical evaluation
+        return barking && (hourOfDay < 8 || hourOfDay > 22);
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+Wake up? true
+Wake up? false
+Wake up? false
 ```
 
 ---
 
-# Solution 4: Pythagorean Triplet
+## Solution 4: Pythagorean Triplet
 
-## Problem
-
-Check whether three numbers form a Pythagorean triplet.
-
----
-
-## Solution
+Validates algebraic values using squaring logic.
 
 ```java
-public class Main {
-
+public class PythagoreanTriplet {
     public static void main(String[] args) {
-
-        System.out.println(
-                isPythagoreanTriplet(3,4,5));
-
+        System.out.println("Is triplet? " + isPythagoreanTriplet(3, 4, 5));  // true
+        System.out.println("Is triplet? " + isPythagoreanTriplet(5, 12, 13)); // true
+        System.out.println("Is triplet? " + isPythagoreanTriplet(4, 5, 6));   // false
     }
 
-    public static boolean isPythagoreanTriplet(
-            int a,
-            int b,
-            int c) {
-
-        return (a * a) +
-               (b * b) ==
-               (c * c);
-
+    public static boolean isPythagoreanTriplet(int a, int b, int c) {
+        if (a <= 0 || b <= 0 || c <= 0) {
+            return false;
+        }
+        return (a * a) + (b * b) == (c * c);
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+Is triplet? true
+Is triplet? true
+Is triplet? false
 ```
 
 ---
 
-# Solution 5: Decimal Comparator
+## Solution 5: Decimal Comparator
 
-## Problem
-
-Compare two decimal values up to three decimal places.
-
----
-
-## Solution
+Multiplies deca-scales and applies integer type-casting truncation to check for partial equality matches.
 
 ```java
-public class Main {
-
+public class DecimalComparator {
     public static void main(String[] args) {
-
-        System.out.println(
-                areEqualByThreeDecimalPlaces(
-                        3.1756,
-                        3.175));
-
+        System.out.println("Equal? " + areEqualByThreeDecimalPlaces(3.1756, 3.175)); // true
+        System.out.println("Equal? " + areEqualByThreeDecimalPlaces(3.176, 3.175));  // false
     }
 
-    public static boolean
-    areEqualByThreeDecimalPlaces(
-            double first,
-            double second) {
+    public static boolean areEqualByThreeDecimalPlaces(double first, double second) {
+        // Multiply by 1000 and cast to int to truncate decimals beyond the 3rd place
+        int firstScaled = (int) (first * 1000);
+        int secondScaled = (int) (second * 1000);
 
-        int firstNumber =
-                (int)(first * 1000);
-
-        int secondNumber =
-                (int)(second * 1000);
-
-        return firstNumber ==
-                secondNumber;
-
+        return firstScaled == secondScaled;
     }
 }
 ```
 
 ### Output
-
 ```text
-true
+Equal? true
+Equal? false
 ```
 
 ---
 
-# Solution 6: Equal Product Checker
+## Solution 6: Equal Product Checker
 
-## Problem
-
-Check whether:
-
-```text
-a × b = c
-```
-
----
-
-## Solution
+Simple arithmetic verification.
 
 ```java
-public class Main {
-
+public class EqualProduct {
     public static void main(String[] args) {
-
-        System.out.println(
-                hasEqualProduct(
-                        2,
-                        3,
-                        6));
-
+        System.out.println("Product match? " + hasEqualProduct(2, 3, 6));  // true
+        System.out.println("Product match? " + hasEqualProduct(4, 5, 10)); // false
     }
 
-    public static boolean hasEqualProduct(
-            int a,
-            int b,
-            int c) {
-
-        return (a * b) == c;
-
+    public static boolean hasEqualProduct(int a, int b, int c) {
+        return a * b == c;
     }
 }
 ```
 
-### Output
-
-```text
-true
-```
-
 ---
 
-# Solution 7: Teen Number Checker
+## Solution 7: Teen Number Checker
 
-## Problem
-
-Check whether at least one number is a teen.
-
----
-
-## Solution
+Validates boundaries against a defined range sequence.
 
 ```java
-public class Main {
-
+public class TeenNumberChecker {
     public static void main(String[] args) {
-
-        System.out.println(
-                hasTeen(
-                        9,
-                        13,
-                        20));
-
+        System.out.println("Has teen? " + hasTeen(9, 13, 20));  // true
+        System.out.println("Has teen? " + hasTeen(22, 25, 30)); // false
     }
 
-    public static boolean hasTeen(
-            int a,
-            int b,
-            int c) {
-
-        return isTeen(a) ||
-               isTeen(b) ||
-               isTeen(c);
-
+    public static boolean hasTeen(int a, int b, int c) {
+        return isTeen(a) || isTeen(b) || isTeen(c);
     }
 
-    public static boolean isTeen(int number) {
-
-        return number >= 13 &&
-               number <= 19;
-
+    // Helper method to keep logic DRY (Don't Repeat Yourself)
+    public static boolean isTeen(int value) {
+        return value >= 13 && value <= 19;
     }
 }
 ```
 
-### Output
-
-```text
-true
-```
-
 ---
 
-# Concepts Practiced
-
-These challenges cover:
-
-- Method Creation
-- Parameters
-- Return Values
-- Conditional Statements
-- Mathematical Calculations
-- Boolean Logic
-- Method Reusability
-- Problem Decomposition
-
----
-
-# Key Takeaways
-
-- Methods allow code reuse.
-- Parameters make methods flexible.
-- Return values provide results to callers.
-- Boolean methods are commonly used for validations.
-- Complex programs are built from many small methods.
-
----
-
-# Conclusion
-
-These exercises demonstrate how methods can be used to solve practical programming problems. Mastering method design, parameter passing, and return values is essential before moving to advanced topics such as method overloading, recursion, and object-oriented programming.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/README.md)

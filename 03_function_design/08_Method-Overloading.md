@@ -1,656 +1,163 @@
 # Method Overloading in Java
 
+This guide details compile-time polymorphism (static binding) in Java, exploring the parameters matching rules, compiler resolution workflows, and comparisons between overloading and overriding.
+
+---
+
 ## Introduction
 
-In real-world applications, a method may need to perform the same task using different types or amounts of information.
+In real-world applications, a single logical action (such as calculations, logging, or authentication) might accept different parameters depending on the context.
 
-For example:
+For example, a printing method might accept:
+* Just a String message.
+* A String message and a count of copies.
+* A numeric value.
 
-- Display only a user's name
-- Display name and age
-- Display name, age, and grade
-- Display complete profile information
-
-Creating different method names for every variation would make programs difficult to maintain.
-
-Java solves this problem using:
-
-```text
-Method Overloading
-```
-
-Method overloading allows multiple methods to have the same name while accepting different parameters.
+Without overloading, you would have to invent separate names for every variation (e.g., `printString()`, `printStringWithCopies()`, `printInt()`). Java solves this by permitting **Method Overloading**, which allows multiple methods to share the same name within the same class, differentiated only by their input signatures.
 
 ---
 
-# What is Method Overloading?
+## Defining Method Overloading
 
-## Definition
+Method Overloading is the process of creating multiple methods within the same class that share the **same name** but declare **different parameter lists**.
 
-Method Overloading is the process of creating multiple methods with the same name but different parameter lists.
-
-The compiler identifies which method to execute based on:
-
-- Number of parameters
-- Datatype of parameters
-- Order of parameters
+It is a form of **Compile-Time Polymorphism** (or *Static Binding*) because the compiler maps the method call to the correct definition during compilation.
 
 ---
 
-# Why Method Overloading?
+## Rules of Method Overloading
 
-Without overloading:
+For the compiler to differentiate between overloaded methods, their signatures must vary in one or more of the following ways:
 
+### 1. The Number of Parameters
 ```java
-displayName();
-displayNameAndAge();
-displayNameAgeAndGrade();
-displayFullDetails();
+public static void calculate(int a) { }
+public static void calculate(int a, int b) { } // Overloaded by parameter count
 ```
 
-Problems:
-
-- Too many method names
-- Difficult maintenance
-- Poor readability
-
-With overloading:
-
+### 2. The Data Types of Parameters
 ```java
-displayDetails();
-displayDetails(name);
-displayDetails(name, age);
-displayDetails(name, age, grade);
+public static void display(int value) { }
+public static void display(String value) { } // Overloaded by parameter type
 ```
 
-Cleaner and easier to understand.
-
----
-
-# Real-World Analogy
-
-Think of a customer support hotline.
-
-```text
-Customer Calls
-       ↓
-Press 1 → Balance Inquiry
-Press 2 → Loan Details
-Press 3 → Card Services
-```
-
-Same phone number.
-
-Different responses based on input.
-
-Similarly:
-
-```text
-DisplayDetails()
-```
-
-is the same method name.
-
-Different versions execute depending on arguments supplied.
-
----
-
-# Method Overloading Syntax
-
+### 3. The Sequence Order of Parameter Types
 ```java
-methodName(parameterList)
-methodName(parameterList)
-methodName(parameterList)
-```
-
-Example:
-
-```java
-public static void display() { }
-
-public static void display(String name) { }
-
-public static void display(String name, int age) { }
+public static void register(String name, int age) { }
+public static void register(int age, String name) { } // Overloaded by type sequence
 ```
 
 ---
 
-# Rules for Method Overloading
+## Invalid Overloading Scenarios
 
-Methods must differ in at least one of:
-
-## 1. Number of Parameters
+> [!WARNING]
+> Modifying **only** the return type of a method is not sufficient to overload it. The compiler ignores return types when checking for duplicate declarations because it must determine which method to call based on the arguments supplied.
 
 ```java
-display()
-display(String name)
-display(String name, int age)
+// Compilation Error: Duplicate method declaration
+public static int getSum(int a, int b) { return a + b; }
+public static double getSum(int a, int b) { return (double) (a + b); }
 ```
 
 ---
 
-## 2. Datatype of Parameters
+## Dynamic Resolution Workflow
 
-```java
-display(int age)
+When a program invokes a method, the Java compiler matches the call against overloaded definitions using a specific hierarchy:
 
-display(String name)
+```mermaid
+flowchart TD
+    A[Encounters Method Call] --> B[Identifies name match]
+    B --> C{Exact match of parameter types?}
+    C -- Yes --> D[Bind to exact definition]
+    C -- No --> E{Implicit widening match possible?}
+    E -- Yes --> F[Widen arguments and bind]
+    E -- No --> G[Compiler Error: No matching method found]
 ```
 
 ---
 
-## 3. Order of Parameters
+## Implementation Example: Detailed Profile Display
+
+This program demonstrates five distinct methods named `displayDetails` overloading each other within the same class:
 
 ```java
-display(String name, int age)
-
-display(int age, String name)
-```
-
----
-
-# Invalid Overloading
-
-Changing only return type does NOT overload methods.
-
-Wrong:
-
-```java
-public static int display() {
-    return 10;
-}
-
-public static double display() {
-    return 20;
-}
-```
-
-Compiler Error.
-
----
-
-# First Overloading Example
-
-```java
-public class Main {
-
+public class ProfileService {
     public static void main(String[] args) {
-
-        display();
-
-        display("Manish");
-
-        display("Manish", 27);
-
-    }
-
-    public static void display() {
-
-        System.out.println("No Information");
-
-    }
-
-    public static void display(String name) {
-
-        System.out.println(name);
-
-    }
-
-    public static void display(String name,
-                               int age) {
-
-        System.out.println(
-                name + " " + age);
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-No Information
-Manish
-Manish 27
-```
-
----
-
-# Understanding the PrepInsta Example
-
-The program contains five methods having the same name:
-
-```java
-DisplayDetails()
-```
-
-but different parameter lists.
-
----
-
-# Complete Program
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
         String name = "Manish";
         int age = 27;
         char grade = 'A';
         double height = 179.5;
 
-        DisplayDetails(name, age, grade, height);
-
-        DisplayDetails(name, age, grade);
-
-        DisplayDetails(name, age);
-
-        DisplayDetails(name);
-
-        DisplayDetails();
+        // Evaluates arguments and binds to the appropriate overloaded definition:
+        displayDetails(name, age, grade, height);
+        displayDetails(name, age, grade);
+        displayDetails(name, age);
+        displayDetails(name);
+        displayDetails();
     }
 
-    public static void DisplayDetails(
-            String userName,
-            int userAge,
-            char grade,
-            double height) {
-
-        System.out.println(
-                "Complete Details");
+    public static void displayDetails() {
+        System.out.println("Displaying: No information provided.");
     }
 
-    public static void DisplayDetails(
-            String userName,
-            int userAge,
-            char grade) {
-
-        System.out.println(
-                "Name Age Grade");
+    public static void displayDetails(String name) {
+        System.out.println("Displaying Name: " + name);
     }
 
-    public static void DisplayDetails(
-            String userName,
-            int userAge) {
-
-        System.out.println(
-                "Name Age");
+    public static void displayDetails(String name, int age) {
+        System.out.println("Displaying Name: " + name + ", Age: " + age);
     }
 
-    public static void DisplayDetails(
-            String userName) {
-
-        System.out.println(
-                "Name");
+    public static void displayDetails(String name, int age, char grade) {
+        System.out.println("Displaying Name: " + name + ", Age: " + age + ", Grade: " + grade);
     }
 
-    public static void DisplayDetails() {
-
-        System.out.println(
-                "No Information");
+    public static void displayDetails(String name, int age, char grade, double height) {
+        System.out.println("Displaying Complete Profile: " + name + " | " + age + " | " + grade + " | " + height + "cm");
     }
 }
 ```
 
----
-
-# Output
-
+### Output
 ```text
-Complete Details
-Name Age Grade
-Name Age
-Name
-No Information
+Displaying Complete Profile: Manish | 27 | A | 179.5cm
+Displaying Name: Manish, Age: 27, Grade: A
+Displaying Name: Manish, Age: 27
+Displaying Name: Manish
+Displaying: No information provided.
 ```
 
 ---
 
-# How Compiler Chooses Methods
+## Comparison: Overloading vs. Overriding
 
-When Java sees:
+It is easy to confuse Method Overloading with Method Overriding. The table below lists their core distinctions:
 
-```java
-DisplayDetails("Manish");
-```
-
-Compiler searches:
-
-```java
-DisplayDetails(String)
-```
-
-and executes that version.
+| Parameter | Method Overloading (Static) | Method Overriding (Dynamic) |
+| :--- | :--- | :--- |
+| **Class Scope** | Occurs within the same class. | Occurs across superclass and subclass hierarchies. |
+| **Method Signatures** | Signatures **must** differ. | Signatures **must** be identical. |
+| **Binding Time** | Resolved at **Compile-Time** (Static binding). | Resolved at **Runtime** (Dynamic binding). |
+| **Inheritance Requirement** | Not required. | Requires inheritance structure. |
 
 ---
 
-When Java sees:
+## Practice Challenges
 
-```java
-DisplayDetails("Manish",27);
-```
+### Challenge 1: Calculator Overloading
+Create a class containing three overloaded static `add` methods:
+1. `add(int a, int b)`
+2. `add(double a, double b)`
+3. `add(int a, int b, int c)`
+Call all three from `main()` and verify compile-time binding.
 
-Compiler searches:
-
-```java
-DisplayDetails(String,int)
-```
-
-and executes that version.
-
----
-
-# Internal Working
-
-## Call 1
-
-```java
-DisplayDetails();
-```
-
-Compiler matches:
-
-```java
-public static void DisplayDetails()
-```
+### Challenge 2: Area Calculator
+Write two overloaded methods to calculate geometric areas:
+1. `calculateArea(double radius)`: Calculates and returns the area of a circle ($\pi r^2$).
+2. `calculateArea(double length, double width)`: Calculates and returns the area of a rectangle.
 
 ---
 
-## Call 2
-
-```java
-DisplayDetails("Manish");
-```
-
-Compiler matches:
-
-```java
-public static void DisplayDetails(
-        String userName)
-```
-
----
-
-## Call 3
-
-```java
-DisplayDetails("Manish",27);
-```
-
-Compiler matches:
-
-```java
-public static void DisplayDetails(
-        String userName,
-        int userAge)
-```
-
----
-
-# Method Resolution Flow
-
-```text
-Method Call
-      ↓
-Compiler Checks Name
-      ↓
-Compiler Checks Parameters
-      ↓
-Matching Method Found
-      ↓
-Method Executes
-```
-
----
-
-# Memory Representation
-
-Consider:
-
-```java
-DisplayDetails("Manish",27);
-```
-
-Stack Memory:
-
-```text
-Stack
---------------------
-DisplayDetails()
-userName → Manish
-userAge → 27
---------------------
-main()
---------------------
-```
-
-After execution:
-
-```text
-Stack
---------------------
-main()
---------------------
-```
-
-Method frame is removed.
-
----
-
-# Compile-Time Polymorphism
-
-Method Overloading is called:
-
-```text
-Compile-Time Polymorphism
-```
-
-because the compiler decides which method to execute before the program runs.
-
----
-
-# Overloading vs Overriding
-
-| Feature | Overloading | Overriding |
-|-----------|-----------|-----------|
-| Same Class | Yes | Not Required |
-| Inheritance | Not Required | Required |
-| Parameters | Must Differ | Must Remain Same |
-| Compile Time | Yes | No |
-| Runtime | No | Yes |
-
----
-
-# Real-World Use Cases
-
-## Calculator
-
-```java
-add(int a, int b)
-
-add(double a, double b)
-
-add(int a, int b, int c)
-```
-
----
-
-## Print Service
-
-```java
-print()
-
-print(String text)
-
-print(String text, int copies)
-```
-
----
-
-## Login System
-
-```java
-login(email)
-
-login(email,password)
-
-login(email,password,otp)
-```
-
----
-
-# Common Mistakes
-
-## Same Parameters
-
-Wrong:
-
-```java
-display(String name)
-
-display(String username)
-```
-
-Compiler Error.
-
-Parameter names do not matter.
-
----
-
-## Only Return Type Changed
-
-Wrong:
-
-```java
-int display()
-
-double display()
-```
-
-Compiler Error.
-
----
-
-## Ambiguous Methods
-
-Wrong:
-
-```java
-display(int a, double b)
-
-display(double a, int b)
-```
-
-Some calls may confuse compiler.
-
----
-
-# Concept Map
-
-```text
-Method Overloading
-        │
-        ├── Same Method Name
-        │
-        ├── Different Parameters
-        │
-        ├── Compile-Time Resolution
-        │
-        ├── Code Reusability
-        │
-        └── Compile-Time Polymorphism
-```
-
----
-
-# Interview Questions
-
-## What is Method Overloading?
-
-Creating multiple methods with the same name but different parameter lists.
-
----
-
-## Can methods be overloaded by changing return type only?
-
-No.
-
----
-
-## Why is method overloading used?
-
-To improve readability and flexibility.
-
----
-
-## Is method overloading compile-time or runtime polymorphism?
-
-Compile-time polymorphism.
-
----
-
-## Can static methods be overloaded?
-
-Yes.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create overloaded methods:
-
-```java
-area(int side)
-
-area(int length, int breadth)
-```
-
----
-
-## Challenge 2
-
-Create overloaded methods:
-
-```java
-print()
-
-print(String message)
-
-print(String message, int times)
-```
-
----
-
-## Challenge 3
-
-Create overloaded methods for:
-
-```java
-add(int,int)
-
-add(double,double)
-
-add(int,int,int)
-```
-
----
-
-# Key Takeaways
-
-- Method overloading allows multiple methods with the same name.
-- Parameter list must differ.
-- Return type alone cannot overload methods.
-- Java resolves overloaded methods during compilation.
-- Method overloading improves readability and maintainability.
-- It is the first example of compile-time polymorphism.
-
----
-
-# Conclusion
-
-Method Overloading is a powerful feature that enables developers to create flexible and reusable code using a single method name. Instead of creating many differently named methods, Java allows the same method name to handle different kinds of input. Understanding method overloading is essential before learning inheritance, polymorphism, and object-oriented programming concepts.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/README.md)

@@ -1,411 +1,148 @@
 # Method Practice Challenges
 
-## Introduction
-
-The best way to master methods is through practice.
-
-In this chapter, you will solve real-world problems using:
-
-- Method creation
-- Parameters
-- Return values
-- Conditional logic
-- Mathematical calculations
-
-Each challenge focuses on designing reusable methods and applying problem-solving skills.
+This document lists practical coding challenges to master writing methods, handling parameter variables, executing logic returns, and resolving mathematical problems.
 
 ---
 
-# Challenge 1: Weight Converter
+## Challenge Progression List
 
-## Problem Statement
+To build logic step-by-step, solve the challenges in the following sequence:
 
-Create a method that converts pounds into kilograms.
+1. **Weight Converter**: Basic calculations and return mappings.
+2. **MegaBytes Converter**: Arithmetic division and modulus operations.
+3. **Barking Dog**: Compound boolean evaluation.
+4. **Pythagorean Triplet**: Algebraic equations verification.
+5. **Decimal Comparator**: Precision-sensitive type-casting constraints.
+6. **Equal Product Checker**: Multi-operand arithmetic logic.
+7. **Teen Number Checker**: Range validation checks.
 
-Formula:
+---
 
+## Challenge 1: Weight Converter
+
+### Problem Statement
+Write a method that converts weight values in pounds into kilograms and returns the output as a double.
+
+### Formula
 ```text
-Kilograms = Pounds × 0.45359237
+Kilograms = Pounds * 0.45359237
 ```
 
----
-
-## Method Signature
-
+### Method Signature
 ```java
 public static double toKilograms(double pounds)
 ```
 
----
-
-## Example
-
-### Input
-
-```text
-10 pounds
-```
-
-### Output
-
-```text
-4.5359237 kg
-```
+### Test Case Example
+* **Input**: `10.0`
+* **Output**: `4.5359237`
 
 ---
 
-# Challenge 2: MegaBytes Converter
+## Challenge 2: MegaBytes Converter
 
-## Problem Statement
+### Problem Statement
+Write a method that accepts an integer parameter representing kilobytes (`KB`) and prints a formatted console message mapping it to Megabytes (`MB`) and the remaining kilobytes (`KB`).
+* If the input is negative, print `"Invalid Value"`.
 
-Create a method that converts kilobytes into:
-
-- Megabytes
-- Remaining Kilobytes
-
-Formula:
-
+### Formula
 ```text
 1 MB = 1024 KB
 ```
 
----
-
-## Example
-
-### Input
-
-```text
-2500 KB
-```
-
-### Output
-
-```text
-2 MB and 452 KB
-```
-
----
-
-## Hint
-
-Use:
-
+### Method Signature
 ```java
-/
+public static void printMegaBytesAndKiloBytes(int kiloBytes)
 ```
 
-and
+### Test Case Example
+* **Input**: `2500`
+* **Output**: `"2500 KB = 2 MB and 452 KB"`
 
+---
+
+## Challenge 3: Barking Dog
+
+### Problem Statement
+We have a loud barking dog. We need to wake up if the dog is barking and the time is before 8:00 AM (`8`) or after 10:00 PM (`22`).
+Write a method that returns `true` if we need to wake up, and `false` otherwise.
+* The hour parameter must be in the range `0` to `23`. If it falls outside this range, return `false`.
+
+### Method Signature
 ```java
-%
+public static boolean shouldWakeUp(boolean barking, int hourOfDay)
 ```
 
-operators.
+### Test Case Examples
+* `shouldWakeUp(true, 1)`  -> Returns `true`
+* `shouldWakeUp(true, 8)`  -> Returns `false` (not before 8 AM)
+* `shouldWakeUp(false, 2)` -> Returns `false` (dog is not barking)
 
 ---
 
-# Challenge 3: Barking Dog
+## Challenge 4: Pythagorean Triplet
 
-## Problem Statement
+### Problem Statement
+Write a method that accepts three positive integers (`a`, `b`, `c`) and evaluates if they form a Pythagorean Triplet ($a^2 + b^2 = c^2$). Return `true` if they match the equation, and `false` otherwise.
 
-A dog is barking.
-
-You wake up if:
-
-- The dog is barking
-- The hour is before 8 AM
-- The hour is after 10 PM
-
-Create a method that returns:
-
+### Method Signature
 ```java
-true
+public static boolean isPythagoreanTriplet(int a, int b, int c)
 ```
 
-if you should wake up.
+### Test Case Example
+* `isPythagoreanTriplet(3, 4, 5)` -> Returns `true` ($3^2 + 4^2 = 5^2$)
 
 ---
 
-## Method Signature
+## Challenge 5: Decimal Comparator
 
+### Problem Statement
+Write a method that accepts two double-precision decimal numbers and checks if they are equal up to three decimal places. Return `true` if they match, and `false` otherwise.
+* **Hint**: You can multiply by `1000` and cast to `int` to drop the remaining decimals before comparing.
+
+### Method Signature
 ```java
-public static boolean shouldWakeUp(
-        boolean barking,
-        int hourOfDay)
+public static boolean areEqualByThreeDecimalPlaces(double first, double second)
 ```
+
+### Test Case Examples
+* `areEqualByThreeDecimalPlaces(3.1756, 3.175)`  -> Returns `true` (both match `3.175` up to 3 places)
+* `areEqualByThreeDecimalPlaces(3.176, 3.175)`   -> Returns `false`
 
 ---
 
-## Example
+## Challenge 6: Equal Product Checker
 
-### Input
+### Problem Statement
+Write a method that accepts three integer parameters and checks if the product of the first two numbers equals the third number. Return `true` if it does, and `false` otherwise.
 
+### Method Signature
 ```java
-shouldWakeUp(true, 2)
+public static boolean hasEqualProduct(int a, int b, int c)
 ```
 
-### Output
-
-```text
-true
-```
+### Test Case Examples
+* `hasEqualProduct(2, 3, 6)`  -> Returns `true` ($2 \times 3 = 6$)
+* `hasEqualProduct(4, 5, 10)` -> Returns `false`
 
 ---
 
-### Input
+## Challenge 7: Teen Number Checker
 
+### Problem Statement
+A number is considered a "teen" if it lies in the range `13` to `19` (inclusive).
+Write a method that accepts three integer parameters and returns `true` if at least one of the parameters is in the teen range, and `false` otherwise.
+
+### Method Signature
 ```java
-shouldWakeUp(true, 12)
+public static boolean hasTeen(int a, int b, int c)
 ```
 
-### Output
-
-```text
-false
-```
+### Test Case Examples
+* `hasTeen(9, 13, 20)`  -> Returns `true` (since `13` is in range)
+* `hasTeen(22, 25, 30)` -> Returns `false`
 
 ---
 
-# Challenge 4: Pythagorean Triplet
-
-## Problem Statement
-
-Check whether three numbers form a Pythagorean Triplet.
-
-Formula:
-
-```text
-a² + b² = c²
-```
-
----
-
-## Example
-
-### Input
-
-```text
-3 4 5
-```
-
-### Output
-
-```text
-true
-```
-
-Because:
-
-```text
-3² + 4² = 5²
-
-9 + 16 = 25
-```
-
----
-
-## Method Signature
-
-```java
-public static boolean isPythagoreanTriplet(
-        int a,
-        int b,
-        int c)
-```
-
----
-
-# Challenge 5: Decimal Comparator
-
-## Problem Statement
-
-Compare two decimal numbers up to three decimal places.
-
----
-
-## Example
-
-### Input
-
-```text
-3.1756
-3.175
-```
-
-### Output
-
-```text
-true
-```
-
-Reason:
-
-```text
-3.175 == 3.175
-```
-
-up to three decimal places.
-
----
-
-## Method Signature
-
-```java
-public static boolean areEqualByThreeDecimalPlaces(
-        double first,
-        double second)
-```
-
----
-
-# Challenge 6: Equal Product Checker
-
-## Problem Statement
-
-Check whether:
-
-```text
-a × b = c
-```
-
----
-
-## Example
-
-### Input
-
-```text
-2 3 6
-```
-
-### Output
-
-```text
-true
-```
-
----
-
-### Input
-
-```text
-4 5 10
-```
-
-### Output
-
-```text
-false
-```
-
----
-
-## Method Signature
-
-```java
-public static boolean hasEqualProduct(
-        int a,
-        int b,
-        int c)
-```
-
----
-
-# Challenge 7: Teen Number Checker
-
-## Problem Statement
-
-A number is considered a teen if it lies between:
-
-```text
-13 and 19
-```
-
-inclusive.
-
-Create a method that checks whether at least one number is a teen.
-
----
-
-## Example
-
-### Input
-
-```text
-9 13 20
-```
-
-### Output
-
-```text
-true
-```
-
----
-
-### Input
-
-```text
-22 25 30
-```
-
-### Output
-
-```text
-false
-```
-
----
-
-## Method Signature
-
-```java
-public static boolean hasTeen(
-        int a,
-        int b,
-        int c)
-```
-
----
-
-# Learning Goals
-
-After completing these challenges, you should be able to:
-
-- Design methods independently
-- Pass parameters correctly
-- Return values from methods
-- Use conditional statements
-- Build reusable logic
-- Solve interview-style problems
-
----
-
-# Challenge Difficulty Progression
-
-```text
-Weight Converter
-        ↓
-MegaBytes Converter
-        ↓
-Barking Dog
-        ↓
-Pythagorean Triplet
-        ↓
-Decimal Comparator
-        ↓
-Equal Product Checker
-        ↓
-Teen Number Checker
-```
-
----
-
-# Key Takeaways
-
-- Methods simplify problem solving.
-- Small methods are easier to test and debug.
-- Return values allow reusable logic.
-- Real-world applications are built using many small methods.
-- Consistent practice develops strong programming skills.
+**Back to Module Home:** [Introduction to Java Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/README.md)
