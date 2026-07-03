@@ -93,10 +93,10 @@ Select the guide below that matches your operating system:
 
 | Platform | Setup Guide Link | Primary Method |
 | :--- | :--- | :--- |
-| **Windows** | [Windows Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/windows-java-setup.md) | Executable installer (`.exe`) + Manual Path Configuration |
-| **macOS (Intel)** | [macOS Intel Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/mac-java-setup.md) | Homebrew Package Manager / Manual DMG Installer |
-| **Apple Silicon** | [Apple Silicon M1/M2/M3 Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/apple-silicon-java-setup.md) | Native ARM64 builds via Homebrew / Zulu JDK |
-| **Tools Breakdown** | [Recommended Software Tools Catalog](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/Tools.md) | Detailed look at IDEs, Terminals, and Command Utilities |
+| **Windows** | [Windows Java Setup Guide](windows-java-setup.md) | Executable installer (`.exe`) + Manual Path Configuration |
+| **macOS (Intel)** | [macOS Intel Java Setup Guide](mac-java-setup.md) | Homebrew Package Manager / Manual DMG Installer |
+| **Apple Silicon** | [Apple Silicon M1/M2/M3 Java Setup Guide](apple-silicon-java-setup.md) | Native ARM64 builds via Homebrew / Zulu JDK |
+| **Tools Breakdown** | [Recommended Software Tools Catalog](Tools.md) | Detailed look at IDEs, Terminals, and Command Utilities |
 
 ---
 
@@ -213,8 +213,8 @@ The **Just-In-Time (JIT) Compiler** is part of the JVM's execution engine. While
 
 ## Related Topics and Next Steps
 
-* [Tools Setup Catalog](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/Tools.md)
-* [Windows Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/windows-java-setup.md)
-* [macOS Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/mac-java-setup.md)
+* [Tools Setup Catalog](Tools.md)
+* [Windows Setup Guide](windows-java-setup.md)
+* [macOS Setup Guide](mac-java-setup.md)
 
-**Next Module:** Let's learn about Java syntax, primitives, variables, and type casting in [02_Introduction](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction)
+**Next Module:** Let's learn about Java syntax, primitives, variables, and type casting in [02_Introduction](../02_Introduction/README.md)

@@ -23,15 +23,15 @@ Below is the directory map of the lessons contained in this module:
 
 | Lesson File | Core Concepts Covered | Link |
 | :--- | :--- | :--- |
-| **01. Keywords &amp; Expressions** | Predefined Java syntax, statement structures, expression evaluations. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/01_Keywords-and-Expressions.md) |
-| **02. String to Primitive Conversion** | Wrapper parsing utilities, handling NumberFormatException exceptions. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/02_String-to-Primitive-Conversion.md) |
-| **03. User Input** | Capturing command-line and interactive console stream arguments. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/03_User-Input.md) |
-| **04. Methods in Java** | Defining methods, calling syntax, stack allocation lifecycles. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/04_Methods-in-Java.md) |
-| **05. Method-Based Problem Solving** | Code decomposition, separation of concerns, writing clean methods. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/05_Method-Based-Problem-Solving.md) |
-| **06. Method Challenges** | Logic building exercises using modular class methods. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/06_Method-Practice-Challenges.md) |
-| **07. Challenge Solutions** | Complete solution references for the method exercises. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/07_Method-Challenge-Solutions.md) |
-| **08. Method Overloading** | Implementing compile-time polymorphism, signature rules. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/08_Method-Overloading.md) |
-| **09. Overloading Challenges** | Advanced validation exercises utilizing overloaded signatures. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/09_Method-Overloading-Challenge.md) |
+| **01. Keywords &amp; Expressions** | Predefined Java syntax, statement structures, expression evaluations. | [Open Guide](01_Keywords-and-Expressions.md) |
+| **02. String to Primitive Conversion** | Wrapper parsing utilities, handling NumberFormatException exceptions. | [Open Guide](02_String-to-Primitive-Conversion.md) |
+| **03. User Input** | Capturing command-line and interactive console stream arguments. | [Open Guide](03_User-Input.md) |
+| **04. Methods in Java** | Defining methods, calling syntax, stack allocation lifecycles. | [Open Guide](04_Methods-in-Java.md) |
+| **05. Method-Based Problem Solving** | Code decomposition, separation of concerns, writing clean methods. | [Open Guide](05_Method-Based-Problem-Solving.md) |
+| **06. Method Challenges** | Logic building exercises using modular class methods. | [Open Guide](06_Method-Practice-Challenges.md) |
+| **07. Challenge Solutions** | Complete solution references for the method exercises. | [Open Guide](07_Method-Challenge-Solutions.md) |
+| **08. Method Overloading** | Implementing compile-time polymorphism, signature rules. | [Open Guide](08_Method-Overloading.md) |
+| **09. Overloading Challenges** | Advanced validation exercises utilizing overloaded signatures. | [Open Guide](09_Method-Overloading-Challenge.md) |
 
 ---
 
@@ -93,4 +93,4 @@ To successfully overload a method, definitions must vary by at least one of the 
 
 ---
 
-**Next Module:** Let's learn about conditional routing, switch cases, and loops in [04_control-flow-statements](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements)
+**Next Module:** Let's learn about conditional routing, switch cases, and loops in [04_control-flow-statements](../04_control-flow-statements/README.md)

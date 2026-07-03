@@ -3,7 +3,7 @@
 This guide provides a comprehensive walkthrough to install and configure the Java development environment on Intel-based macOS systems.
 
 > [!NOTE]
-> If you are using a modern Mac with Apple Silicon (M1/M2/M3 chips), please refer to the optimized [Apple Silicon Java Setup Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/apple-silicon-java-setup.md) for native ARM64 setup instructions.
+> If you are using a modern Mac with Apple Silicon (M1/M2/M3 chips), please refer to the optimized [Apple Silicon Java Setup Guide](apple-silicon-java-setup.md) for native ARM64 setup instructions.
 
 ---
 
@@ -169,4 +169,4 @@ Hello, macOS Java!
 
 ---
 
-**Back to Module Home:** [01_SETUP README](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/01_SETUP/README.md)
+**Back to Module Home:** [01_SETUP README](README.md)

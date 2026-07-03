@@ -145,4 +145,4 @@ Create a program that parses configuration flags from string variables: `isEnabl
 
 ---
 
-**Back to Module Home:** [Function Design &amp; Modular Programming](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design/README.md)
+**Back to Module Home:** [Function Design &amp; Modular Programming](README.md)

@@ -24,20 +24,20 @@ Below is the list of topics covered in this module. Select a topic to read its d
 
 | Topic | Description | Link |
 | :--- | :--- | :--- |
-| **01. Hello World &amp; Main Method** | Structure of main(), public static void main, class syntax. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/01_hello-world-and-main-method.md) |
-| **02. Java Overview** | Compiler, Bytecode, Class Loader, JVM memory areas, execution. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/02_java-overview.md) |
-| **03. Variables** | Declarations, dynamic allocations, local vs instance scopes. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/03_Variables.md) |
-| **04. Primitive Basics** | Core primitive definitions, integer types, characteristics. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/04_Primitive-DataType-Basics.md) |
-| **05. Primitives Code** | Compilation examples, range limits, minimum/maximum values. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/05_Program-Primitive-DataTypes.md) |
-| **06. Type Casting** | Widening and narrowing conversions, data truncation hazards. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/06_Type-Casting.md) |
-| **07. Input &amp; Output** | Standard I/O with Scanner, print, println, and formatted printf. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/07_Input-Output.md) |
-| **08. Float &amp; Double** | IEEE 754 floating-point standards, round-off errors, precision. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/08_Float-and-Double.md) |
-| **09. Char &amp; Unicode** | UTF-16 character encoding, escape sequences, ASCII values. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/09_Char-and-Unicode.md) |
-| **10. Boolean** | Logical flags, conditional triggers, truth evaluations. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/10_Boolean.md) |
-| **11. Strings** | String immutability, String Pool, common API methods. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/11_Strings.md) |
-| **12. Arrays** | One-dimensional and multi-dimensional arrays, memory indexing. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/12_Array.md) |
-| **13. Reference vs Value Types** | Stack vs Heap allocation, pointer mechanics, copy behaviors. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/13_Reference-Types-and-Value-Types.md) |
-| **14. Operators** | Arithmetic, relational, logical, assignment, bitwise operations. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/02_Introduction/14_Operators-and-Operands.md) |
+| **01. Hello World &amp; Main Method** | Structure of main(), public static void main, class syntax. | [Open Guide](01_hello-world-and-main-method.md) |
+| **02. Java Overview** | Compiler, Bytecode, Class Loader, JVM memory areas, execution. | [Open Guide](02_java-overview.md) |
+| **03. Variables** | Declarations, dynamic allocations, local vs instance scopes. | [Open Guide](03_Variables.md) |
+| **04. Primitive Basics** | Core primitive definitions, integer types, characteristics. | [Open Guide](04_Primitive-DataType-Basics.md) |
+| **05. Primitives Code** | Compilation examples, range limits, minimum/maximum values. | [Open Guide](05_Program-Primitive-DataTypes.md) |
+| **06. Type Casting** | Widening and narrowing conversions, data truncation hazards. | [Open Guide](06_Type-Casting.md) |
+| **07. Input &amp; Output** | Standard I/O with Scanner, print, println, and formatted printf. | [Open Guide](07_Input-Output.md) |
+| **08. Float &amp; Double** | IEEE 754 floating-point standards, round-off errors, precision. | [Open Guide](08_Float-and-Double.md) |
+| **09. Char &amp; Unicode** | UTF-16 character encoding, escape sequences, ASCII values. | [Open Guide](09_Char-and-Unicode.md) |
+| **10. Boolean** | Logical flags, conditional triggers, truth evaluations. | [Open Guide](10_Boolean.md) |
+| **11. Strings** | String immutability, String Pool, common API methods. | [Open Guide](11_Strings.md) |
+| **12. Arrays** | One-dimensional and multi-dimensional arrays, memory indexing. | [Open Guide](12_Array.md) |
+| **13. Reference vs Value Types** | Stack vs Heap allocation, pointer mechanics, copy behaviors. | [Open Guide](13_Reference-Types-and-Value-Types.md) |
+| **14. Operators** | Arithmetic, relational, logical, assignment, bitwise operations. | [Open Guide](14_Operators-and-Operands.md) |
 
 ---
 
@@ -108,4 +108,4 @@ Type casting is the process of converting a value from one data type to another.
 
 ---
 
-**Next Module:** Let's learn about modular code structure and designing methods in [03_function_design](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/03_function_design)
+**Next Module:** Let's learn about modular code structure and designing methods in [03_function_design](../03_function_design/README.md)

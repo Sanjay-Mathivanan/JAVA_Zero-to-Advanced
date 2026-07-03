@@ -22,16 +22,16 @@ Below is the directory map of the lessons contained in this module:
 
 | Lesson File | Core Concepts Covered | Link |
 | :--- | :--- | :--- |
-| **01. If Statement** | Basic single-condition evaluations, truth-value routing. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/01_If-Statement.md) |
-| **02. If-Else Statement** | Binary decision forks, else-if ladders, nested structures. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/02_If-Else-Statement.md) |
-| **03. Switch Statement** | Switch routing, case evaluation, break keywords, fall-through features. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/03_Switch-Statement.md) |
-| **04. For Loop** | Counter-controlled loops, initialization, loop parameters. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/04_For-Loop.md) |
-| **05. For Loop Advanced** | Nested loop patterns, multi-variable loops, break/continue scopes. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/05_for-loop-advanced.md) |
-| **06. Prime Numbers Challenge** | Optimizing loops to check number factors, using early loop exit flags. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/06_For-Loop-Challenge-1-Prime-Numbers.md) |
-| **07. Sum of Even Numbers Challenge**| Accumulator loops, checking evens via modulo inside loops. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/07_For-Loop-Challenge-2-Sum-of-Even-Numbers.md) |
-| **08. While Loop** | Pre-test iteration mechanics, execution conditional flags. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/08_While-Loop.md) |
-| **09. Do-While Loop** | Post-test iteration mechanics, guarantee of executing at least once. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/09_Do-While-Loop.md) |
-| **10. Number-Based Loop Challenges**| Digit extraction algorithm, loop accumulation logic. | [Open Guide](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/04_control-flow-statements/10_Number-Based-Loop-Challenges.md) |
+| **01. If Statement** | Basic single-condition evaluations, truth-value routing. | [Open Guide](01_If-Statement.md) |
+| **02. If-Else Statement** | Binary decision forks, else-if ladders, nested structures. | [Open Guide](02_If-Else-Statement.md) |
+| **03. Switch Statement** | Switch routing, case evaluation, break keywords, fall-through features. | [Open Guide](03_Switch-Statement.md) |
+| **04. For Loop** | Counter-controlled loops, initialization, loop parameters. | [Open Guide](04_For-Loop.md) |
+| **05. For Loop Advanced** | Nested loop patterns, multi-variable loops, break/continue scopes. | [Open Guide](05_for-loop-advanced.md) |
+| **06. Prime Numbers Challenge** | Optimizing loops to check number factors, using early loop exit flags. | [Open Guide](06_For-Loop-Challenge-1-Prime-Numbers.md) |
+| **07. Sum of Even Numbers Challenge**| Accumulator loops, checking evens via modulo inside loops. | [Open Guide](07_For-Loop-Challenge-2-Sum-of-Even-Numbers.md) |
+| **08. While Loop** | Pre-test iteration mechanics, execution conditional flags. | [Open Guide](08_While-Loop.md) |
+| **09. Do-While Loop** | Post-test iteration mechanics, guarantee of executing at least once. | [Open Guide](09_Do-While-Loop.md) |
+| **10. Number-Based Loop Challenges**| Digit extraction algorithm, loop accumulation logic. | [Open Guide](10_Number-Based-Loop-Challenges.md) |
 
 ---
 
@@ -76,4 +76,4 @@ flowchart TD
 
 ---
 
-**Next Module:** Let's learn about classes, variables scope, and class members in [05_building-blocks-of-java](file:///d:/New%20folder/PROJECTS/JAVA_Zero-to-Advanced/05_building-blocks-of-java)
+**Next Module:** Let's learn about classes, variables scope, and class members in [05_building-blocks-of-java](../05_building-blocks-of-java)
