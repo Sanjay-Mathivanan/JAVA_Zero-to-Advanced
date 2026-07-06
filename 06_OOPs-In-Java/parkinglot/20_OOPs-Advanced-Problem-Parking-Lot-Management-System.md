@@ -2,343 +2,120 @@
 
 ## Problem Statement
 
-Design and implement a backend system for a Multi-Level Parking Lot using Object-Oriented Programming principles.
-
-The parking lot must support multiple vehicle types:
-
+Design and implement a backend system for a Multi-Level Parking Lot using Object-Oriented Programming (OOP) principles. The system must support multiple vehicle types:
 * Motorcycle
 * Car
 * Truck
 
-Each vehicle requires different parking spot sizes:
+Each vehicle requires different parking spot sizes based on dimensions:
 
 | Vehicle Type | Allowed Parking Spots |
-| ------------ | --------------------- |
-| Motorcycle   | Small, Medium, Large  |
-| Car          | Medium, Large         |
-| Truck        | Large Only            |
+| :--- | :--- |
+| **Motorcycle** | Small, Medium, Large |
+| **Car** | Medium, Large |
+| **Truck** | Large Only |
 
-The system should:
-
-* Allow vehicles to enter and park.
-* Validate parking rules.
+### System Features:
+* Allow vehicles to enter and park safely.
+* Validate spot sizes based on vehicle compatibility.
 * Prevent invalid parking allocations.
 * Calculate parking fees dynamically.
-* Support future vehicle types without modifying existing code.
-* Demonstrate real-world usage of OOP concepts.
+* Support future vehicle types cleanly without modifying existing code structures.
 
 ---
 
-# Business Rules
+## Business Rules
 
-## Motorcycle
-
-Can park in:
-
-```text
-Small Spot
-Medium Spot
-Large Spot
-```
-
-Parking Fee:
-
-```text
-₹10 per hour
-```
+* **Motorcycles**: Can park in Small, Medium, or Large spots. Fee: ₹10 per hour.
+* **Cars**: Can park in Medium or Large spots. Fee: ₹20 per hour.
+* **Trucks**: Can park in Large spots only. Fee: ₹50 per hour.
 
 ---
 
-## Car
+## OOP Concepts Used
 
-Can park in:
+### 1. Encapsulation
+Sensitive fields such as `vehicleNumber`, `spotId`, and `occupied` state are marked `private` inside class scopes. Access is regulated via standard getters/setters, preserving data integrity.
 
-```text
-Medium Spot
-Large Spot
-```
+### 2. Abstraction
+The parent superclass `Vehicle` declares abstract methods `canPark(SpotSize)` and `calculateFee(int)` without implementation details. This exposes the expected behavior while hiding implementation specifics.
 
-Parking Fee:
+### 3. Inheritance
+Child classes (`Car`, `Truck`, and `Motorcycle`) extend the base `Vehicle` superclass, inheriting common attributes and constructor patterns to avoid code redundancy.
 
-```text
-₹20 per hour
-```
+### 4. Runtime Polymorphism
+The `ParkingManager` processes actions on a generic `Vehicle` superclass reference. At runtime, the JVM dynamically invokes the overridden method corresponding to the actual subclass instance (`Car`, `Motorcycle`, or `Truck`) in memory.
 
 ---
 
-## Truck
+## Program Flow
 
-Can park only in:
-
-```text
-Large Spot
-```
-
-Parking Fee:
-
-```text
-₹50 per hour
+```mermaid
+graph TD
+    Arrive["Vehicle Arrives"] --> Mgr["Parking Manager Processes Allocation"]
+    Mgr --> Availability{"Check Spot Availability"}
+    Availability -->|Occupied| Fail["Parking Failed (Spot Occupied)"]
+    Availability -->|Vacant| Rules{"Validate Parking Rules (canPark)"}
+    Rules -->|Incompatible| SizeFail["Parking Failed (Vehicle Too Large)"]
+    Rules -->|Compatible| Park["Park Vehicle (Occupied = True)"]
+    Park --> Fee["Calculate Fee on Exit"]
+    Fee --> Bill["Generate Billing Code & Print Summary"]
 ```
 
 ---
 
-# Objectives
+## Project Structure
 
-The goal of this project is to demonstrate:
-
-* Encapsulation
-* Inheritance
-* Abstraction
-* Runtime Polymorphism
-* Business Rule Enforcement
-
-while building a real-world parking management application.
-
----
-
-# OOP Concepts Used
-
-## Encapsulation
-
-Sensitive data such as:
-
-```java
-vehicleNumber
-spotId
-occupiedStatus
-```
-
-are protected using private variables.
-
----
-
-## Inheritance
-
-All vehicle types inherit from:
-
-```java
-Vehicle
-```
-
-Example:
-
-```java
-Car extends Vehicle
-
-Truck extends Vehicle
-
-Motorcycle extends Vehicle
-```
-
----
-
-## Abstraction
-
-Every vehicle must define:
-
-```java
-canPark()
-
-calculateFee()
-```
-
-using abstract methods.
-
----
-
-## Runtime Polymorphism
-
-The Parking Manager works with:
-
-```java
-Vehicle reference
-```
-
-and dynamically executes the correct implementation.
-
-Example:
-
-```java
-Vehicle vehicle = new Car("TN38AB1234");
-```
-
-At runtime Java decides:
-
-```java
-calculateFee()
-
-canPark()
-```
-
-based on the actual object type.
-
----
-
-# Program Flow
-
-```text
-Vehicle Arrives
-       │
-       ▼
-
-Parking Manager
-       │
-       ▼
-
-Check Spot Availability
-       │
-       ▼
-
-Validate Parking Rules
-       │
-       ▼
-
-Park Vehicle
-       │
-       ▼
-
-Calculate Fee
-       │
-       ▼
-
-Generate Bill
-```
-
----
-
-# Example Execution
-
-## Vehicle Entry
-
-```text
-Motorcycle → Small Spot
-
-Car → Medium Spot
-
-Truck → Large Spot
-```
-
----
-
-## Fee Calculation
-
-Parking Duration:
-
-```text
-5 Hours
-```
-
-Charges:
-
-```text
-Motorcycle = 5 × 10 = ₹50
-
-Car = 5 × 20 = ₹100
-
-Truck = 5 × 50 = ₹250
-```
-
----
-
-# Expected Output
-
-```text
-TN38BIKE01 Parked Successfully
-
-TN38CAR01 Parked Successfully
-
-TN38TRUCK01 Parked Successfully
-
-TN38BIKE01 Parking Fee : ₹50.0
-
-TN38CAR01 Parking Fee : ₹100.0
-
-TN38TRUCK01 Parking Fee : ₹250.0
-```
-
----
-
-# Business Rule Validation Example
-
-Input:
-
-```text
-Truck → Medium Spot
-```
-
-Output:
-
-```text
-Parking Not Allowed
-```
-
-Reason:
-
-```text
-Trucks can only park in Large Spots.
-```
-
----
-
-# Project Structure
+The project code is modularized into packages representing component areas:
 
 ```text
 parkinglot/
-│
 ├── Main.java
 ├── ParkingManager.java
-│
 ├── vehicles/
 │   ├── Vehicle.java
 │   ├── Car.java
 │   ├── Motorcycle.java
 │   └── Truck.java
-│
-├── parking/
-│   ├── ParkingSpot.java
-│   └── SpotSize.java
+└── parking/
+    ├── ParkingSpot.java
+    └── SpotSize.java
 ```
 
 ---
 
-# Learning Outcomes
+## Example Execution
 
-After completing this project, you will understand:
+### Vehicle Entry Scenario:
+* `Motorcycle` $\rightarrow$ Small Spot
+* `Car` $\rightarrow$ Medium Spot
+* `Truck` $\rightarrow$ Large Spot
 
-* How abstraction simplifies system design.
-* How inheritance reduces code duplication.
-* How runtime polymorphism enables flexibility.
-* How encapsulation protects internal state.
-* How real-world systems enforce business rules.
-* How to design scalable OOP applications.
+### Billing Scenario (5 Hours Duration):
+* **Motorcycle**: $5 \text{ hrs} \times \text{₹10} = \text{₹50}$
+* **Car**: $5 \text{ hrs} \times \text{₹20} = \text{₹100}$
+* **Truck**: $5 \text{ hrs} \times \text{₹50} = \text{₹250}$
 
----
+### Expected Output:
+```text
+TN38BIKE01 Parked Successfully
+TN38CAR01 Parked Successfully
+TN38TRUCK01 Parked Successfully
 
-# Future Enhancements
-
-Possible improvements:
-
-* Multi-Level Parking Floors
-* Electric Vehicle Charging Stations
-* VIP Parking
-* Entry and Exit Time Tracking
-* Automatic Billing System
-* Online Slot Reservation
-* Parking History Management
+TN38BIKE01 Parking Fee : ₹50.0
+TN38CAR01 Parking Fee : ₹100.0
+TN38TRUCK01 Parking Fee : ₹250.0
+```
 
 ---
 
-# Key Takeaways
+## Future Enhancements
 
-* Abstract classes define common behavior.
-* Inheritance promotes code reuse.
-* Runtime polymorphism enables dynamic decision making.
-* Encapsulation protects important data.
-* OOP principles help build maintainable systems.
-* The design is extensible and follows industry practices.
+* **Multi-Level Floors**: Introduce dynamic floor-level collections with floor-switching indicators.
+* **Electric Vehicle Charging**: Add specialized charging ports to designated spots.
+* **VIP Spots**: Support spot reservation for priority loyalty members.
+* **Duration Tracker**: Integrate system timestamps (`java.time`) to calculate duration automatically.
 
 ---
 
-# Conclusion
-
-The Multi-Level Parking Lot Management System is a practical application of Object-Oriented Programming concepts. By combining Encapsulation, Inheritance, Abstraction, and Runtime Polymorphism, the system becomes scalable, maintainable, and easy to extend. This project closely resembles real-world parking and smart-city management applications and serves as an excellent advanced OOP learning exercise.
+**Back to Module Home:** [Object-Oriented Programming](../README.md)
