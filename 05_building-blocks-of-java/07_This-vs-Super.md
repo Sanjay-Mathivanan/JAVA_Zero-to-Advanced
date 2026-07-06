@@ -122,7 +122,7 @@ Dog constructor called.
 ```mermaid
 graph TD
     Inst["new Dog()"] -->|Calls| ChildConst[Dog Constructor]
-    ChildConst -->|super() first line| ParentConst[Animal Constructor]
+    ChildConst -->|"super() first line"| ParentConst[Animal Constructor]
     ParentConst -->|Initializes parent fields| ChildBody[Execute Dog Constructor Body]
     ChildBody --> Ready[Object Ready in Heap]
 ```
