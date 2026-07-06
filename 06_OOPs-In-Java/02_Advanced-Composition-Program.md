@@ -168,9 +168,9 @@ The statement `college.getDept().getStudents().getRollno()` is an example of met
 
 ```mermaid
 graph LR
-    college[college reference] -->|1. getDept()| dept[Dept instance]
-    dept -->|2. getStudents()| student[Students instance]
-    student -->|3. getRollno()| rollno[23]
+    college[college reference] -->|"1. getDept()"| dept[Dept instance]
+    dept -->|"2. getStudents()"| student[Students instance]
+    student -->|"3. getRollno()"| rollno[23]
 ```
 
 ---

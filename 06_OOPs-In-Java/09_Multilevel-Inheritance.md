@@ -136,9 +136,9 @@ Dog Constructor Executed
 
 ```mermaid
 graph TD
-    Inst[new Dog()] -->|Calls| Child[Dog Constructor]
-    Child -->|Calls super() implicitly| Parent[Animal Constructor]
-    Parent -->|Calls super() implicitly| Grand[LivingThing Constructor]
+    Inst["new Dog()"] -->|Calls| Child[Dog Constructor]
+    Child -->|"Calls super() implicitly"| Parent[Animal Constructor]
+    Parent -->|"Calls super() implicitly"| Grand[LivingThing Constructor]
     Grand -->|Executes body| ParentBody[Executes Animal Constructor Body]
     ParentBody -->|Executes body| ChildBody[Executes Dog Constructor Body]
     ChildBody --> Ready[Dog Object Ready in Heap]

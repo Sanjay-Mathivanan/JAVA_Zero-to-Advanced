@@ -165,7 +165,7 @@ class Child extends Parent {
 graph TD
     Late[Runtime Polymorphism]
     Late --> Over[Method Overriding]
-    Late --> Upcast[Upcasting: Parent ref = new Child()]
+    Late --> Upcast["Upcasting: Parent ref = new Child()"]
     Late --> Dispatch[Dynamic Method Dispatch]
     Dispatch --> Check[JVM checks Heap object type]
     Check --> Exec[Executes subclass overridden method]

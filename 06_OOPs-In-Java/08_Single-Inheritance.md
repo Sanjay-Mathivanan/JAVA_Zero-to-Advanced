@@ -125,8 +125,8 @@ Dog (Child) Constructor Called
 
 ```mermaid
 graph TD
-    Inst[new Dog()] -->|Triggers| Child[Dog Constructor]
-    Child -->|Implicitly calls super() first line| Parent[Animal Constructor]
+    Inst["new Dog()"] -->|Triggers| Child[Dog Constructor]
+    Child -->|"Implicitly calls super() first line"| Parent[Animal Constructor]
     Parent -->|Completes parent setup| ChildBody[Executes Dog Constructor Body]
     ChildBody --> Ready[Dog Object Ready in Heap]
 ```
