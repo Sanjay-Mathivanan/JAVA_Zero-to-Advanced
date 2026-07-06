@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 360" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; }
+    
+    .external-box { fill: #fff5f5; stroke: #e53e3e; stroke-width: 2; rx: 10; }
+    .external-text { fill: #c53030; }
+    
+    .object-boundary { fill: #f7fafc; stroke: #4a5568; stroke-width: 2.5; rx: 16; stroke-dasharray: 6 4; }
+    .boundary-text { fill: #4a5568; }
+    
+    .private-core { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 12; }
+    .private-text { fill: #9c4221; }
+    
+    .method-pill { fill: #f0fff4; stroke: #38a169; stroke-width: 2; rx: 20; }
+    .method-text { fill: #22543d; }
+    
+    .block-line { stroke: #e53e3e; stroke-width: 3; stroke-linecap: round; }
+    .allow-arrow { stroke: #38a169; stroke-width: 2.5; fill: none; }
+    .allow-head { fill: #38a169; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .external-box { fill: #742a2a; stroke: #fc8181; }
+      .external-text { fill: #fed7d7; }
+      
+      .object-boundary { fill: #1a202c; stroke: #a0aec0; }
+      .boundary-text { fill: #cbd5e0; }
+      
+      .private-core { fill: #5c3e21; stroke: #ed8936; }
+      .private-text { fill: #fbd38d; }
+      
+      .method-pill { fill: #22543d; stroke: #48bb78; }
+      .method-text { fill: #c6f6d5; }
+      
+      .block-line { stroke: #fc8181; }
+      .allow-arrow { stroke: #48bb78; }
+      .allow-head { fill: #48bb78; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- External Class attempting access -->
+  <g transform="translate(30, 80)">
+    <rect class="external-box" width="160" height="200" />
+    <text class="label external-text" x="20" y="30">External Class</text>
+    <text class="desc external-text" x="20" y="50">(e.g., Main Class)</text>
+    
+    <!-- Code Snippet -->
+    <g transform="translate(15, 80)">
+      <rect fill="#ffffff" opacity="0.8" rx="6" width="130" height="90" />
+      <text font-family="monospace" font-size="10" fill="#2d3748" x="10" y="25">Student s = new S();</text>
+      
+      <!-- Attempt 1 -->
+      <text font-family="monospace" font-size="10" fill="#c53030" x="10" y="48">s.name = &quot;Sam&quot;;</text>
+      <text font-family="monospace" font-size="9" fill="#e53e3e" x="10" y="58">(Compiler Error)</text>
+      
+      <!-- Attempt 2 -->
+      <text font-family="monospace" font-size="10" fill="#22543d" x="10" y="80">s.setName(&quot;Sam&quot;);</text>
+    </g>
+  </g>
+
+  <!-- Encapsulated Object Container -->
+  <g transform="translate(290, 30)">
+    <!-- Object Shell Boundary -->
+    <rect class="object-boundary" width="330" height="300" />
+    <text class="label boundary-text" x="25" y="28">Encapsulated Student Object</text>
+
+    <!-- Public Access Shield (Pills on the boundary) -->
+    <!-- Setters -->
+    <g transform="translate(25, 60)">
+      <rect class="method-pill" width="130" height="40" />
+      <text class="label method-text" x="20" y="24">setName(String)</text>
+    </g>
+    <!-- Getters -->
+    <g transform="translate(25, 200)">
+      <rect class="method-pill" width="130" height="40" />
+      <text class="label method-text" x="20" y="24">getName()</text>
+    </g>
+
+    <!-- Private Core (Data) -->
+    <g transform="translate(180, 80)">
+      <rect class="private-core" width="130" height="140" />
+      <text class="label private-text" x="15" y="28">Private Fields</text>
+      <text class="desc private-text" x="15" y="45">(Data Shielded)</text>
+
+      <g transform="translate(10, 60)">
+        <rect fill="#ffffff" opacity="0.6" rx="4" width="110" height="30" />
+        <text font-family="monospace" font-size="10" fill="#2d3748" x="8" y="19">private String name</text>
+
+        <rect fill="#ffffff" opacity="0.6" rx="4" width="110" height="30" y="38" />
+        <text font-family="monospace" font-size="10" fill="#2d3748" x="8" y="57">private int age</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Blocked Path (Direct access attempt) -->
+  <g>
+    <path stroke="#e53e3e" stroke-width="2" stroke-dasharray="3 3" fill="none" d="M 190 135 L 470 135" />
+    <circle cx="330" cy="135" r="16" fill="#fff5f5" stroke="#e53e3e" stroke-width="2" />
+    <line x1="322" y1="127" x2="338" y2="143" class="block-line" />
+    <line x1="338" y1="127" x2="322" y2="143" class="block-line" />
+    <text class="desc external-text" x="280" y="167">Direct Field Access Blocked</text>
+  </g>
+
+  <!-- Allowed Paths -->
+  <!-- Set Path -->
+  <g>
+    <path class="allow-arrow" d="M 190 155 Q 260 155, 305 110" />
+    <polygon class="allow-head" points="302,106 312,107 307,115" />
+    
+    <!-- From Setter to Core -->
+    <path class="allow-arrow" d="M 435 100 Q 455 100, 465 110" />
+    <polygon class="allow-head" points="462,111 470,113 467,105" />
+  </g>
+  <!-- Get Path -->
+  <g>
+    <!-- From Core to Getter -->
+    <path class="allow-arrow" d="M 470 180 Q 455 190, 435 210" />
+    <polygon class="allow-head" points="432,207 431,216 439,211" />
+
+    <!-- From Getter out -->
+    <path class="allow-arrow" d="M 305 235 Q 240 235, 190 235" />
+    <polygon class="allow-head" points="195,231 187,235 195,239" />
+  </g>
+</svg>

@@ -2,854 +2,288 @@
 
 ## Introduction
 
-Everything in the real world can be represented using:
+In the real world, everything around us can be represented as an **object**. Examples include a Car, a Mobile Phone, a Student, an Employee, or a Bank Account. In software development, Object-Oriented Programming (OOP) allows us to model these real-world objects in code.
 
-```text
-Objects
-```
-
-Examples:
-
-```text
-Car
-Mobile Phone
-Student
-Employee
-Laptop
-Bank Account
-```
-
-Each object has:
-
-```text
-Properties (Data)
-+
-Behaviors (Actions)
-```
-
-Example:
+Each real-world object possesses two characteristics:
+1. **Properties (State/Data)**: What the object knows or holds (e.g., a phone's model, color, RAM).
+2. **Behaviors (Actions)**: What the object can do (e.g., a phone can call, send a message, or take photos).
 
 ```text
 Mobile Phone
-
-Properties
------------
-Model
-Color
-RAM
-Processor
-
-Behaviors
------------
-Call
-Message
-Play Music
-Take Photo
+├── Properties: Model, Color, RAM, Processor
+└── Behaviors: Call(), Message(), PlayMusic(), TakePhoto()
 ```
 
-Java uses:
-
-```text
-Class
-```
-
-to create such objects.
-
-Classes are the foundation of Object-Oriented Programming (OOP).
+Java uses **Classes** to define these object templates. Classes are the foundation of Object-Oriented Programming.
 
 ---
 
-# What is a Class?
+## What is a Class?
 
-## Definition
+A **Class** is a blueprint, template, or prototype used to create objects. Think of a class as a design plan or a schema. It describes the data structures and methods that the objects created from it will possess, but it does not represent any physical object itself. It occupies no heap memory space until instantiated.
 
-A class is a blueprint or template used to create objects.
+### Real-World Analogy: The House Blueprint
 
-Think of a class as a design plan.
+Before building a house, an architect creates a blueprint. The blueprint defines the layout (rooms, doors, windows, dimensions), but it is not an actual house you can live in. You can use that single blueprint to build one, ten, or a hundred physical houses.
 
----
-
-# Real-World Analogy
-
-### House Blueprint
-
-```text
-Blueprint
-    ↓
-Many Houses
-```
-
-A blueprint describes:
-
-```text
-Rooms
-Doors
-Windows
-Kitchen
-```
-
-but it is not an actual house.
-
-Similarly:
-
-```text
-Class
-```
-
-describes an object but is not the object itself.
+Similarly, a class is the blueprint, and objects are the actual physical houses built from it.
 
 ---
 
-# What is an Object?
+## What is an Object?
 
-## Definition
-
-An object is an instance of a class.
-
-Example:
+An **Object** is a physical instance of a class. When you create an object, you are creating a concrete entity that occupies space in heap memory and holds its own unique state data.
 
 ```text
-Class
------
-Cellphone
-
-Objects
---------
-OnePlus
-Apple
-Samsung
+Class: Cellphone
+├── Object 1 (Instance): OnePlus (RAM: 12GB, Color: Black)
+├── Object 2 (Instance): Apple (RAM: 8GB, Color: Silver)
+└── Object 3 (Instance): Samsung (RAM: 16GB, Color: Grey)
 ```
 
----
+### Class and Object Relationship
 
-# Class and Object Relationship
-
-```text
-Class
-  ↓
-Creates
-  ↓
-Objects
-```
-
-Example:
+The process of creating an object from a class blueprint is called **Instantiation**. In Java, this is done using the `new` keyword:
 
 ```java
 Cellphone phone1 = new Cellphone();
-
 Cellphone phone2 = new Cellphone();
 ```
 
-Here:
-
-```text
-Cellphone
-```
-
-is the class.
-
-```text
-phone1
-phone2
-```
-
-are objects.
+Here, `Cellphone` is the class (blueprint), and `phone1` and `phone2` are reference variables pointing to separate object instances in heap memory.
 
 ---
 
-# Why Classes Are Needed
+## Why Classes Are Needed
 
-Without classes:
-
-```text
-Data becomes difficult to organize.
-```
-
-Example:
+Without classes, organizing and maintaining data for complex structures is extremely difficult. For example, if you wanted to track data for three different mobile phones, you would have to declare loose, unrelated variables for each:
 
 ```java
-String model;
-String color;
-int ram;
-String processor;
+String phone1Model = "Nord";
+int phone1Ram = 12;
+
+String phone2Model = "iPhone 15";
+int phone2Ram = 8;
 ```
 
-Managing many phones becomes difficult.
-
-Using classes:
+Managing this for hundreds of objects is impossible. By using a class, you group related data and behaviors into a single, cohesive type:
 
 ```java
-Cellphone phone1;
-Cellphone phone2;
-Cellphone phone3;
-```
-
-Everything remains organized.
-
----
-
-# Basic Class Syntax
-
-```java
-public class ClassName {
-
-    // Variables
-
-    // Methods
-
+class Cellphone {
+    String model;
+    int ram;
+    
+    void makeCall() {
+        System.out.println("Calling...");
+    }
 }
 ```
 
-Example:
+Now you can easily declare and group variables:
+
+```java
+Cellphone phone1 = new Cellphone();
+Cellphone phone2 = new Cellphone();
+```
+
+---
+
+## Basic Class Syntax
+
+A class definition consists of access modifiers, the `class` keyword, the class name, variables (fields), and methods (behaviors).
 
 ```java
 public class Student {
-
+    // Instance Variables (Properties)
     String name;
     int age;
 
-}
-```
-
----
-
-# Understanding the Cellphone Class
-
-```java
-public class Cellphone {
-
-    private int ram;
-    private int noOfCameras;
-    private String model;
-    private String colour;
-    private String processor;
-
-}
-```
-
----
-
-# Instance Variables
-
-These variables belong to every object.
-
-```java
-private int ram;
-
-private String model;
-```
-
-Every phone object gets its own copy.
-
----
-
-# Memory Representation
-
-Object Creation:
-
-```java
-Cellphone onePlus =
-        new Cellphone();
-```
-
-Memory:
-
-```text
-Stack Memory
---------------------
-onePlus
-     │
-     ▼
-Heap Memory
---------------------
-ram = 0
-model = null
-colour = null
-processor = null
---------------------
-```
-
----
-
-# What Does new Mean?
-
-```java
-new Cellphone()
-```
-
-Creates an object in:
-
-```text
-Heap Memory
-```
-
-and returns its reference.
-
----
-
-# Creating Objects
-
-```java
-Cellphone onePlus =
-        new Cellphone();
-
-Cellphone apple =
-        new Cellphone();
-```
-
-Memory:
-
-```text
-Heap
-
-Object 1
----------
-OnePlus
-
-Object 2
----------
-Apple
-```
-
-Each object has separate data.
-
----
-
-# Encapsulation
-
-Notice:
-
-```java
-private String model;
-```
-
-The keyword:
-
-```java
-private
-```
-
-means:
-
-```text
-Accessible only inside the class
-```
-
-Outside classes cannot access it directly.
-
-Wrong:
-
-```java
-onePlus.model = "Nord";
-```
-
-Compiler Error.
-
----
-
-# Why Private Variables?
-
-To protect data.
-
-Example:
-
-Without validation:
-
-```java
-model = "xyz123";
-```
-
-Any value can be stored.
-
-Using private variables and methods:
-
-```java
-Validation becomes possible.
-```
-
----
-
-# Setter Method
-
-A setter updates data.
-
-Example:
-
-```java
-public void setModel(String model)
-```
-
-Purpose:
-
-```text
-Store model safely
-```
-
----
-
-# Setter Implementation
-
-```java
-public void setModel(String model) {
-
-    String validModel =
-            model.toLowerCase();
-
-    if(validModel.equals("nord")
-       || validModel.equals("7pro")) {
-
-        this.model = model;
-
-    } else {
-
-        this.model = "unknown";
-
+    // Methods (Behaviors)
+    void study() {
+        System.out.println(name + " is studying.");
     }
 }
 ```
 
 ---
 
-# Understanding this Keyword
+## Memory Representation of Objects
+
+When you instantiate a class in Java using `new`, memory is allocated in two distinct JVM areas:
+1. **Stack Memory**: Stores the reference variable (the pointer).
+2. **Heap Memory**: Stores the actual object data (the state values of its fields).
 
 ```java
-this.model = model;
+Cellphone onePlus = new Cellphone();
 ```
 
-Left Side:
+![Stack vs Heap Reference Mappings](../assets/images/stack-vs-heap-reference.svg)
 
-```java
-this.model
-```
-
-Class variable.
-
-Right Side:
-
-```java
-model
-```
-
-Method parameter.
+### What does the `new` keyword do?
+The `new` keyword dynamically allocates memory on the Heap for the object, initializes its fields to their default values (e.g. `0` for numbers, `null` for objects), and returns a reference (memory address) to the newly created object.
 
 ---
 
-# Visualization
+## Encapsulation: Shielding Object Data
 
-```text
-Parameter
----------
-model = nord
+In professional Java design, object fields are rarely exposed directly. Exposing fields directly (e.g., `onePlus.model = "Nord"`) makes the object vulnerable to corrupt data or bypasses verification.
 
-Class Variable
---------------
-this.model
-```
-
-Assignment:
-
-```text
-this.model = model
-```
-
----
-
-# Getter Method
-
-A getter retrieves data.
-
-Example:
-
-```java
-public String getModel() {
-
-    return this.model;
-
-}
-```
-
-Purpose:
-
-```text
-Read model safely
-```
-
----
-
-# Complete Cellphone Class
+**Encapsulation** is the practice of bundling data and methods inside a class, and hiding implementation details from the outside world. This is achieved by:
+* Marking variables as `private` (restricting access to the class itself).
+* Exposing controlled access via `public` getter and setter methods.
 
 ```java
 public class Cellphone {
-
-    private int ram;
-    private int noOfCameras;
+    // Private properties (encapsulated)
     private String model;
-    private String colour;
-    private String processor;
+    private int ram;
+
+    // Public Setter (modifies data with validation)
+    public void setModel(String model) {
+        String validModel = model.toLowerCase();
+        if (validModel.equals("nord") || validModel.equals("7pro")) {
+            this.model = model;
+        } else {
+            this.model = "unknown";
+        }
+    }
+
+    // Public Getter (reads data)
+    public String getModel() {
+        return this.model;
+    }
+}
+```
+
+### Understanding the `this` Keyword
+In the statement `this.model = model;`:
+* `this.model` refers to the **instance variable** belonging to the current object.
+* `model` refers to the **local parameter** passed into the method.
+The `this` keyword resolves naming conflicts and references the current instance executing the code.
+
+---
+
+## Complete Executable Example
+
+Here is a complete program demonstrating class instantiation, encapsulation, and validation:
+
+```java
+public class Cellphone {
+    private String model;
+    private int ram;
 
     public void setModel(String model) {
-
-        String validModel =
-                model.toLowerCase();
-
-        if(validModel.equals("nord")
-                || validModel.equals("7pro")) {
-
+        String validModel = model.toLowerCase();
+        if (validModel.equals("nord") || validModel.equals("7pro")) {
             this.model = model;
-
         } else {
-
             this.model = "unknown";
-
         }
     }
 
     public String getModel() {
-
         return this.model;
-
     }
 }
-```
 
----
-
-# Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
+        Cellphone onePlus = new Cellphone();
+        Cellphone apple = new Cellphone();
 
-        Cellphone onePlus =
-                new Cellphone();
-
-        Cellphone apple =
-                new Cellphone();
-
+        // Attempting to set an invalid model
         onePlus.setModel("8max");
+        System.out.println("onePlus model: " + onePlus.getModel()); // Output: unknown
 
-        System.out.println(
-                "The phone model is "
-                + onePlus.getModel());
+        // Setting a valid model
+        apple.setModel("7pro");
+        System.out.println("apple model: " + apple.getModel());     // Output: 7pro
     }
 }
 ```
 
 ---
 
-# Program Execution
+## Class vs. Object Comparison
 
-## Step 1
-
-Create Object
-
-```java
-Cellphone onePlus =
-        new Cellphone();
-```
+| Feature | Class | Object |
+| :--- | :--- | :--- |
+| **What it is** | Blueprint / Template | Real physical instance |
+| **Entity type** | Logical entity | Physical entity |
+| **Creation** | Declared once in code | Created multiple times using `new` |
+| **Memory** | No memory allocated for data | Allocated memory on the heap |
 
 ---
 
-## Step 2
+## Common Mistakes
 
-Call Setter
-
+### 1. Accessing Private Variables Directly
 ```java
-onePlus.setModel("8max");
-```
-
----
-
-## Step 3
-
-Validation
-
-```java
-8max
-```
-
-Converted:
-
-```java
-8max
-```
-
-Check:
-
-```java
-equals("nord")
-```
-
-False.
-
-Check:
-
-```java
-equals("7pro")
-```
-
-False.
-
----
-
-## Step 4
-
-Store:
-
-```java
-this.model = "unknown";
-```
-
----
-
-## Step 5
-
-Getter Called
-
-```java
-onePlus.getModel();
-```
-
-Returns:
-
-```java
-unknown
-```
-
----
-
-# Output
-
-```text
-The phone model is unknown
-```
-
----
-
-# Valid Input Example
-
-```java
-onePlus.setModel("Nord");
-```
-
-Output:
-
-```text
-The phone model is Nord
-```
-
----
-
-# Advanced Example
-
-```java
-public class Student {
-
-    private String name;
-    private int age;
-
-    public void setName(String name) {
-
-        this.name = name;
-
-    }
-
-    public String getName() {
-
-        return this.name;
-
-    }
-
-    public void setAge(int age) {
-
-        if(age > 0) {
-
-            this.age = age;
-
-        }
-    }
-
-    public int getAge() {
-
-        return age;
-
-    }
-}
-```
-
-Usage:
-
-```java
-Student student =
-        new Student();
-
-student.setName("Sanjay");
-
-student.setAge(21);
-
-System.out.println(
-        student.getName());
-
-System.out.println(
-        student.getAge());
-```
-
-Output:
-
-```text
-Sanjay
-21
-```
-
----
-
-# Class vs Object
-
-| Class | Object |
-|---------|---------|
-| Blueprint | Real Instance |
-| Logical Entity | Physical Entity |
-| Created Once | Created Multiple Times |
-| No Memory for Data | Occupies Memory |
-
----
-
-# Common Mistakes
-
-## Accessing Private Variables Directly
-
-Wrong:
-
-```java
+// WRONG (Will result in compilation error)
 phone.model = "Nord";
+
+// CORRECT
+phone.setModel("Nord");
 ```
 
-Correct:
-
+### 2. Calling Methods on Uninitialized References (NullPointerException)
 ```java
+// WRONG
+Cellphone phone;
+phone.setModel("Nord"); // Runtime Error: Variable not initialized
+
+// CORRECT
+Cellphone phone = new Cellphone();
 phone.setModel("Nord");
 ```
 
 ---
 
-## Forgetting Object Creation
+## Concept Map
 
-Wrong:
-
-```java
-Cellphone phone;
-
-phone.setModel("Nord");
-```
-
-Runtime Error.
-
----
-
-## Forgetting new
-
-Wrong:
-
-```java
-Cellphone phone;
-```
-
-Correct:
-
-```java
-Cellphone phone =
-        new Cellphone();
+```mermaid
+graph TD
+    OOP[Object-Oriented Programming] --> Class[Class Blueprint]
+    Class --> Object[Object Instance]
+    Object --> Properties[Properties / Data]
+    Object --> Behaviors[Behaviors / Methods]
+    Properties --> Encapsulation[Encapsulated via private fields]
+    Behaviors --> Access[Accessed via public Getters/Setters]
 ```
 
 ---
 
-# Concept Map
+## Interview Questions (FAQ)
 
-```text
-Object-Oriented Programming
-           │
-           ▼
-        Class
-           │
-           ▼
-        Object
-           │
-    ┌──────┴──────┐
-    │             │
- Properties    Methods
-    │             │
- Data         Behavior
-```
+### What is a class?
+A class is a logical blueprint, template, or design plan used to instantiate objects. It defines the state (fields) and behavior (methods) that all objects of its type will have.
+
+### What is an object?
+An object is a physical instance of a class. It represents a real-world entity, resides on the Heap memory, and maintains its own separate copy of variables.
+
+### What does the `new` keyword do?
+The `new` keyword instantiates a class. It allocates memory on the Heap for the object, runs the constructor, and returns the reference address.
+
+### What is encapsulation?
+Encapsulation is the process of wrapping data (variables) and code (methods) together into a single unit (class) while hiding inner details. Direct access to data is blocked using the `private` modifier, and controlled access is provided via `public` getter and setter methods.
 
 ---
 
-# Interview Questions
+## Practice Challenges
 
-## What is a class?
-
-A blueprint used to create objects.
-
----
-
-## What is an object?
-
-An instance of a class.
+1. **Car Class**: Create a `Car` class with private fields `brand`, `engineSize`, and `isElectric`. Add public getters/setters. Enforce that `engineSize` must be positive.
+2. **BankAccount Class**: Create a class representing a bank account with a private `balance` field. Implement a setter `deposit(double amount)` that rejects negative deposits, and a getter.
+3. **Encapsulated Employee**: Create an `Employee` class containing `id`, `name`, and `salary`. Validate that `salary` cannot be less than zero.
 
 ---
 
-## What does new do?
+## Key Takeaways
 
-Creates an object in heap memory.
-
----
-
-## Why use private variables?
-
-To protect data and enforce validation.
+* **Classes** act as blueprints; **Objects** are instances.
+* Objects are instantiated on the Heap using `new`, while reference pointers reside on the Stack.
+* Use `private` fields and `public` getters/setters to implement **Encapsulation**.
+* The `this` keyword refers to the current object instance and resolves naming conflicts.
 
 ---
 
-## What is a setter?
-
-A method used to update data.
-
----
-
-## What is a getter?
-
-A method used to retrieve data.
-
----
-
-## What is encapsulation?
-
-Binding data and methods together while restricting direct access.
-
----
-
-# Practice Challenges
-
-1. Create a Car class.
-2. Create a Student class.
-3. Create a BankAccount class.
-4. Create an Employee class.
-5. Add validation using setters.
-
----
-
-# Key Takeaways
-
-- Classes are blueprints.
-- Objects are instances of classes.
-- Objects are created using `new`.
-- Data is stored in heap memory.
-- Private variables protect data.
-- Getters and setters provide controlled access.
-- Classes form the foundation of OOP.
-
----
-
-# Conclusion
-
-Classes and Objects are the building blocks of Java's Object-Oriented Programming model. A class defines the structure and behavior of an object, while objects represent real-world entities created from that blueprint. Understanding classes, objects, encapsulation, getters, and setters is essential before moving to constructors, inheritance, and advanced OOP concepts.
+**Back to Module Home:** [Building Blocks of Java](README.md)

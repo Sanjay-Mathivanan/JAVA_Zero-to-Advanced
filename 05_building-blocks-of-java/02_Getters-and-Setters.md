@@ -2,838 +2,238 @@
 
 ## Introduction
 
-In the previous chapter, we learned that class variables are often declared using the:
-
-```java
-private
-```
-
-access modifier.
-
-Example:
-
-```java
-private String model;
-```
-
-Since private variables cannot be accessed directly outside the class, Java provides special methods called:
-
-- Getters
-- Setters
-
-These methods allow controlled access to private data while maintaining security and validation.
+In Object-Oriented Programming (OOP), objects represent real-world entities. These objects contain data (instance variables) and methods (actions). In a professional application, direct access to an object's internal variables from external classes is discouraged. Instead, we use getters and setters to control how data is read and updated.
 
 ---
 
-# Why Do We Need Getters and Setters?
+## Why Do We Need Getters and Setters?
 
-Consider the following class:
+Imagine an application where an external class can modify an object's properties directly:
+
+```java
+// Direct field access (Vulnerable)
+student.age = -5;
+bankAccount.balance = -1000.00;
+```
+
+Allowing direct modifications can lead to corrupted object states (e.g., negative ages, negative account balances). To prevent this, we declare fields as `private` and expose access via `public` getter and setter methods. This approach is called **Encapsulation**.
+
+![Encapsulation through Getters and Setters](../assets/images/encapsulation-getters-setters.svg)
+
+---
+
+## What is a Setter?
+
+A **Setter** is a public method inside a class used to update or write the value of a private variable. Setters usually do not return any value (`void`) and accept a parameter representing the new value.
+
+### Setter Benefits:
+* **Validation**: You can write rules to reject invalid inputs.
+* **Control**: You can make fields read-only by simply omitting the setter method.
+
+### Setter Syntax
+
+```java
+public void setVariable(Type variable) {
+    this.variable = variable;
+}
+```
+
+---
+
+## What is a Getter?
+
+A **Getter** is a public method inside a class used to read or retrieve the value of a private variable. Getters must return the same data type as the variable and do not accept parameters.
+
+### Getter Syntax
+
+```java
+public Type getVariable() {
+    return this.variable;
+}
+```
+
+---
+
+## Real-World Example: Student Age Validation
+
+Let's look at a class that enforces a validation rule: a student's age must be greater than zero.
 
 ```java
 public class Student {
-
     private String name;
-
-}
-```
-
-Now suppose we create an object:
-
-```java
-Student student = new Student();
-```
-
-Trying to access the variable directly:
-
-```java
-student.name = "Sanjay";
-```
-
-Produces:
-
-```text
-Compilation Error
-```
-
-Because:
-
-```java
-name
-```
-
-is private.
-
----
-
-# The Problem
-
-Without getters and setters:
-
-```text
-Outside classes cannot access private variables.
-```
-
-This is intentional because:
-
-```text
-Data must be protected.
-```
-
----
-
-# Solution
-
-Use:
-
-```text
-Setter
-```
-
-to store data.
-
-Use:
-
-```text
-Getter
-```
-
-to retrieve data.
-
----
-
-# What is a Setter?
-
-## Definition
-
-A setter is a method used to assign or update the value of a private variable.
-
----
-
-# Setter Syntax
-
-```java
-public void setVariableName(DataType value) {
-
-    this.variableName = value;
-
-}
-```
-
-Example:
-
-```java
-public void setName(String name) {
-
-    this.name = name;
-
-}
-```
-
----
-
-# What is a Getter?
-
-## Definition
-
-A getter is a method used to retrieve the value of a private variable.
-
----
-
-# Getter Syntax
-
-```java
-public DataType getVariableName() {
-
-    return variableName;
-
-}
-```
-
-Example:
-
-```java
-public String getName() {
-
-    return name;
-
-}
-```
-
----
-
-# Real-World Analogy
-
-Think of a bank account.
-
-```text
-Bank Account Balance
-        ↓
-Private Information
-```
-
-You cannot directly modify the balance.
-
-Instead:
-
-```text
-Deposit Money
-Withdraw Money
-Check Balance
-```
-
-These operations act like:
-
-```text
-Setters
-Getters
-```
-
-providing controlled access.
-
----
-
-# Basic Example
-
-## Student Class
-
-```java
-public class Student {
-
-    private String name;
-
-    public void setName(String name) {
-
-        this.name = name;
-
-    }
-
-    public String getName() {
-
-        return this.name;
-
-    }
-}
-```
-
----
-
-# Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student student = new Student();
-
-        student.setName("Sanjay");
-
-        System.out.println(
-                student.getName());
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Sanjay
-```
-
----
-
-# Internal Working
-
-### Step 1
-
-Object Creation
-
-```java
-Student student =
-        new Student();
-```
-
-Memory:
-
-```text
-Heap
-------------
-name = null
-------------
-```
-
----
-
-### Step 2
-
-Setter Called
-
-```java
-student.setName("Sanjay");
-```
-
-Assignment:
-
-```java
-this.name = "Sanjay";
-```
-
-Memory:
-
-```text
-Heap
-------------
-name = Sanjay
-------------
-```
-
----
-
-### Step 3
-
-Getter Called
-
-```java
-student.getName();
-```
-
-Returns:
-
-```text
-Sanjay
-```
-
----
-
-# Understanding the this Keyword
-
-Consider:
-
-```java
-public void setName(String name) {
-
-    this.name = name;
-
-}
-```
-
-There are two variables:
-
-### Method Parameter
-
-```java
-name
-```
-
-### Instance Variable
-
-```java
-this.name
-```
-
-Visualization:
-
-```text
-Parameter
----------
-name = Sanjay
-
-Instance Variable
------------------
-this.name = null
-```
-
-After assignment:
-
-```text
-this.name = Sanjay
-```
-
----
-
-# Memory Representation
-
-Before Setter:
-
-```text
-Stack
------------------
-name = Sanjay
------------------
-
-Heap
------------------
-name = null
------------------
-```
-
-After Setter:
-
-```text
-Heap
------------------
-name = Sanjay
------------------
-```
-
----
-
-# Example: Student Age Validation
-
-Without validation:
-
-```java
-student.setAge(-10);
-```
-
-Invalid data enters the system.
-
----
-
-# Using Validation in Setter
-
-```java
-public class Student {
-
     private int age;
 
+    // Setter for name
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter for name
+    public String getName() {
+        return this.name;
+    }
+
+    // Setter for age with validation
     public void setAge(int age) {
-
-        if(age > 0) {
-
+        if (age > 0) {
             this.age = age;
-
-        }
-    }
-
-    public int getAge() {
-
-        return age;
-
-    }
-}
-```
-
----
-
-# Main Program
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student student =
-                new Student();
-
-        student.setAge(21);
-
-        System.out.println(
-                student.getAge());
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-21
-```
-
----
-
-# Why Validation is Important
-
-Suppose:
-
-```java
-student.setAge(-50);
-```
-
-Without validation:
-
-```text
-Invalid Data Stored
-```
-
-With validation:
-
-```text
-Invalid Data Rejected
-```
-
----
-
-# Cellphone Example
-
-## Class
-
-```java
-public class Cellphone {
-
-    private String model;
-
-    public void setModel(String model) {
-
-        String validModel =
-                model.toLowerCase();
-
-        if(validModel.equals("nord")
-           || validModel.equals("7pro")) {
-
-            this.model = model;
-
         } else {
-
-            this.model = "unknown";
-
+            System.out.println("Error: Age must be positive. Defaulting to 1.");
+            this.age = 1;
         }
     }
 
-    public String getModel() {
-
-        return this.model;
-
+    // Getter for age
+    public int getAge() {
+        return this.age;
     }
 }
 ```
 
----
-
-# Main Program
+### Main Program Usage
 
 ```java
 public class Main {
-
     public static void main(String[] args) {
+        Student student = new Student();
 
-        Cellphone phone =
-                new Cellphone();
+        // Attempting to set valid data
+        student.setName("Sanjay");
+        student.setAge(21);
+        System.out.println(student.getName() + " is " + student.getAge() + " years old.");
+        // Output: Sanjay is 21 years old.
 
-        phone.setModel("8max");
-
-        System.out.println(
-                phone.getModel());
-
+        // Attempting to set invalid data
+        student.setAge(-5);
+        System.out.println("Corrected Age: " + student.getAge());
+        // Output: Error: Age must be positive. Defaulting to 1.
+        // Output: Corrected Age: 1
     }
 }
 ```
 
 ---
 
-# Output
+## Advanced Example: Bank Account Transactions
 
-```text
-unknown
-```
-
----
-
-# Why Output is Unknown?
-
-Input:
-
-```java
-8max
-```
-
-Validation:
-
-```java
-equals("nord")
-```
-
-False.
-
-```java
-equals("7pro")
-```
-
-False.
-
-Stored:
-
-```java
-unknown
-```
-
----
-
-# Valid Input Example
-
-```java
-phone.setModel("Nord");
-```
-
-Output:
-
-```text
-Nord
-```
-
----
-
-# Advanced Example
-
-## Bank Account Class
+Here is a more advanced example demonstrating a bank account class where deposits and withdrawals are validated.
 
 ```java
 public class BankAccount {
-
+    private String accountNumber;
     private double balance;
 
-    public void setBalance(double balance) {
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
-        if(balance >= 0) {
+    public String getAccountNumber() {
+        return this.accountNumber;
+    }
 
-            this.balance = balance;
+    // deposit acts as a controlled setter
+    public void deposit(double amount) {
+        if (amount > 0) {
+            this.balance += amount;
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
 
+    // withdraw acts as a controlled setter
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= this.balance) {
+            this.balance -= amount;
+        } else {
+            System.out.println("Insufficient funds or invalid withdrawal amount.");
         }
     }
 
     public double getBalance() {
-
-        return balance;
-
+        return this.balance;
     }
 }
 ```
 
 ---
 
-# Main Program
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        BankAccount account =
-                new BankAccount();
-
-        account.setBalance(5000);
-
-        System.out.println(
-                account.getBalance());
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-5000.0
-```
-
----
-
-# Benefits of Getters and Setters
-
-## Data Protection
-
-```text
-Private Variables
-```
-
-cannot be accessed directly.
-
----
-
-## Validation
-
-Invalid data can be prevented.
-
----
-
-## Better Maintenance
-
-Internal implementation can change without affecting other classes.
-
----
-
-## Encapsulation
-
-Supports Object-Oriented Programming principles.
-
----
-
-# Getter vs Setter
+## Getter vs. Setter Comparison
 
 | Getter | Setter |
-|----------|----------|
-| Retrieves Data | Updates Data |
-| Returns Value | Usually Returns Nothing |
-| Starts with get | Starts with set |
-| Read Operation | Write Operation |
+| :--- | :--- |
+| **Operation** | Read operation | Write operation |
+| **Return Type** | Returns the field's data type | Typically returns `void` |
+| **Parameters** | Does not take parameters | Accepts a parameter to set |
+| **Prefix** | Starts with `get` (or `is` for booleans) | Starts with `set` |
 
 ---
 
-# Common Mistakes
+## Common Mistakes
 
-## Forgetting this Keyword
-
-Wrong:
-
+### 1. Forgetting the `this` Keyword
 ```java
-name = name;
+// WRONG
+public void setName(String name) {
+    name = name; // Assigns the parameter to itself; instance field remains unchanged
+}
+
+// CORRECT
+public void setName(String name) {
+    this.name = name;
+}
 ```
 
-No assignment happens.
+### 2. Bypassing Setters Inside the Class
+Even within the class methods, it is best practice to use getters/setters when updating fields to ensure validation rules are always triggered.
 
-Correct:
-
-```java
-this.name = name;
-```
+### 3. Exposing Mutable Objects Directly
+Returning a direct reference to a mutable private object (like an array or arraylist) allows external users to bypass getters/setters. Consider returning a copy instead.
 
 ---
 
-## Direct Variable Access
+## Concept Map
 
-Wrong:
-
-```java
-student.name = "Sanjay";
-```
-
-Correct:
-
-```java
-student.setName("Sanjay");
-```
-
----
-
-## No Validation
-
-Wrong:
-
-```java
-this.age = age;
-```
-
-May store invalid values.
-
----
-
-# Concept Map
-
-```text
-Class
- │
- ├── Private Variables
- │
- ├── Getter
- │      ↓
- │   Retrieve Data
- │
- └── Setter
-        ↓
-     Update Data
+```mermaid
+graph TD
+    Class[Class] --> Fields[Private Fields]
+    Class --> Methods[Public Access Methods]
+    Methods --> Getters[Getters: Retrieve data]
+    Methods --> Setters[Setters: Validate and update data]
 ```
 
 ---
 
-# Interview Questions
+## Interview Questions (FAQ)
 
-## What is a getter?
+### What is a getter?
+A public method used to retrieve the value of a private instance variable.
 
-A method used to retrieve the value of a private variable.
+### What is a setter?
+A public method used to update the value of a private instance variable.
 
----
+### Why do we make class variables private?
+To prevent external classes from accessing or modifying variables directly. This protects the internal state of the object, ensuring high data integrity.
 
-## What is a setter?
-
-A method used to update the value of a private variable.
-
----
-
-## Why use private variables?
-
-To protect data from direct access.
+### What is encapsulation?
+Encapsulation is one of the four main OOP concepts. It is the mechanism of wrapping code and data together in a single unit (class) while keeping variables hidden (`private`) and exposing them only via public interfaces (`getters/setters`).
 
 ---
 
-## What is encapsulation?
+## Practice Challenges
 
-Binding data and methods together while restricting direct access.
-
----
-
-## Why use validation inside setters?
-
-To prevent invalid data from entering the system.
+1. **Car Class**: Create a `Car` class with private properties `model`, `color`, and `fuelLevel`. Enforce a rule that `fuelLevel` must be between `0.0` and `100.0`.
+2. **Employee Class**: Create an `Employee` class with private variables `name` and `salary`. Enforce that the salary setter rejects negative values.
+3. **Smart TV Class**: Design a `SmartTV` class with a private field `channel`. Enforce a rule that channels can only range from `1` to `999`.
 
 ---
 
-# Practice Challenges
+## Key Takeaways
 
-## Challenge 1
-
-Create a Car class with:
-
-```java
-model
-color
-```
-
-and getters/setters.
+* **Getters** retrieve private data.
+* **Setters** update private data after validation checks.
+* Private variables restrict direct access, improving code safety.
+* Using getters and setters is a core design standard in Java programming.
 
 ---
 
-## Challenge 2
-
-Create an Employee class with:
-
-```java
-name
-salary
-```
-
-Add salary validation.
-
----
-
-## Challenge 3
-
-Create a BankAccount class that prevents negative balances.
-
----
-
-## Challenge 4
-
-Create a Laptop class with:
-
-```java
-brand
-ram
-processor
-```
-
-and getters/setters.
-
----
-
-# Key Takeaways
-
-- Getters retrieve private data.
-- Setters update private data.
-- Private variables improve security.
-- Setters can validate input.
-- Getters and setters support encapsulation.
-- They are fundamental to Object-Oriented Programming.
-
----
-
-# Conclusion
-
-Getters and setters provide controlled access to private variables and are one of the most widely used features in Java. They help protect data, enforce validation, and support encapsulation. Mastering getters and setters is essential before learning constructors, inheritance, and advanced OOP concepts.
+**Back to Module Home:** [Building Blocks of Java](README.md)

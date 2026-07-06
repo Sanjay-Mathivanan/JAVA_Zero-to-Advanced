@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 360" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; }
+    
+    .stack-box { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2.5; rx: 12; }
+    .stack-text { fill: #2b6cb0; }
+    
+    .heap-box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 12; }
+    .heap-text { fill: #9c4221; }
+    
+    .sub-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 1.5; rx: 6; }
+    .sub-text { fill: #2d3748; }
+    
+    .arrow { stroke: #e53e3e; stroke-width: 2; fill: none; stroke-dasharray: 4 4; }
+    .arrow-head { fill: #e53e3e; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .stack-box { fill: #1A365D; stroke: #4299e1; }
+      .stack-text { fill: #90cdf4; }
+      
+      .heap-box { fill: #5c3e21; stroke: #ed8936; }
+      .heap-text { fill: #fbd38d; }
+      
+      .sub-box { fill: #1a202c; stroke: #4a5568; }
+      .sub-text { fill: #e2e8f0; }
+      
+      .arrow { stroke: #f56565; }
+      .arrow-head { fill: #f56565; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Stack Area -->
+  <g transform="translate(30, 30)">
+    <rect class="stack-box" width="250" height="300" />
+    <text class="label stack-text" x="20" y="28">Stack Memory</text>
+    <text class="desc stack-text" x="20" y="45">Holds method frames and local variables</text>
+
+    <!-- Stack Frame -->
+    <g transform="translate(15, 65)">
+      <rect class="sub-box" width="220" height="215" />
+      <text class="label sub-text" x="15" y="25">main() Frame</text>
+      
+      <!-- Reference Variables Group -->
+      <g transform="translate(15, 50)">
+        <!-- Reference variable: student -->
+        <g>
+          <rect class="sub-box" width="190" height="65" />
+          <text class="label sub-text" x="12" y="25">Student student</text>
+          <text class="desc sub-text" x="12" y="45">Value: 0x4f8e (Reference Address)</text>
+        </g>
+        
+        <!-- Primitive variable: int tempAge -->
+        <g transform="translate(0, 80)">
+          <rect class="sub-box" width="190" height="50" />
+          <text class="label sub-text" x="12" y="22">int tempAge = 21</text>
+          <text class="desc sub-text" x="12" y="38">(Direct Value Type)</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Heap Area -->
+  <g transform="translate(370, 30)">
+    <rect class="heap-box" width="250" height="300" />
+    <text class="label heap-text" x="20" y="28">Heap Memory</text>
+    <text class="desc heap-text" x="20" y="45">Dynamic allocations for object instances</text>
+
+    <!-- Object in Heap -->
+    <g transform="translate(20, 75)">
+      <rect class="sub-box" width="210" height="175" />
+      <text class="label sub-text" x="15" y="28">Student Object</text>
+      <text class="desc sub-text" x="15" y="48">Address: 0x4f8e</text>
+      
+      <line x1="15" y1="62" x2="195" y2="62" stroke="#cbd5e0" stroke-width="1.5" />
+      
+      <text class="label sub-text" x="15" y="85">Instance Variables:</text>
+      
+      <!-- Instance Fields -->
+      <g transform="translate(15, 95)">
+        <rect class="sub-box" width="180" height="30" />
+        <text class="desc sub-text" x="10" y="18">name = &quot;Sanjay&quot;</text>
+        
+        <rect class="sub-box" width="180" height="30" y="38" />
+        <text class="desc sub-text" x="10" y="56">age = 21</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Pointer Arrow from Stack Reference to Heap Object -->
+  <g>
+    <path class="arrow" d="M 250 177 C 300 177, 310 162, 385 162" />
+    <polygon class="arrow-head" points="385,158 393,162 385,166" />
+  </g>
+</svg>
