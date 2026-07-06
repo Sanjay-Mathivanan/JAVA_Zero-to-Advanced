@@ -2,692 +2,224 @@
 
 ## Introduction
 
-When developing Java applications, it is important to control **who can access your variables, methods, constructors, and classes**.
+When developing Java applications, controlling **who can access your variables, methods, constructors, and classes** is essential for maintaining application security and stability.
 
-Imagine you have a bank account. You don't want everyone to directly modify your account balance. Instead, you allow users to deposit or withdraw money through specific methods.
+Imagine a bank account. You do not want arbitrary class objects to modify your balance directly. Instead, you restrict access and provide public, checked methods for depositing or withdrawing funds.
 
-Java provides **Access Modifiers** to control the visibility of class members.
-
-Visibility determines **where a member can be accessed**.
+Java provides **Access Modifiers** to control the visibility of class members. Visibility determines **where a member can be accessed**.
 
 ---
 
-# What is Visibility?
+## What is Visibility?
 
-Visibility defines:
-
-```text
-Who can access a class,
-variable, method,
-or constructor.
-```
-
-Java provides four access levels:
-
-- Public
-- Protected
-- Default (Package-Private)
-- Private
-
-These are collectively known as:
-
-```text
-Access Modifiers
-```
+Visibility defines the accessibility boundary of a class, variable, method, or constructor. Java provides four levels of access:
+* **Public**: Accessible from any class in any package.
+* **Protected**: Accessible within the same package and by child subclasses in other packages.
+* **Default (Package-Private)**: Accessible only within the same package.
+* **Private**: Accessible only within the declaring class.
 
 ---
 
-# Why Do We Need Access Control?
+## Why Do We Need Access Control?
 
-Suppose we have:
-
+Suppose we declare a simple class:
 ```java
 class BankAccount {
-
     double balance = 50000;
 }
 ```
-
-Anyone can modify:
-
+Any external code could change this value directly:
 ```java
-account.balance = -100000;
+account.balance = -100000; // Dangerous direct modification
 ```
 
-This is dangerous.
-
-Instead, we make it:
-
+To prevent this, make the field `private` and regulate updates through accessor methods:
 ```java
-private double balance;
-```
+public class BankAccount {
+    private double balance = 50000;
 
-Now the balance can only be modified using controlled methods.
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+        }
+    }
+}
+```
 
 ---
 
-# Access Modifiers Overview
+## Access Modifiers Matrix
 
-| Modifier | Same Class | Same Package | Subclass | Different Package |
-|------------|:----------:|:------------:|:---------:|:-----------------:|
-| public | Yes | Yes | Yes | Yes |
-| protected | Yes | Yes | Yes | No* |
-| default | Yes | Yes | No | No |
-| private | Yes | No | No | No |
-
-> *Protected members are accessible in subclasses even if they are in different packages.
+| Access Modifier | Same Class | Same Package | Subclass (Diff Package) | Different Package |
+| :--- | :---: | :---: | :---: | :---: |
+| **`public`** | Yes | Yes | Yes | Yes |
+| **`protected`** | Yes | Yes | Yes | No |
+| **`default`** (no keyword) | Yes | Yes | No | No |
+| **`private`** | Yes | No | No | No |
 
 ---
 
-# 1. Public Access Modifier
+## Access Levels Deep-Dive
 
-A public member can be accessed from anywhere.
-
-Syntax:
-
-```java
-public int age;
-```
-
-Example:
+### 1. Public Access Modifier
+A public member can be accessed from any class or package.
 
 ```java
+package student;
+
 public class Student {
-
     public String name = "Sanjay";
 }
 ```
-
-Main Class
-
 ```java
+package main;
+import student.Student;
+
 public class Main {
-
     public static void main(String[] args) {
-
         Student s = new Student();
-
-        System.out.println(s.name);
+        System.out.println(s.name); // Valid: name is public
     }
 }
 ```
 
-Output
-
-```text
-Sanjay
-```
-
 ---
 
-# When to Use Public?
-
-Use `public` when the member should be accessible from anywhere.
-
-Examples:
-
-- Utility methods
-- API methods
-- Main classes
-
----
-
-# 2. Private Access Modifier
-
-Private members are accessible **only inside the same class**.
-
-Syntax:
-
-```java
-private int age;
-```
-
-Example
+### 2. Private Access Modifier
+Private members are accessible only within the declaring class. They are used to implement **Encapsulation**.
 
 ```java
 public class Student {
-
-    private int age = 20;
-
-    public void display() {
-
-        System.out.println(age);
-    }
-}
-```
-
-Output
-
-```text
-20
-```
-
----
-
-# Invalid Example
-
-```java
-Student s = new Student();
-
-System.out.println(s.age);
-```
-
-Output
-
-```text
-Compilation Error
-```
-
-Reason:
-
-```text
-age is private
-```
-
----
-
-# Accessing Private Variables
-
-Private variables are usually accessed using:
-
-```java
-Getter
-
-Setter
-```
-
-Example
-
-```java
-public class Student {
-
     private int age = 20;
 
     public int getAge() {
-
-        return age;
+        return this.age; // Exposes read access safely
     }
 }
 ```
-
-Main
-
 ```java
 Student s = new Student();
-
-System.out.println(s.getAge());
-```
-
-Output
-
-```text
-20
+// System.out.println(s.age); // Compiler Error: age has private access in Student
 ```
 
 ---
 
-# When to Use Private?
-
-Use private for:
-
-- Passwords
-- Bank Balance
-- Salary
-- PIN
-- Internal Data
-
----
-
-# 3. Default Access Modifier
-
-If no modifier is specified, Java uses:
-
-```text
-Default Access
-```
-
-Also called:
-
-```text
-Package-Private
-```
-
-Example
-
-```java
-class Student {
-
-    String name = "Sanjay";
-}
-```
-
-The variable can be accessed only within the same package.
-
----
-
-# Same Package Example
-
-Package:
-
-```text
-student
-```
-
-Student.java
+### 3. Default Access (Package-Private)
+If no access modifier is specified, Java defaults to package-private. Members are visible to all classes inside the same package, but hidden from external packages.
 
 ```java
 package student;
 
-public class Student {
-
-    String name = "Sanjay";
+class Student {
+    String name = "Sanjay"; // Default access
 }
 ```
-
-Main.java
-
 ```java
 package student;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Student s = new Student();
-
-        System.out.println(s.name);
+        System.out.println(s.name); // Valid: Same package
     }
 }
 ```
 
-Output
-
-```text
-Sanjay
-```
-
 ---
 
-# Different Package
-
-Package:
-
-```text
-teacher
-```
-
-Trying to access:
+### 4. Protected Access Modifier
+Protected members are accessible inside the same package, and by child subclasses (via inheritance) even if the subclass is in a different package.
 
 ```java
-s.name;
-```
+package parent;
 
-Output
-
-```text
-Compilation Error
-```
-
----
-
-# 4. Protected Access Modifier
-
-Protected members are accessible:
-
-- Inside the same class
-- Inside the same package
-- In subclasses
-
-Example
-
-```java
-class Animal {
-
+public class Animal {
     protected void sound() {
-
-        System.out.println("Animal Sound");
+        System.out.println("Generic Animal Sound");
     }
 }
 ```
-
-Child Class
-
 ```java
+package child;
+import parent.Animal;
+
 class Dog extends Animal {
-
     public void bark() {
-
-        sound();
+        sound(); // Valid: Inherited protected method
     }
 }
 ```
 
-Output
+---
 
-```text
-Animal Sound
+## Real-World Analogy: Access Boundaries
+
+Imagine the levels of privacy in a residential home:
+
+```mermaid
+graph TD
+    Road["Public Road (Everyone)"]
+    Garden["Garden (Neighbourhood / Protected)"]
+    LivingRoom["Living Room (Family / Default package)"]
+    PrivateRoom["Private Bedroom (Owner / Private)"]
+    
+    Road --> Garden --> LivingRoom --> PrivateRoom
 ```
 
 ---
 
-# Understanding Access Levels
+## Access Modifier Scoping Hierarchy
 
-```text
-private
-    │
-    ▼
+Visibility ranges from the most restrictive (`private`) to the most open (`public`):
 
-Same Class
-
-----------------
-
-default
-    │
-    ▼
-
-Same Package
-
-----------------
-
-protected
-    │
-    ▼
-
-Package + Child Class
-
-----------------
-
-public
-    │
-    ▼
-
-Everywhere
+```mermaid
+graph LR
+    Private["Private (Class Only)"]
+    Default["Default (Same Package)"]
+    Protected["Protected (Package + Subclass)"]
+    Public["Public (Everywhere)"]
+    
+    Private --> Default --> Protected --> Public
 ```
 
 ---
 
-# Real-World Analogy
+## Best Practices
 
-Imagine a house.
-
-```text
-Private Room
-    │
-    ▼
-Owner Only
-
-Living Room
-    │
-    ▼
-Family Members
-
-Garden
-    │
-    ▼
-Neighbours
-
-Road
-    │
-    ▼
-Everyone
-```
-
-Similarly:
-
-```text
-private
-
-↓
-
-default
-
-↓
-
-protected
-
-↓
-
-public
-```
+1. **Default to Private**: Make all class variables private. Expose them only when necessary via getters and setters.
+2. **Encapsulate Mutable State**: Avoid exposing public fields unless they are marked `final` and `static`.
+3. **Use Protected for Extension**: Use `protected` for fields or helper methods intended to be overridden or accessed by child classes.
 
 ---
 
-# Memory Representation
+## Interview Questions (FAQ)
 
-```text
-Student Object
+### What is package-private access?
+It is the default access level in Java when no modifier is written. It restricts visibility to classes residing in the same package.
 
-----------------------
+### Can a top-level outer class be declared `private` or `protected`?
+No. Top-level classes can only be declared `public` or `default` (package-private). Inner member classes, however, can be declared with any of the four access levels.
 
-private age
-
-public name
-
-protected marks
-
-default city
-
-----------------------
-```
-
-Access depends on where the code is executed.
+### Why should you avoid public fields?
+Public fields break encapsulation, allowing external code to bypass validation rules and corrupt state variables.
 
 ---
 
-# Which Modifier Should You Choose?
+## Practice Challenges
 
-| Situation | Modifier |
-|------------|----------|
-| Everyone can access | public |
-| Only current class | private |
-| Same package | default |
-| Same package + subclass | protected |
+1. Create a `BankAccount` class with encapsulated private fields. Implement checks inside getters and setters.
+2. Create two classes in separate packages. Try accessing a default-access field and document the compiler error.
+3. Subclass a class in another package and invoke a protected helper method.
 
 ---
 
-# Best Practices
+## Key Takeaways
 
-## Prefer Private
-
-Make variables private.
-
-Expose only required methods.
-
-Example:
-
-```java
-private double balance;
-```
+* Java features four access levels: public, protected, default, and private.
+* Access modifiers regulate encapsulation boundaries.
+* Default access (package-private) does not require a keyword.
+* Protected access extends package-level access to child subclasses across other packages.
 
 ---
 
-## Avoid Public Variables
-
-Bad
-
-```java
-public double balance;
-```
-
-Good
-
-```java
-private double balance;
-```
-
-Use getters and setters.
-
----
-
-# Common Mistakes
-
-## Using Public for Everything
-
-Bad practice.
-
-Encapsulation is broken.
-
----
-
-## Forgetting Getter
-
-Private variables cannot be accessed directly.
-
----
-
-## Confusing Default and Protected
-
-Default:
-
-```text
-Same Package Only
-```
-
-Protected:
-
-```text
-Same Package
-
-+
-
-Child Classes
-```
-
----
-
-# Interview Questions
-
-### What are the four access modifiers?
-
-- public
-- protected
-- default
-- private
-
----
-
-### Which modifier provides maximum visibility?
-
-```text
-public
-```
-
----
-
-### Which modifier provides minimum visibility?
-
-```text
-private
-```
-
----
-
-### What is Default Access?
-
-Package-private access.
-
----
-
-### Why should variables usually be private?
-
-To achieve encapsulation and protect data.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create a Student class with:
-
-```java
-private int age;
-```
-
-Access it using a getter.
-
----
-
-## Challenge 2
-
-Create a public method.
-
-Call it from another class.
-
----
-
-## Challenge 3
-
-Create two packages.
-
-Try accessing a default variable.
-
-Observe the error.
-
----
-
-## Challenge 4
-
-Create a protected method.
-
-Access it using inheritance.
-
----
-
-## Challenge 5
-
-Convert a class with public variables into a properly encapsulated class using private variables and getters/setters.
-
----
-
-# Concept Map
-
-```text
-Access Modifiers
-        │
-        ▼
-
-Public
-        │
-        ▼
-Accessible Everywhere
-
-----------------------
-
-Protected
-        │
-        ▼
-Package + Subclasses
-
-----------------------
-
-Default
-        │
-        ▼
-Same Package
-
-----------------------
-
-Private
-        │
-        ▼
-Same Class Only
-```
-
----
-
-# Key Takeaways
-
-- Visibility controls access to class members.
-- Java provides four access modifiers.
-- Private is the most secure modifier.
-- Public is the most accessible modifier.
-- Default works only within the same package.
-- Protected supports inheritance.
-- Proper use of access modifiers improves encapsulation and security.
-
----
-
-# Conclusion
-
-Visibility and Access Control are fundamental concepts in Java that help developers protect data, enforce encapsulation, and build secure, maintainable applications. Choosing the correct access modifier is an important design decision in every Java project.
+**Back to Module Home:** [Naming Conventions & Packages](README.md)
