@@ -2,769 +2,217 @@
 
 ## Introduction
 
-As Java applications grow larger, we often encounter situations where:
+As Java applications grow, we often encounter situations where multiple methods must perform similar tasks with different inputs, or child classes must customize the behavior inherited from parent classes. 
 
-- Multiple methods perform similar tasks with different inputs.
-- Child classes need to modify the behavior of parent classes.
+Java addresses these requirements through two core features: **Method Overloading** and **Method Overriding**. Together, they form the basis of **Polymorphism** (one of the four pillars of Object-Oriented Programming).
 
-Java provides two important concepts to solve these problems:
-
-```text
-Method Overloading
-Method Overriding
-```
-
-These concepts are fundamental to:
-
-- Code Reusability
-- Readability
-- Maintainability
-- Polymorphism
-
----
-
-# The Big Picture
-
-```text
-Polymorphism
-      │
-      ├── Method Overloading
-      │       ↓
-      │   Same Class
-      │   Different Parameters
-      │
-      └── Method Overriding
-              ↓
-         Parent & Child Class
-         Same Method Signature
+```mermaid
+graph TD
+    Poly[Polymorphism: Many Forms]
+    Poly --> Overload[Method Overloading: Compile-Time / Static]
+    Poly --> Override[Method Overriding: Runtime / Dynamic]
+    
+    Overload --> OL1[Same Class]
+    Overload --> OL2[Different Parameters]
+    
+    Override --> OR1[Inherited Subclass]
+    Override --> OR2[Same Parameters / Signature]
 ```
 
 ---
-
-# What is Method Overloading?
-
-## Definition
-
-Method Overloading means creating multiple methods with:
-
-```text
-Same Method Name
-Different Parameter List
-```
-
-inside the same class.
-
----
-
-## Why Use Method Overloading?
-
-Suppose we want an `add()` method.
-
-Possible use cases:
-
-```text
-add(5, 10)
-
-add(5, 10, 15)
-
-add(5.5, 6.2)
-```
-
-Instead of creating:
-
-```java
-addTwoNumbers()
-addThreeNumbers()
-addDoubleNumbers()
-```
-
-we can use:
-
-```java
-add()
-```
-
-multiple times.
-
----
-
-# Method Overloading Example
-
-```java
-public class Main {
-
-    static int add(int a, int b) {
-
-        return a + b;
-
-    }
-
-    static int add(
-            int a,
-            int b,
-            int c) {
-
-        return a + b + c;
-
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(
-                add(10, 5));
-
-        System.out.println(
-                add(5, 10, 15));
-    }
-}
-```
-
----
-
-# Output
-
-```text
-15
-30
-```
-
----
-
-# How Java Decides Which Method to Call?
-
-```java
-add(10,5);
-```
-
-Java searches:
-
-```java
-add(int,int)
-```
-
-Found.
-
-Execute it.
-
----
-
-```java
-add(5,10,15);
-```
-
-Java searches:
-
-```java
-add(int,int,int)
-```
-
-Found.
-
-Execute it.
-
----
-
-# Valid Ways to Overload
-
-## Different Number of Parameters
-
-```java
-add(int a, int b)
-
-add(int a, int b, int c)
-```
-
----
-
-## Different Data Types
-
-```java
-add(int a, int b)
-
-add(double a, double b)
-```
-
----
-
-## Different Parameter Order
-
-```java
-display(int age, String name)
-
-display(String name, int age)
-```
-
----
-
-# Invalid Method Overloading
-
-## Only Return Type Different
-
-Wrong:
-
-```java
-int add(int a, int b)
-
-double add(int a, int b)
-```
-
-Compiler Error.
-
----
-
-# Why?
-
-Java identifies overloaded methods using:
-
-```text
-Method Name
-+
-Parameter List
-```
-
-Return type is ignored.
-
----
-
-# Important Points About Method Overloading
-
-Based on the screenshot notes:
-
-### We Cannot Overload Only by Return Type
-
-Wrong:
-
-```java
-int add(int a, int b)
-
-double add(int a, int b)
-```
-
----
-
-### Static Methods Can Be Overloaded
-
-```java
-static void display()
-
-static void display(String name)
-```
-
-Valid.
-
----
-
-### main() Can Be Overloaded
-
-```java
-public static void main(String[] args)
-
-public static void main(int x)
-```
-
-Valid.
-
-Only the standard version is executed automatically.
-
----
-
-# What is Method Overriding?
-
-## Definition
-
-Method Overriding occurs when:
-
-```text
-Parent Class
-and
-Child Class
-```
-
-have methods with:
-
-```text
-Same Name
-Same Parameters
-Same Return Type
-```
-
-but different implementations.
-
----
-
-# Why Use Method Overriding?
-
-A child class may need specialized behavior.
-
-Example:
-
-```text
-Animal → Sound
-
-Dog → Bark
-
-Cat → Meow
-```
-
-All are sounds, but implementation differs.
-
----
-
-# Real-World Analogy
-
-```text
-Vehicle
-   ↓
-Start Engine
-```
-
-Different vehicles start differently.
-
-```text
-Car
-Bike
-Truck
-```
-
-Each overrides the behavior.
-
----
-
-# Method Overriding Example
-
-## Parent Class
-
-```java
-class Animal {
-
-    public void sound() {
-
-        System.out.println(
-                "Animal Sound");
-
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Dog extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Dog Barks");
-
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Dog dog = new Dog();
-
-        dog.sound();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Dog Barks
-```
-
----
-
-# Why Parent Method Didn't Execute?
-
-Because:
-
-```java
-dog.sound();
-```
-
-calls the overridden version inside:
-
-```java
-Dog
-```
-
----
-
-# Example Similar to Screenshot
-
-```java
-class Parent {
-
-    public void add(int a, int b) {
-
-        int sum = a + b;
-
-        System.out.println(
-                "Parent Method = "
-                + sum);
-    }
-}
-
-class Child extends Parent {
-
-    @Override
-    public void add(int a, int b) {
-
-        int sum = a + b;
-
-        System.out.println(
-                "Child Method = "
-                + sum);
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Child child = new Child();
-
-        child.add(10,20);
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Child Method = 30
-```
-
----
-
-# Rules for Method Overriding
-
-## Inheritance is Mandatory
-
-Must have:
-
-```java
-extends
-```
-
----
-
-## Method Signature Must Match
-
-Parent:
-
-```java
-void display()
-```
-
-Child:
-
-```java
-void display()
-```
-
----
-
-## Return Type Must Be Compatible
-
-Parent:
-
-```java
-String getName()
-```
-
-Child:
-
-```java
-String getName()
-```
-
----
-
-## Access Modifier Cannot Be More Restrictive
-
-Valid:
-
-```java
-protected
-→ public
-```
-
-Invalid:
-
-```java
-public
-→ private
-```
-
----
-
-# Overloading vs Overriding
-
-| Feature | Overloading | Overriding |
-|----------|-------------|------------|
-| Class Requirement | Same Class | Parent + Child |
-| Method Name | Same | Same |
-| Parameters | Different | Same |
-| Return Type | Can differ | Must be compatible |
-| Inheritance Needed | No | Yes |
-| Polymorphism Type | Compile-Time | Runtime |
-| Keyword | None | @Override |
-| Purpose | Multiple Versions | Change Parent Behavior |
-
----
-
-# Memory Representation
-
-## Overloading
-
-```text
-Calculator Class
-
-add(int,int)
-
-add(int,int,int)
-
-add(double,double)
-```
-
-Java chooses method during compilation.
-
----
-
-## Overriding
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
-
-Method selection happens during runtime.
-
----
-
-# Compile-Time vs Runtime Polymorphism
-
-## Compile-Time
-
-```java
-add(10,20);
-```
-
-Decision made before execution.
-
-```text
-Method Overloading
-```
-
----
-
-## Runtime
-
-```java
-Animal animal =
-        new Dog();
-
-animal.sound();
-```
-
-Decision made during execution.
-
-```text
-Method Overriding
-```
-
----
-
-# Common Mistakes
-
-## Overloading Only by Return Type
-
-Wrong:
-
-```java
-int add(int a,int b)
-
-double add(int a,int b)
-```
-
----
-
-## Forgetting Inheritance
-
-Wrong:
-
-```java
-class A {}
-
-class B {}
-```
-
-No overriding possible.
-
----
-
-## Different Parameters in Overriding
-
-Wrong:
-
-```java
-Parent:
-display()
-
-Child:
-display(String name)
-```
-
-This becomes overloading.
-
----
-
-# Interview Questions
 
 ## What is Method Overloading?
 
-Creating multiple methods with the same name but different parameter lists.
+**Method Overloading** is the practice of defining multiple methods in the same class with the **same name** but **different parameter lists** (signatures).
+
+### Why Use Method Overloading?
+Instead of forcing developers to remember different method names for similar operations (e.g., `addInts()`, `addDoubles()`, `addThreeInts()`), we can overload the `add()` method. This improves code readability and usability.
+
+### Valid Ways to Overload:
+To overload a method, the parameter list **must change** in one of the following ways:
+1. **Different number of parameters**:
+   ```java
+   add(int a, int b)
+   add(int a, int b, int c)
+   ```
+2. **Different parameter data types**:
+   ```java
+   add(int a, int b)
+   add(double a, double b)
+   ```
+3. **Different order of parameters**:
+   ```java
+   display(int age, String name)
+   display(String name, int age)
+   ```
+
+### Overloading Code Example
+
+```java
+public class Calculator {
+    // Overloaded version 1: 2 int parameters
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    // Overloaded version 2: 3 int parameters
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    // Overloaded version 3: 2 double parameters
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 10));         // Output: 15 (Calls version 1)
+        System.out.println(calc.add(5, 10, 15));     // Output: 30 (Calls version 2)
+        System.out.println(calc.add(5.5, 4.5));      // Output: 10.0 (Calls version 3)
+    }
+}
+```
+
+> [!WARNING]
+> You **cannot** overload a method by changing only its return type. The method signature consists only of the method name and parameter types. If two methods have the same name and parameters but different return types, the compiler will throw a duplicate method error.
 
 ---
 
 ## What is Method Overriding?
 
-Redefining a parent class method inside a child class.
+**Method Overriding** occurs when a subclass (child class) provides a specific implementation for a method that is already defined in its superclass (parent class).
 
----
+The overriding method must have the **same name, same parameters, and same return type** (or covariant return type) as the parent method.
 
-## Can Return Type Alone Overload a Method?
-
-No.
-
----
-
-## Can Static Methods Be Overloaded?
-
-Yes.
-
----
-
-## Can main() Be Overloaded?
-
-Yes.
-
----
-
-## Is Inheritance Required for Overloading?
-
-No.
-
----
-
-## Is Inheritance Required for Overriding?
-
-Yes.
-
----
-
-## Which Supports Runtime Polymorphism?
-
-Method Overriding.
-
----
-
-## Which Supports Compile-Time Polymorphism?
-
-Method Overloading.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```java
-area(int side)
-
-area(int length,int breadth)
-```
-
-using overloading.
-
----
-
-## Challenge 2
-
-Create:
+### Why Use Method Overriding?
+Method overriding allows a subclass to inherit a general behavior from a parent class and modify it to suit its specific needs.
 
 ```text
-Animal
-Dog
-Cat
+Parent Class: Animal -> sound() { prints "Animal Sound" }
+                  │
+        ┌─────────┴─────────┐
+        ▼                   ▼
+Subclass: Dog        Subclass: Cat
+sound() {            sound() {
+  prints "Bark"        prints "Meow"
+}                    }
 ```
 
-Override:
+### Overriding Code Example
 
 ```java
-sound()
+class Animal {
+    public void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override // Compiler check that ensures overloading is not accidentally written
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal myAnimal = new Animal();
+        Animal myDog = new Dog(); // Upcasting
+
+        myAnimal.sound(); // Output: Animal makes a sound
+        myDog.sound();    // Output: Dog barks (Dynamic Method Dispatch)
+    }
+}
 ```
+
+### Dynamic Method Dispatch (Runtime Polymorphism)
+In `Animal myDog = new Dog();`, `myDog` is a reference variable of type `Animal` pointing to a `Dog` object. When `myDog.sound()` is executed, Java decides which method to run **at runtime** based on the actual object type in Heap memory (which is `Dog`), rather than the compile-time reference type (`Animal`).
 
 ---
 
-## Challenge 3
+## Rules for Method Overriding
 
-Overload the main() method.
+To successfully override a parent method, the following rules must be met:
+1. **Inheritance is Mandatory**: Overriding can only happen in subclass-superclass relationships (`extends` or `implements`).
+2. **Access Modifier Restrictions**: The overriding subclass method cannot be more restrictive than the parent method (e.g. if the parent method is `protected`, the child method can be `protected` or `public`, but not `private` or default).
+3. **Cannot Override Final or Static Methods**:
+   * Methods marked `final` cannot be overridden.
+   * Methods marked `static` belong to class templates and cannot be overridden (redeclaring them in subclasses is called *method hiding*).
+4. **Exception Handling Rules**: The overriding method cannot throw broader checked exceptions than the parent class method, though it can throw fewer or narrower exceptions.
 
 ---
 
-## Challenge 4
+## Overloading vs. Overriding Comparison
 
-Create:
+| Feature | Method Overloading | Method Overriding |
+| :--- | :--- | :--- |
+| **Polymorphism Type** | Compile-Time (Static Binding) | Runtime (Dynamic Binding) |
+| **Location** | Defined inside the same class | Defined across Parent and Child classes |
+| **Method Name** | Must be the same | Must be the same |
+| **Method Parameters** | Must be different | Must be the same |
+| **Return Type** | Can be different | Must be compatible (covariant) |
+| **Inheritance** | Not required | Mandatory |
+| **Modifier Restrictions** | No restrictions | Subclass modifier cannot be more restrictive |
 
-```text
-Vehicle
-Car
-Bike
-```
+---
 
-Override:
+## Common Mistakes
 
+### 1. Overloading only by Return Type
 ```java
-start()
+// WRONG (Compiler Error: Duplicate method)
+public int add(int a, int b) { return a + b; }
+public double add(int a, int b) { return a + b; }
 ```
 
+### 2. Typo in Overriding Method Signatures
+If the parameter list differs by even a single type, the subclass method will overload the method rather than override it.
+```java
+class Parent {
+    public void display(int value) {}
+}
+
+class Child extends Parent {
+    // WRONG - Overloads the method instead of overriding it
+    public void display(double value) {} 
+}
+```
+> [!TIP]
+> Always use the **`@Override`** annotation. It forces the compiler to check that the method signature matches a parent method, catching typos during compilation.
+
 ---
 
-# Key Takeaways
+## Interview Questions (FAQ)
 
-- Method Overloading uses the same method name with different parameters.
-- Method Overriding changes parent class behavior in a child class.
-- Overloading provides compile-time polymorphism.
-- Overriding provides runtime polymorphism.
-- Inheritance is mandatory for overriding.
-- Return type alone cannot overload a method.
-- Overriding requires identical method signatures.
+### Can we overload the `main()` method?
+Yes. You can write multiple `main()` methods with different parameter lists. However, the JVM will only execute the standard signature `public static void main(String[] args)` automatically as the application entry point.
+
+### Can static methods be overridden?
+No. Static methods belong to the class, not to object instances. If you define a static method in a subclass with the same signature as a static method in the superclass, it is called **Method Hiding**, not overriding.
+
+### What is covariant return type in method overriding?
+Starting from Java 5, an overriding method in a subclass can return a subtype of the object returned by the parent method. This is known as a covariant return type.
 
 ---
 
-# Conclusion
+## Practice Challenges
 
-Method Overloading and Method Overriding are two fundamental pillars of Java polymorphism. Overloading improves flexibility by allowing multiple versions of a method, while overriding allows child classes to provide specialized implementations of parent class behavior. Mastering these concepts is essential before moving to inheritance, abstraction, interfaces, and advanced object-oriented design.
+1. **Shape Area Overloading**: Create a `ShapeCalculator` class. Implement overloaded versions of an `area()` method to calculate the area of:
+   * A square (one `int` parameter).
+   * A rectangle (two `int` parameters).
+   * A circle (one `double` parameter).
+2. **E-Commerce Checkout Overriding**: Create a parent class `PaymentProcessor` with a method `processPayment(double amount)`. Extend it with `CreditCardProcessor` and `PayPalProcessor` subclasses, overriding the method to display customized processing logs.
+
+---
+
+## Key Takeaways
+
+* **Method Overloading** occurs in the same class and changes the parameter list. It supports compile-time polymorphism.
+* **Method Overriding** occurs in child classes and maintains the exact same signature. It supports runtime polymorphism.
+* Use `@Override` to ensure correct overridden method signatures.
+* Static, final, and private methods cannot be overridden in Java.
+
+---
+
+**Back to Module Home:** [Building Blocks of Java](README.md)

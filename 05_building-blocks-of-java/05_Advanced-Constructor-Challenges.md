@@ -1,75 +1,46 @@
-# Advanced Constructor Challenges in Java
+# Advanced Constructor Challenges
 
 ## Introduction
 
-In real-world applications, constructors are rarely used only to assign values.
+In real-world applications, constructors are rarely used only to assign values. They often validate incoming arguments, execute initial setup business logic, interact with overloaded constructors, and establish secure starting states.
 
-They often:
-
-- Validate data
-- Initialize complex objects
-- Work with multiple constructors
-- Support business logic
-
-This chapter contains advanced constructor challenges that simulate real-world scenarios.
+These advanced challenges simulate real-world scenarios, testing your ability to write bulletproof constructors that protect objects from invalid initialization.
 
 ---
 
-# Challenge 1: Student Management System
+## Challenge 1: Student Management System
 
-## Problem Statement
+### Problem Statement
+Create a `Student` class with private properties `name` (String), `rollNumber` (int), and `marks` (int). 
+* Initialize them via a constructor.
+* Write a method `getGrade()` returning:
+  * `'A'` for marks $\ge 90$
+  * `'B'` for marks $\ge 75$
+  * `'C'` for marks $\ge 50$
+  * `'F'` otherwise.
+* Implement a `display()` method that prints all student info and their grade.
 
-Create a Student class with:
-
-```text
-name
-rollNumber
-marks
-```
-
-Requirements:
-
-- Initialize using constructor
-- Display student details
-- Calculate grade
-
----
-
-## Solution
-
+### Solution
 ```java
 class Student {
-
     private String name;
     private int rollNumber;
     private int marks;
 
-    public Student(
-            String name,
-            int rollNumber,
-            int marks) {
-
+    public Student(String name, int rollNumber, int marks) {
         this.name = name;
         this.rollNumber = rollNumber;
         this.marks = marks;
     }
 
     public char getGrade() {
-
-        if(marks >= 90)
-            return 'A';
-
-        if(marks >= 75)
-            return 'B';
-
-        if(marks >= 50)
-            return 'C';
-
+        if (marks >= 90) return 'A';
+        if (marks >= 75) return 'B';
+        if (marks >= 50) return 'C';
         return 'F';
     }
 
     public void display() {
-
         System.out.println("Name : " + name);
         System.out.println("Roll : " + rollNumber);
         System.out.println("Marks: " + marks);
@@ -78,22 +49,14 @@ class Student {
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        Student student =
-                new Student(
-                        "Sanjay",
-                        101,
-                        88);
-
+        Student student = new Student("Sanjay", 101, 88);
         student.display();
     }
 }
 ```
 
 ### Output
-
 ```text
 Name : Sanjay
 Roll : 101
@@ -103,159 +66,85 @@ Grade: B
 
 ---
 
-# Challenge 2: Bank Account with Validation
+## Challenge 2: Bank Account with Validation
 
-## Problem Statement
+### Problem Statement
+Create a `BankAccount` class with fields `accountNumber` (String), `holderName` (String), and `balance` (double).
+* Write a constructor that validates the initial balance: if the balance is negative, set it to `0.0` and display a warning.
 
-Create a BankAccount class.
-
-Requirements:
-
-- Account Number
-- Holder Name
-- Balance
-
-If balance is negative:
-
-```text
-Store 0
-```
-
----
-
-## Solution
-
+### Solution
 ```java
 class BankAccount {
-
     private String accountNumber;
     private String holderName;
     private double balance;
 
-    public BankAccount(
-            String accountNumber,
-            String holderName,
-            double balance) {
-
+    public BankAccount(String accountNumber, String holderName, double balance) {
         this.accountNumber = accountNumber;
         this.holderName = holderName;
-
-        if(balance >= 0) {
-
+        if (balance >= 0) {
             this.balance = balance;
-
         } else {
-
-            this.balance = 0;
-
+            System.out.println("Warning: Initial balance cannot be negative. Defaulting to 0.0");
+            this.balance = 0.0;
         }
     }
 
     public void display() {
-
-        System.out.println(
-                "Account Number : "
-                + accountNumber);
-
-        System.out.println(
-                "Holder Name : "
-                + holderName);
-
-        System.out.println(
-                "Balance : "
-                + balance);
+        System.out.println("Account Number : " + accountNumber);
+        System.out.println("Holder Name    : " + holderName);
+        System.out.println("Balance        : " + balance);
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        BankAccount account =
-                new BankAccount(
-                        "ACC1001",
-                        "Sanjay",
-                        -500);
-
+        BankAccount account = new BankAccount("ACC1001", "Sanjay", -500);
         account.display();
     }
 }
 ```
 
 ### Output
-
 ```text
+Warning: Initial balance cannot be negative. Defaulting to 0.0
 Account Number : ACC1001
-Holder Name : Sanjay
-Balance : 0.0
+Holder Name    : Sanjay
+Balance        : 0.0
 ```
 
 ---
 
-# Challenge 3: Constructor Overloading in Employee System
+## Challenge 3: Constructor Overloading in Employee System
 
-## Problem Statement
+### Problem Statement
+Create an `Employee` class with fields `name` (String) and `department` (String). Provide a no-argument constructor that sets defaults (`"Unknown"`, `"Not Assigned"`) and a parameterized constructor. Use constructor chaining with `this()`.
 
-Create an Employee class.
-
-Provide:
-
-```java
-Employee()
-```
-
-and
-
-```java
-Employee(String name,
-         String department)
-```
-
----
-
-## Solution
-
+### Solution
 ```java
 class Employee {
+    private String name;
+    private String department;
 
-    String name;
-    String department;
-
+    // Default constructor chaining to parameterized constructor
     public Employee() {
-
-        this.name = "Unknown";
-        this.department = "Not Assigned";
-
+        this("Unknown", "Not Assigned");
     }
 
-    public Employee(
-            String name,
-            String department) {
-
+    public Employee(String name, String department) {
         this.name = name;
         this.department = department;
     }
 
     public void display() {
-
-        System.out.println(
-                name +
-                " - " +
-                department);
+        System.out.println(name + " - " + department);
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        Employee emp1 =
-                new Employee();
-
-        Employee emp2 =
-                new Employee(
-                        "Sanjay",
-                        "IT");
+        Employee emp1 = new Employee();
+        Employee emp2 = new Employee("Sanjay", "IT");
 
         emp1.display();
         emp2.display();
@@ -264,7 +153,6 @@ public class Main {
 ```
 
 ### Output
-
 ```text
 Unknown - Not Assigned
 Sanjay - IT
@@ -272,45 +160,22 @@ Sanjay - IT
 
 ---
 
-# Challenge 4: Laptop Inventory System
+## Challenge 4: Laptop Inventory System
 
-## Problem Statement
+### Problem Statement
+Create a `Laptop` class with fields `brand`, `processor`, `ram`, and `price`.
+* Initialize all parameters via a constructor.
+* Create a method `priceCategory()` that prints `"Premium Laptop"` if the price is above 80,000, and `"Budget Laptop"` otherwise.
 
-Create a Laptop class.
-
-Properties:
-
-```text
-Brand
-Processor
-RAM
-Price
-```
-
-Requirements:
-
-- Constructor Initialization
-- Display Specifications
-- Display Price Category
-
----
-
-## Solution
-
+### Solution
 ```java
 class Laptop {
+    private String brand;
+    private String processor;
+    private int ram;
+    private double price;
 
-    String brand;
-    String processor;
-    int ram;
-    double price;
-
-    public Laptop(
-            String brand,
-            String processor,
-            int ram,
-            double price) {
-
+    public Laptop(String brand, String processor, int ram, double price) {
         this.brand = brand;
         this.processor = processor;
         this.ram = ram;
@@ -318,48 +183,28 @@ class Laptop {
     }
 
     public void display() {
-
-        System.out.println(
-                brand + " "
-                + processor + " "
-                + ram + "GB");
+        System.out.println(brand + " " + processor + " " + ram + "GB");
     }
 
     public void priceCategory() {
-
-        if(price > 80000) {
-
-            System.out.println(
-                    "Premium Laptop");
-
+        if (price > 80000) {
+            System.out.println("Premium Laptop");
         } else {
-
-            System.out.println(
-                    "Budget Laptop");
+            System.out.println("Budget Laptop");
         }
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        Laptop laptop =
-                new Laptop(
-                        "Dell",
-                        "i7",
-                        16,
-                        90000);
-
+        Laptop laptop = new Laptop("Dell", "i7", 16, 90000);
         laptop.display();
-
         laptop.priceCategory();
     }
 }
 ```
 
 ### Output
-
 ```text
 Dell i7 16GB
 Premium Laptop
@@ -367,189 +212,101 @@ Premium Laptop
 
 ---
 
-# Challenge 5: University Course Registration System
+## Challenge 5: University Course Registration System
 
-## Problem Statement
+### Problem Statement
+Create a `Course` class with private fields: `courseName`, `courseCode`, `maxSeats`, and `enrolledStudents`.
+* Implement a constructor where `enrolledStudents` is validated to ensure it does not exceed `maxSeats`. If it does, limit `enrolledStudents` to `maxSeats`.
 
-Create a Course class.
-
-Requirements:
-
-```text
-Course Name
-Course Code
-Maximum Seats
-Enrolled Students
-```
-
-Rules:
-
-```text
-Enrolled Students
-cannot exceed
-Maximum Seats
-```
-
----
-
-## Solution
-
+### Solution
 ```java
 class Course {
-
     private String courseName;
     private String courseCode;
     private int maxSeats;
     private int enrolledStudents;
 
-    public Course(
-            String courseName,
-            String courseCode,
-            int maxSeats,
-            int enrolledStudents) {
-
+    public Course(String courseName, String courseCode, int maxSeats, int enrolledStudents) {
         this.courseName = courseName;
         this.courseCode = courseCode;
         this.maxSeats = maxSeats;
-
-        if(enrolledStudents <= maxSeats) {
-
-            this.enrolledStudents =
-                    enrolledStudents;
-
+        if (enrolledStudents <= maxSeats) {
+            this.enrolledStudents = enrolledStudents;
         } else {
-
-            this.enrolledStudents =
-                    maxSeats;
+            System.out.println("Warning: Enrolled students exceed capacity. Capping at max seats.");
+            this.enrolledStudents = maxSeats;
         }
     }
 
     public void display() {
-
-        System.out.println(
-                "Course : "
-                + courseName);
-
-        System.out.println(
-                "Code : "
-                + courseCode);
-
-        System.out.println(
-                "Seats : "
-                + enrolledStudents
-                + "/"
-                + maxSeats);
+        System.out.println("Course : " + courseName);
+        System.out.println("Code   : " + courseCode);
+        System.out.println("Seats  : " + enrolledStudents + "/" + maxSeats);
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        Course javaCourse =
-                new Course(
-                        "Java Programming",
-                        "CS201",
-                        60,
-                        75);
-
+        Course javaCourse = new Course("Java Programming", "CS201", 60, 75);
         javaCourse.display();
     }
 }
 ```
 
 ### Output
-
 ```text
+Warning: Enrolled students exceed capacity. Capping at max seats.
 Course : Java Programming
-Code : CS201
-Seats : 60/60
+Code   : CS201
+Seats  : 60/60
 ```
 
 ---
 
-# Challenge 6: Car Showroom System
+## Challenge 6: Car Showroom System
 
-## Problem Statement
+### Problem Statement
+Create a `Car` class with `brand`, `model`, and `price`.
+* Implement a no-argument constructor setting defaults.
+* Implement a parameterized constructor that validates `price` (must be greater than 0; otherwise default to 0).
 
-Create a Car class.
-
-Requirements:
-
-- Constructor Initialization
-- Constructor Overloading
-- Price Validation
-- Display Car Details
-
----
-
-## Solution
-
+### Solution
 ```java
 class Car {
-
-    String brand;
-    String model;
-    double price;
+    private String brand;
+    private String model;
+    private double price;
 
     public Car() {
-
-        brand = "Unknown";
-        model = "Unknown";
-        price = 0;
-
+        this("Unknown", "Unknown", 0.0);
     }
 
-    public Car(
-            String brand,
-            String model,
-            double price) {
-
+    public Car(String brand, String model, double price) {
         this.brand = brand;
         this.model = model;
-
-        if(price > 0) {
-
+        if (price > 0) {
             this.price = price;
-
         } else {
-
-            this.price = 0;
+            this.price = 0.0;
         }
     }
 
     public void display() {
-
-        System.out.println(
-                brand +
-                " " +
-                model +
-                " ₹" +
-                price);
+        System.out.println(brand + " " + model + " ₹" + price);
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
         Car car1 = new Car();
-
-        Car car2 =
-                new Car(
-                        "Hyundai",
-                        "Creta",
-                        1500000);
-
+        Car car2 = new Car("Hyundai", "Creta", 1500000);
         car1.display();
-
         car2.display();
     }
 }
 ```
 
 ### Output
-
 ```text
 Unknown Unknown ₹0.0
 Hyundai Creta ₹1500000.0
@@ -557,74 +314,44 @@ Hyundai Creta ₹1500000.0
 
 ---
 
-# Concepts Practiced
+## Concepts Practiced
 
-```text
-Constructors
-      │
-      ├── Initialization
-      │
-      ├── Validation
-      │
-      ├── Constructor Overloading
-      │
-      ├── Encapsulation
-      │
-      ├── Object Creation
-      │
-      └── Business Logic
+```mermaid
+graph TD
+    Practiced[Concepts Practiced]
+    Practiced --> Init[State Initialization]
+    Practiced --> Valid[Argument Validation]
+    Practiced --> Chaining[Constructor Chaining]
+    Practiced --> Encaps[Data Encapsulation]
 ```
 
 ---
 
-# Interview Questions
+## Interview Questions (FAQ)
 
 ### Why use constructors for validation?
+Using constructors for validation ensures that objects are never created in an invalid state. This prevents runtime issues later in the object's lifecycle.
 
-To ensure invalid objects are never created.
-
----
-
-### Can constructors call methods?
-
-Yes.
-
----
-
-### Can constructors be overloaded?
-
-Yes.
-
----
+### Can constructors call class methods?
+Yes, a constructor can call instance or static methods of the class. However, care must be taken when calling instance methods under inheritance, as subclass overrides might execute before the object is fully initialized.
 
 ### Can a constructor be private?
-
-Yes.
-
-Used in Singleton Design Pattern.
+Yes. Private constructors prevent instantiation from classes outside the class definition. This is used in utility classes (only static members) or to implement singleton design patterns.
 
 ---
 
-### What is constructor chaining?
+## Key Takeaways
 
-Calling one constructor from another constructor using:
-
-```java
-this(...)
-```
+* Constructors can enforce constraints and validate parameter data before assigning values to fields.
+* Constructor overloading provides flexibility when instantiating objects with different amounts of initialization data.
+* Chaining constructors via `this()` reduces duplicate code and makes class designs cleaner.
 
 ---
 
-# Key Takeaways
+## Conclusion
 
-- Constructors initialize objects.
-- Constructors can validate input.
-- Constructor overloading provides flexibility.
-- Real-world applications often contain business logic inside constructors.
-- Constructors help create reliable objects from the beginning.
+These challenges illustrate how constructors function in real-world application architectures. Instead of merely copying arguments to variables, constructors enforce constraints and validate parameters. Mastering these patterns is essential before moving to inheritance, polymorphism, and advanced object-oriented design.
 
 ---
 
-# Conclusion
-
-These advanced constructor challenges demonstrate how constructors are used in real-world software development. Instead of merely assigning values, constructors often enforce rules, validate data, and ensure that every object starts in a valid state. Mastering these patterns is essential before moving to inheritance, composition, and advanced object-oriented design.
+**Back to Module Home:** [Building Blocks of Java](README.md)

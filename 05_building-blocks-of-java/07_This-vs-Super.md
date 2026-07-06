@@ -2,752 +2,210 @@
 
 ## Introduction
 
-In Java, two special keywords are frequently used in Object-Oriented Programming:
+In Java, two special reference keywords are heavily used in Object-Oriented programming to manage scopes: **`this`** and **`super`**. 
 
-```java
-this
-super
-```
+Although both are reference variables pointing to memory blocks, they reference different class segments. Understanding when and how to use them is essential for implementing inheritance, constructors, method overriding, and constructor chaining.
 
-Both are reference keywords, but they point to different objects.
-
-Understanding the difference between them is important because they are heavily used in:
-
-- Constructors
-- Inheritance
-- Method Overriding
-- Constructor Chaining
-- Object Initialization
-
----
-
-# The Big Picture
-
-```text
-this
-  ↓
-Current Class Object
-
-super
-  ↓
-Parent Class Object
+```mermaid
+graph TD
+    A[Keywords]
+    A -->|this| B[Current Class Instance]
+    A -->|super| C[Immediate Parent Class Instance]
 ```
 
 ---
 
-# What is this?
+## What is the `this` Keyword?
 
-## Definition
+The **`this`** keyword is a reference variable that points to the current object instance executing the method or constructor.
 
-The `this` keyword refers to the current object of the current class.
+### Common Uses of `this`:
+1. **To Access Instance Fields**: Resolves naming conflicts (instance variables hidden by local variables/parameters).
+2. **To Invoke Current Class Methods**: Invokes instance methods on the current object.
+3. **To Chain Constructors**: Call another constructor in the same class using `this()`.
 
----
-
-# Example
+### Example: Resolving Field Shadowing
+If a constructor parameter has the same name as an instance variable, the parameter *shadows* the instance variable. Java gets confused unless you specify the instance scope using `this`:
 
 ```java
 class Student {
-
-    String name;
-
-    public Student(String name) {
-
-        this.name = name;
-
-    }
-}
-```
-
----
-
-# Why Use this?
-
-Consider:
-
-```java
-class Student {
-
-    String name;
-
-    public Student(String name) {
-
-        name = name;
-
-    }
-}
-```
-
-Problem:
-
-```text
-Parameter name hides Instance Variable name
-```
-
-Java becomes confused.
-
----
-
-# Solution
-
-```java
-this.name = name;
-```
-
-Meaning:
-
-```text
-Current Object's name
-      =
-Parameter name
-```
-
----
-
-# Visualization
-
-```text
-Parameter
----------
-name = Sanjay
-
-Current Object
---------------
-this.name = null
-```
-
-Assignment:
-
-```text
-this.name = name
-```
-
-Result:
-
-```text
-this.name = Sanjay
-```
-
----
-
-# Simple Example
-
-```java
-class Student {
-
     private String name;
 
     public Student(String name) {
-
-        this.name = name;
-
+        // this.name refers to the private instance field
+        // name refers to the constructor parameter
+        this.name = name; 
     }
 
     public void display() {
-
-        System.out.println(this.name);
-
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student student =
-                new Student("Sanjay");
-
-        student.display();
+        // Calls the current class method
+        System.out.println("Student Name: " + this.name);
     }
 }
 ```
 
 ---
 
-# Output
+## What is the `super` Keyword?
 
-```text
-Sanjay
-```
+The **`super`** keyword is a reference variable that points to the immediate parent class of the current object.
 
----
+### Common Uses of `super`:
+1. **To Access Parent Fields**: Accesses fields in the parent class that have been shadowed/hidden by fields of the same name in the child class.
+2. **To Call Parent Methods**: Invokes parent class versions of overridden methods.
+3. **To Invoke Parent Constructors**: Calls the parent class constructor using `super()`.
 
-# Common Uses of this
-
-## Access Current Object Variables
-
-```java
-this.name
-```
-
----
-
-## Call Current Class Method
-
-```java
-this.display();
-```
-
----
-
-## Call Another Constructor
-
-```java
-this("Sanjay");
-```
-
----
-
-# Constructor Chaining Using this
-
-```java
-class Student {
-
-    String name;
-    int age;
-
-    public Student() {
-
-        this("Unknown", 0);
-
-    }
-
-    public Student(
-            String name,
-            int age) {
-
-        this.name = name;
-        this.age = age;
-    }
-}
-```
-
----
-
-# What is super?
-
-## Definition
-
-The `super` keyword refers to the immediate parent class object.
-
----
-
-# Why Do We Need super?
-
-Suppose:
+### Example: Accessing Shadowed Fields and Methods
+Suppose you have a base class `Animal` and a subclass `Dog`. If both define the `color` field and the `sound()` method:
 
 ```java
 class Animal {
-
     String color = "White";
-
-}
-```
-
-Child Class:
-
-```java
-class Dog extends Animal {
-
-    String color = "Black";
-
-}
-```
-
-Now there are two variables:
-
-```text
-Dog.color
-Animal.color
-```
-
-Which one should Java use?
-
----
-
-# Solution
-
-Use:
-
-```java
-this.color
-```
-
-for Child Class.
-
-Use:
-
-```java
-super.color
-```
-
-for Parent Class.
-
----
-
-# Example
-
-```java
-class Animal {
-
-    String color = "White";
-
-}
-
-class Dog extends Animal {
-
-    String color = "Black";
-
-    public void display() {
-
-        System.out.println(
-                this.color);
-
-        System.out.println(
-                super.color);
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Dog dog = new Dog();
-
-        dog.display();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Black
-White
-```
-
----
-
-# Visualization
-
-```text
-Dog Object
-
-color = Black
-      ↑
-    this.color
-
-
-Animal Part
-
-color = White
-      ↑
-   super.color
-```
-
----
-
-# Using super to Call Parent Method
-
-## Parent Class
-
-```java
-class Animal {
 
     public void sound() {
-
         System.out.println("Animal Sound");
-
     }
 }
-```
 
----
-
-## Child Class
-
-```java
 class Dog extends Animal {
+    String color = "Black"; // Shadowing parent field
 
+    @Override
     public void sound() {
-
         System.out.println("Dog Bark");
-
     }
 
     public void display() {
+        // Accessing child color vs parent color
+        System.out.println("Dog color (this): " + this.color);   // Output: Black
+        System.out.println("Animal color (super): " + super.color); // Output: White
 
-        super.sound();
+        // Calling overridden sound() vs parent sound()
+        this.sound();  // Output: Dog Bark
+        super.sound(); // Output: Animal Sound
     }
 }
 ```
 
 ---
 
-# Output
+## Using `this` and `super` in Constructors
 
-```text
-Animal Sound
-```
-
----
-
-# Why?
-
-Because:
-
-```java
-super.sound();
-```
-
-calls the parent version.
-
----
-
-# Using super in Constructors
-
-Parent:
+Constructors execute in a strict hierarchy. A parent class constructor must execute before a child class constructor to ensure base properties are set up safely.
 
 ```java
 class Animal {
-
     public Animal() {
-
-        System.out.println(
-                "Animal Constructor");
-
-    }
-}
-```
-
-Child:
-
-```java
-class Dog extends Animal {
-
-    public Dog() {
-
-        super();
-
-        System.out.println(
-                "Dog Constructor");
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Animal Constructor
-Dog Constructor
-```
-
----
-
-# Internal Working
-
-```text
-Create Dog Object
-        ↓
-Call Parent Constructor
-        ↓
-Call Child Constructor
-        ↓
-Object Ready
-```
-
----
-
-# Constructor Call Hierarchy
-
-```text
-Dog()
-  ↓
-super()
-  ↓
-Animal()
-```
-
----
-
-# this vs super
-
-| this | super |
-|--------|--------|
-| Current Class Object | Parent Class Object |
-| Access Current Variables | Access Parent Variables |
-| Access Current Methods | Access Parent Methods |
-| Constructor Chaining | Parent Constructor Call |
-| Used Within Same Class | Used In Child Class |
-
----
-
-# Complete Example
-
-```java
-class Animal {
-
-    String color = "White";
-
-    public Animal() {
-
-        System.out.println(
-                "Animal Constructor");
-
+        System.out.println("Animal constructor called.");
     }
 }
 
 class Dog extends Animal {
-
-    String color = "Black";
-
     public Dog() {
-
-        super();
-
-        System.out.println(
-                "Dog Constructor");
-
-    }
-
-    public void display() {
-
-        System.out.println(
-                this.color);
-
-        System.out.println(
-                super.color);
-    }
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Dog dog = new Dog();
-
-        dog.display();
+        super(); // Invokes Animal() constructor (must be the first statement)
+        System.out.println("Dog constructor called.");
     }
 }
 ```
 
----
-
-# Output
-
-```text
-Animal Constructor
-Dog Constructor
-Black
-White
-```
-
----
-
-# Memory Representation
-
-```text
-Dog Object
------------------
-
-Dog Part
-color = Black
-
-Animal Part
-color = White
-
------------------
-```
-
----
-
-# Common Mistakes
-
-## Using super Without Inheritance
-
-Wrong:
-
+Instantiation:
 ```java
-super.name;
+Dog d = new Dog();
 ```
 
-No parent class exists.
+Output:
+```text
+Animal constructor called.
+Dog constructor called.
+```
+
+```mermaid
+graph TD
+    Inst[new Dog()] -->|Calls| ChildConst[Dog Constructor]
+    ChildConst -->|super() first line| ParentConst[Animal Constructor]
+    ParentConst -->|Initializes parent fields| ChildBody[Execute Dog Constructor Body]
+    ChildBody --> Ready[Object Ready in Heap]
+```
+
+> [!IMPORTANT]
+> You **cannot** call both `this()` and `super()` in the same constructor. Since both must be the first statement of the constructor, calling them together results in a compilation error. If you write neither, the compiler automatically inserts a call to `super()` (the parent no-arg constructor).
 
 ---
 
-## Calling this() and super() Together
+## this vs. super Comparison
 
-Wrong:
+| Feature | `this` | `super` |
+| :--- | :--- | :--- |
+| **Reference Target** | Current class object instance | Immediate parent class instance |
+| **Field Access** | Accesses current class variables | Accesses parent class variables |
+| **Method Invocation** | Calls current class methods | Calls parent class methods |
+| **Constructor Call** | Chains constructors inside the same class (`this()`) | Calls parent constructor (`super()`) |
+| **Context** | Used in any class | Used only inside child classes (inheritance) |
 
+---
+
+## Common Mistakes
+
+### 1. Using `super` in classes without a parent
+Attempting to use `super` in a class that does not extend any user-defined class (except implicitly `java.lang.Object`) to access non-existent base fields will fail compilation.
+
+### 2. Constructor calls not on the first line
+Placing logic or prints before `this(...)` or `super(...)` inside a constructor body:
 ```java
+// WRONG (Compiler Error)
 public Dog() {
-
-    this();
-    super();
-
+    System.out.println("Initializing...");
+    super(); 
 }
 ```
 
-Compiler Error.
-
-Only one constructor call can appear first.
-
 ---
 
-## Using super in Non-Child Class
+## Concept Map
 
-Not Allowed.
-
----
-
-# Interview Questions
-
-## What does this refer to?
-
-Current object of the current class.
-
----
-
-## What does super refer to?
-
-Immediate parent class object.
-
----
-
-## Can this call a constructor?
-
-Yes.
-
-Using:
-
-```java
-this(...)
+```mermaid
+graph TD
+    Ref[Object Instance Keywords]
+    Ref --> This[this: Current instance]
+    Ref --> Super[super: Parent instance]
+    This --> T1[Access local variables]
+    This --> T2[Call local methods]
+    This --> T3[Chain constructors with this()]
+    Super --> S1[Access parent variables]
+    Super --> S2[Call parent methods]
+    Super --> S3[Call parent constructors with super()]
 ```
 
 ---
 
-## Can super call a constructor?
+## Interview Questions (FAQ)
 
-Yes.
+### What is the difference between `this()` and `super()`?
+`this()` is used to invoke a constructor in the same class (constructor overloading/chaining). `super()` is used to invoke the constructor of the immediate parent class. Both must be the first statement in a constructor.
 
-Using:
+### Can we use `this` and `super` inside static methods?
+No. Static methods belong to the class template, not to any specific object instance. Since `this` and `super` point to active object instances, they cannot be used in a static context.
 
-```java
-super(...)
-```
-
----
-
-## Which constructor executes first?
-
-Parent constructor.
+### What happens if we do not call `super()` explicitly in a subclass constructor?
+If you do not call `super()` explicitly, the Java compiler automatically inserts an implicit no-argument `super()` call at the first line of the child constructor. If the parent class has no no-argument constructor defined, a compiler error will occur.
 
 ---
 
-## Can we access parent variables using super?
+## Practice Challenges
 
-Yes.
-
-Example:
-
-```java
-super.color
-```
+1. **Person-Employee Chaining**: Create a `Person` class with a parameterized constructor. Create an `Employee` class extending `Person` and pass the name to the parent constructor using `super()`.
+2. **Vehicle Shadowing**: Create a `Vehicle` class containing `maxSpeed = 120`. Create a `Car` class extending `Vehicle` containing `maxSpeed = 180`. Write a method displaying both speeds using `this` and `super`.
+3. **Overridden Method Calling**: Implement a parent class `Printer` with method `print()`. Override it in `3DPrinter` and call `super.print()` inside the overridden method to output both messages.
 
 ---
 
-# Concept Map
+## Key Takeaways
 
-```text
-Object Creation
-      │
-      ├── this
-      │      │
-      │      ├── Current Variable
-      │      ├── Current Method
-      │      └── Constructor Chaining
-      │
-      └── super
-             │
-             ├── Parent Variable
-             ├── Parent Method
-             └── Parent Constructor
-```
+* `this` references the current instance; `super` references the parent instance.
+* Use `this()` to resolve shadowing variables and chain constructors locally.
+* Use `super()` to call parent constructors and access overridden methods or hidden fields.
+* Constructor calls (`this()` / `super()`) must always occupy the first statement of the constructor block.
 
 ---
 
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```text
-Person
-Employee
-```
-
-Use:
-
-```java
-super()
-```
-
----
-
-## Challenge 2
-
-Create:
-
-```text
-Vehicle
-Car
-```
-
-Use:
-
-```java
-super.speed
-```
-
----
-
-## Challenge 3
-
-Create constructor chaining using:
-
-```java
-this()
-```
-
----
-
-## Challenge 4
-
-Override a method and call parent version using:
-
-```java
-super.method()
-```
-
----
-
-# Key Takeaways
-
-- `this` refers to the current object.
-- `super` refers to the parent object.
-- `this()` calls another constructor in the same class.
-- `super()` calls a parent constructor.
-- `this.variable` accesses current class variables.
-- `super.variable` accesses parent class variables.
-- Parent constructors execute before child constructors.
-
----
-
-# Conclusion
-
-The `this` and `super` keywords are fundamental tools in Java's Object-Oriented Programming model. `this` helps work with the current object, while `super` provides access to parent class members. Mastering these keywords is essential before moving to inheritance, polymorphism, and advanced OOP design patterns.
+**Back to Module Home:** [Building Blocks of Java](README.md)

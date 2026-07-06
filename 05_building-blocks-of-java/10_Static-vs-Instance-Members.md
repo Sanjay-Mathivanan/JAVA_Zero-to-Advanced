@@ -2,850 +2,241 @@
 
 ## Introduction
 
-While learning Java classes and objects, you will frequently encounter two important concepts:
+When writing classes in Java, one of the most critical design decisions is determining whether a field or method should belong to the **class template** itself, or to **individual object instances**.
 
-```java
-static
-```
+Java separates these scopes into two categories:
+* **`instance` members** (default): Belong to object instances.
+* **`static` members**: Belong to the class itself.
 
-and
+Understanding the difference is key to managing memory efficiency, variable sharing, and designing entry points (like `main()`).
 
-```java
-instance
-```
-
-Understanding the difference between them is essential because they determine:
-
-- How memory is allocated
-- How variables are shared
-- How methods are called
-- Object behavior
-
-Many interview questions are based on this topic.
-
----
-
-# The Big Picture
-
-```text
-Class Members
-      │
-      ├── Static Members
-      │      ↓
-      │   Belong To Class
-      │
-      └── Instance Members
-             ↓
-         Belong To Object
+```mermaid
+graph TD
+    Class[Class Members]
+    Class --> Instance[Instance Members: Belong to Object]
+    Class --> Static[Static Members: Belong to Class]
+    
+    Instance --> I1[Separate copies in Heap]
+    Static --> S1[Single shared copy in Metaspace/Method Area]
 ```
 
 ---
 
-# What is an Instance Member?
+## What is an Instance Member?
 
-## Definition
+An **Instance Member** is a variable or method declared without the `static` keyword. 
+* **Instance Variables**: Represent properties unique to each object. Every object allocated on the Heap maintains its own separate copy of these variables.
+* **Instance Methods**: Represent behaviors that interact with individual object states. They must be invoked on an active object reference.
 
-Instance members belong to an object.
-
-Every object gets its own copy.
-
----
-
-# Example
-
+### Example: Individual Student Names
 ```java
 class Student {
-
-    String name;
-
+    String name; // Instance variable
 }
 ```
 
-Here:
-
-```java
-name
-```
-
-is an instance variable.
-
----
-
-# Object Creation
-
+Usage:
 ```java
 Student s1 = new Student();
 Student s2 = new Student();
-```
 
-Assign values:
-
-```java
 s1.name = "Sanjay";
-
 s2.name = "Rahul";
+
+System.out.println(s1.name); // Output: Sanjay
+System.out.println(s2.name); // Output: Rahul
 ```
+Here, modifying `s1.name` has no effect on `s2.name` because they point to completely separate memory blocks on the Heap.
 
 ---
 
-# Output
+## What is a Static Member?
 
-```java
-System.out.println(s1.name);
-System.out.println(s2.name);
-```
+A **Static Member** is a variable, method, or block marked with the **`static`** keyword.
+* **Static Variables**: Also known as *class variables*. Only a single copy of a static variable is allocated in the Metaspace (Method Area) of the JVM, regardless of how many object instances are created. All instances share this single copy.
+* **Static Methods**: Also known as *class methods*. They can be invoked directly using the class name, without allocating or referring to any object instance.
 
-```text
-Sanjay
-Rahul
-```
-
----
-
-# Memory Representation
-
-```text
-Heap Memory
-
-Object 1
------------
-name = Sanjay
------------
-
-Object 2
------------
-name = Rahul
------------
-```
-
-Each object has its own copy.
-
----
-
-# What is a Static Member?
-
-## Definition
-
-Static members belong to the class itself.
-
-Only one copy exists regardless of how many objects are created.
-
----
-
-# Example
-
+### Example: Shared College Name
 ```java
 class Student {
+    static String college = "KGISL Institute of Technology"; // Static variable
+}
+```
 
-    static String college =
-            "KIT";
+Usage:
+```java
+// Accessed directly using the Class name:
+System.out.println(Student.college); // Output: KGISL Institute of Technology
+```
 
+---
+
+## Memory Representation: Metaspace vs. Heap
+
+In the JVM, static variables live in a separate memory area (Metaspace/Method Area), while objects and their instance variables live in the Heap.
+
+![Static vs Instance Memory Layout](../assets/images/static-vs-instance-memory.svg)
+
+### Memory Efficiency:
+If a class has 1,000 objects, and each object contains a duplicate string literal `"KGISL"`, it wastes memory. By making it `static`, only one string reference is created in the class template scope, reducing the Heap footprint of all 1,000 objects.
+
+---
+
+## Static Blocks
+
+A **Static Block** (or static initialization block) is a block of code enclosed in curly braces prefixed by the `static` keyword. It is executed automatically by the JVM **once** when the class is loaded into memory, before any constructors run or objects are instantiated. It is typically used to initialize complex static variables.
+
+```java
+class DatabaseConfig {
+    static String dbUrl;
+    static int port;
+
+    // Static initialization block
+    static {
+        System.out.println("Loading database configuration...");
+        dbUrl = "jdbc:mysql://localhost:3306/mydb";
+        port = 3306;
+    }
 }
 ```
 
 ---
 
-# Object Creation
+## Practical Static Pattern: Object Counter
+
+One of the most common applications of static variables is tracking the number of instances created for a class.
 
 ```java
-Student s1 = new Student();
-Student s2 = new Student();
-```
+class Employee {
+    private String name;
+    // Shared counter across all objects
+    public static int employeeCount = 0;
 
----
-
-# Access
-
-```java
-System.out.println(
-        Student.college);
-```
-
-Output:
-
-```text
-KIT
-```
-
----
-
-# Memory Representation
-
-```text
-Method Area
-
-college = KIT
-
-
-Heap
-
-Student Object 1
-
-Student Object 2
-
-Student Object 3
-```
-
-Only one copy exists.
-
----
-
-# Real-World Analogy
-
-## Instance Variable
-
-```text
-Student Name
-```
-
-Every student has a different name.
-
----
-
-## Static Variable
-
-```text
-College Name
-```
-
-All students belong to the same college.
-
----
-
-# Instance Variable Example
-
-```java
-class Student {
-
-    String name;
-
+    public Employee(String name) {
+        this.name = name;
+        employeeCount++; // Increments the shared counter
+    }
 }
 
 public class Main {
-
     public static void main(String[] args) {
+        new Employee("Sanjay");
+        new Employee("Arun");
+        new Employee("Rahul");
 
-        Student s1 =
-                new Student();
-
-        Student s2 =
-                new Student();
-
-        s1.name = "Sanjay";
-        s2.name = "Arun";
-
-        System.out.println(s1.name);
-        System.out.println(s2.name);
+        // Access via the Class name
+        System.out.println("Total Employees: " + Employee.employeeCount); // Output: 3
     }
 }
 ```
 
 ---
 
-# Output
+## Static vs. Instance Variable Comparison
 
-```text
-Sanjay
-Arun
-```
+| Feature | Static Variables | Instance Variables |
+| :--- | :--- | :--- |
+| **Scope** | Belongs to the Class | Belongs to individual Objects |
+| **Memory Allocation** | Allocated once when class is loaded | Allocated on Heap every time `new` runs |
+| **Number of Copies** | Exactly one shared copy | One copy per object instance |
+| **Access** | Via `ClassName.variableName` | Via `objectReference.variableName` |
 
 ---
 
-# Static Variable Example
+## Static vs. Instance Method Comparison
 
+| Feature | Static Methods | Instance Methods |
+| :--- | :--- | :--- |
+| **Scope** | Belongs to the Class | Belongs to the Object |
+| **Object Required** | No object required to invoke | Must be called on an object reference |
+| **Access to Fields** | Can **only** access other static fields directly | Can access both static and instance fields |
+| **Use of `this` / `super`** | **Cannot** use `this` or `super` | Can use `this` and `super` keywords |
+
+---
+
+## Critical Access Rule
+
+> [!IMPORTANT]
+> A static method **cannot** access instance variables or call instance methods directly. Because static methods execute without any object context, Java does not know *which* object's state to read.
+
+### Wrong (Compilation Error):
 ```java
 class Student {
+    String name = "Sanjay"; // Instance variable
 
-    static String college =
-            "KIT";
-
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student s1 =
-                new Student();
-
-        Student s2 =
-                new Student();
-
-        System.out.println(
-                s1.college);
-
-        System.out.println(
-                s2.college);
+    public static void printName() {
+        System.out.println(name); // COMPILER ERROR: non-static variable cannot be referenced from static context
     }
 }
 ```
 
----
-
-# Output
-
-```text
-KIT
-KIT
-```
-
----
-
-# Why Use Static Variables?
-
-Suppose:
-
-```text
-1000 Students
-```
-
-and every object stores:
-
-```java
-college = "KIT"
-```
-
-Memory waste.
-
-Static stores only one copy.
-
----
-
-# Static Variable Example (Counter)
-
+### Correct:
+To access instance fields inside a static method, you must explicitly instantiate or pass an object reference:
 ```java
 class Student {
+    String name = "Sanjay";
 
-    static int count = 0;
-
-    public Student() {
-
-        count++;
-
+    public static void printName(Student s) {
+        System.out.println(s.name); // Correct - accessed via reference
     }
 }
 ```
 
 ---
 
-# Main Program
+## Why is the `main()` Method Static?
 
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        new Student();
-        new Student();
-        new Student();
-
-        System.out.println(
-                Student.count);
-    }
-}
-```
-
----
-
-# Output
-
-```text
-3
-```
-
----
-
-# Why?
-
-Every constructor execution increases:
-
-```java
-count++
-```
-
-Since count is static:
-
-```text
-One Shared Copy
-```
-
-tracks all objects.
-
----
-
-# What is an Instance Method?
-
-Instance methods belong to objects.
-
----
-
-# Example
-
-```java
-class Student {
-
-    String name;
-
-    public void display() {
-
-        System.out.println(name);
-
-    }
-}
-```
-
----
-
-# Calling Instance Method
-
-```java
-Student s1 =
-        new Student();
-
-s1.display();
-```
-
-Requires object creation.
-
----
-
-# What is a Static Method?
-
-Static methods belong to the class.
-
-No object required.
-
----
-
-# Example
-
-```java
-class Calculator {
-
-    public static int add(
-            int a,
-            int b) {
-
-        return a + b;
-    }
-}
-```
-
----
-
-# Calling Static Method
-
-```java
-System.out.println(
-        Calculator.add(10,20));
-```
-
-Output:
-
-```text
-30
-```
-
----
-
-# Why is main() Static?
-
-Java starts execution before any object exists.
-
-Therefore:
-
+The entry point of any Java program is:
 ```java
 public static void main(String[] args)
 ```
-
-must be static.
-
----
-
-# Instance Method Example
-
-```java
-class Student {
-
-    String name;
-
-    public void display() {
-
-        System.out.println(name);
-
-    }
-}
-```
+The `main()` method must be static because the JVM needs to start executing the program before any objects are created. If `main()` were an instance method, Java would have a "chicken-and-egg" problem: it would need to create an object of the class to run `main()`, but it wouldn't know how or where to start the program without running `main()` first.
 
 ---
 
-# Static Method Example
+## Common Mistakes
 
-```java
-class Calculator {
+### 1. Calling Static Members on Object Instances
+Although Java allows accessing static variables via object references (e.g., `s1.college`), it is considered poor coding style. It hides the fact that the member is static, leading developers to think it is instance-specific. Always access static members via the Class name: `Student.college`.
 
-    public static int square(
-            int number) {
-
-        return number * number;
-    }
-}
-```
-
----
-
-# Output
-
-```java
-System.out.println(
-        Calculator.square(5));
-```
-
-```text
-25
-```
-
----
-
-# Static Block
-
-A static block executes once when the class loads.
-
----
-
-# Example
-
-```java
-class Test {
-
-    static {
-
-        System.out.println(
-                "Static Block Executed");
-
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Static Block Executed
-```
-
----
-
-# Static vs Instance Variables
-
-| Static Variable | Instance Variable |
-|----------------|------------------|
-| Belongs to Class | Belongs to Object |
-| One Copy | Multiple Copies |
-| Shared | Individual |
-| Access Using Class Name | Access Using Object |
-
----
-
-# Static vs Instance Methods
-
-| Static Method | Instance Method |
-|--------------|----------------|
-| Belongs to Class | Belongs to Object |
-| No Object Required | Object Required |
-| Can Access Static Members Directly | Can Access Both |
-| Cannot Use this | Can Use this |
-
----
-
-# Important Rule
-
-Inside a static method:
-
+### 2. Accessing `this` inside Static Contexts
 ```java
 public static void display() {
-
-}
-```
-
-You cannot directly access:
-
-```java
-name
-```
-
-because:
-
-```text
-No Object Exists
-```
-
----
-
-# Example
-
-Wrong:
-
-```java
-class Student {
-
-    String name;
-
-    public static void show() {
-
-        System.out.println(name);
-
-    }
-}
-```
-
-Compiler Error.
-
----
-
-# Correct
-
-```java
-class Student {
-
-    String name;
-
-    public static void show() {
-
-        System.out.println(
-                "Static Method");
-
-    }
+    System.out.println(this.hashCode()); // Compiler Error: 'this' cannot be referenced from static context
 }
 ```
 
 ---
 
-# Interview Example
+## Interview Questions (FAQ)
 
-```java
-class Test {
+### Can we overload static methods?
+Yes, static methods can be overloaded just like instance methods.
 
-    static int x = 10;
+### Can static methods be overridden?
+No, static methods belong to the class, not object instances. While you can declare a static method in a subclass with the same signature, this is called **Method Hiding**, not overriding.
 
-    int y = 20;
-}
-```
-
-Identify:
-
-```text
-x → Static Variable
-
-y → Instance Variable
-```
+### When should a method be declared static?
+A method should be declared static when it does not depend on the state (instance variables) of any individual object. Excellent examples are utility methods like `Math.sqrt()` or `Arrays.sort()`.
 
 ---
 
-# Memory Diagram
+## Practice Challenges
 
-```text
-Class Area
-
-x = 10
-
-
-Heap
-
-Object 1
-y = 20
-
-Object 2
-y = 20
-```
+1. **Static Counter**: Write a `Product` class with `id` and `name`. Automatically assign a unique sequential ID to each product using a private static counter that increments inside the constructor.
+2. **Calculator Utility**: Create a `MathUtils` class with static methods `square(double)`, `cube(double)`, and a static constant `double PI`. Execute them in a separate runner class without creating a `MathUtils` object.
+3. **Company Template**: Build a `Company` class with a static field `companyName` and instance fields `employeeName` and `salary`. Add a static method to update `companyName`.
 
 ---
 
-# Real-World Applications
+## Key Takeaways
 
-## Static
-
-```text
-Math Utility Methods
-
-Counters
-
-Configuration Values
-
-Constants
-
-Company Name
-```
+* **Static** members belong to the class; **Instance** members belong to objects.
+* Static variables have one shared copy in JVM memory, saving memory for common constants or configurations.
+* Static methods cannot access non-static variables or methods directly.
+* Static blocks are run exactly once when the class is loaded.
+* The `main()` method must be static to run before any objects are created.
 
 ---
 
-## Instance
-
-```text
-Student Name
-
-Employee Salary
-
-Car Color
-
-Bank Balance
-```
-
----
-
-# Common Mistakes
-
-## Access Instance Variable Inside Static Method
-
-Wrong:
-
-```java
-System.out.println(name);
-```
-
----
-
-## Calling Static Method Through Object
-
-Allowed:
-
-```java
-obj.display();
-```
-
-But preferred:
-
-```java
-ClassName.display();
-```
-
----
-
-## Assuming Static Variables Create New Copies
-
-Wrong.
-
-Only one copy exists.
-
----
-
-# Interview Questions
-
-## What is a Static Variable?
-
-A variable shared by all objects of a class.
-
----
-
-## What is an Instance Variable?
-
-A variable that belongs to an object.
-
----
-
-## Can Static Methods Access Instance Variables?
-
-No.
-
-Directly they cannot.
-
----
-
-## Can Instance Methods Access Static Variables?
-
-Yes.
-
----
-
-## Why is main() Static?
-
-Because Java needs to execute it before creating objects.
-
----
-
-## How Many Copies of Static Variables Exist?
-
-One.
-
----
-
-## How Many Copies of Instance Variables Exist?
-
-One per object.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create a Student counter using static variables.
-
----
-
-## Challenge 2
-
-Create a Calculator class using static methods.
-
----
-
-## Challenge 3
-
-Create Employee objects with instance variables.
-
----
-
-## Challenge 4
-
-Track total employees using a static counter.
-
----
-
-## Challenge 5
-
-Create a Company class with:
-
-```java
-static companyName
-
-instance employeeName
-```
-
----
-
-# Concept Map
-
-```text
-Class Members
-      │
-      ├── Static
-      │      │
-      │      ├── Variables
-      │      ├── Methods
-      │      └── Blocks
-      │
-      └── Instance
-             │
-             ├── Variables
-             └── Methods
-```
-
----
-
-# Key Takeaways
-
-- Static members belong to the class.
-- Instance members belong to objects.
-- Static variables have one shared copy.
-- Instance variables have separate copies.
-- Static methods can be called without objects.
-- Instance methods require objects.
-- main() is static because execution starts before object creation.
-- Static members help save memory and share data.
-
----
-
-# Conclusion
-
-Static and Instance members are fundamental concepts in Java. Static members belong to the class and are shared among all objects, while instance members belong to individual objects. Understanding when to use each is essential for writing efficient, scalable, and interview-ready Java applications.
+**Back to Module Home:** [Building Blocks of Java](README.md)
