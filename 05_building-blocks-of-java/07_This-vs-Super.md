@@ -121,7 +121,7 @@ Dog constructor called.
 
 ```mermaid
 graph TD
-    Inst[new Dog()] -->|Calls| ChildConst[Dog Constructor]
+    Inst["new Dog()"] -->|Calls| ChildConst[Dog Constructor]
     ChildConst -->|super() first line| ParentConst[Animal Constructor]
     ParentConst -->|Initializes parent fields| ChildBody[Execute Dog Constructor Body]
     ChildBody --> Ready[Object Ready in Heap]
@@ -170,10 +170,10 @@ graph TD
     Ref --> Super[super: Parent instance]
     This --> T1[Access local variables]
     This --> T2[Call local methods]
-    This --> T3[Chain constructors with this()]
+    This --> T3["Chain constructors with this()"]
     Super --> S1[Access parent variables]
     Super --> S2[Call parent methods]
-    Super --> S3[Call parent constructors with super()]
+    Super --> S3["Call parent constructors with super()"]
 ```
 
 ---

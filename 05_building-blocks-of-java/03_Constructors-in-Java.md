@@ -140,8 +140,8 @@ In Java, chaining to another constructor in the same class is done using the **`
 
 ```mermaid
 graph TD
-    A["Student() [No-Arg]"] -->|Calls this('Unknown', 18)| B["Student(String name, int age)"]
-    C["Student(String name)"] -->|Calls this(name, 18)| B
+    A["Student() [No-Arg]"] -->|"Calls this('Unknown', 18)"| B["Student(String name, int age)"]
+    C["Student(String name)"] -->|"Calls this(name, 18)"| B
     B -->|Initializes fields| D[Object Initialized]
 ```
 
