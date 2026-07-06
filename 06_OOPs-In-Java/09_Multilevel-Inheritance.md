@@ -8,8 +8,8 @@ Java also supports **Multilevel Inheritance**, which extends the inheritance hie
 
 ```mermaid
 graph TD
-    Grandparent[Grandparent Class] -->|Inherited by| Parent[Parent Class / Intermediate]
-    Parent -->|Inherited by| Child[Child Class / Subclass]
+    Grandparent["Grandparent Class"] -->|Inherited by| Parent["Parent Class / Intermediate"]
+    Parent -->|Inherited by| Child["Child Class / Subclass"]
 ```
 
 ---

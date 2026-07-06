@@ -66,7 +66,7 @@
     
     <!-- Code Box -->
     <rect x="0" y="115" width="180" height="45" class="inner-box" />
-    <text class="inner-text label" x="10" y="26">Animal a = new Dog();</text>
+    <text class="inner-text label" x="10" y="141">Animal a = new Dog();</text>
     
     <!-- Upward arrow -->
     <g transform="translate(160, 0)">
@@ -83,7 +83,7 @@
     
     <!-- Code Box -->
     <rect x="20" y="115" width="180" height="45" class="inner-box" />
-    <text class="inner-text label" x="10" y="26">Dog d = (Dog) a;</text>
+    <text class="inner-text label" x="30" y="141">Dog d = (Dog) a;</text>
     
     <!-- Downward arrow -->
     <g transform="translate(0, 0)">

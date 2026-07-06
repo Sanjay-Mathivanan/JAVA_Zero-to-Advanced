@@ -69,7 +69,7 @@ An inheritance relationship consists of two classes:
 
 ```mermaid
 graph TD
-    Parent[Superclass / Parent Class] -->|Inherited by| Child[Subclass / Child Class]
+    Parent["Superclass / Parent Class"] -->|Inherited by| Child["Subclass / Child Class"]
 ```
 
 ---

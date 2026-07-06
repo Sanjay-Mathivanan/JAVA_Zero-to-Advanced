@@ -180,13 +180,13 @@ class Dog extends Animal {
 
 ```mermaid
 graph TD
-    Abstr[Abstract Class]
-    Abstr --> NoInst[Cannot be Instantiated directly]
-    Abstr --> Methods[Methods]
-    Methods --> Concrete[Concrete: normal methods with body]
-    Methods --> Virtual[Abstract: signature with no body]
-    Abstr --> Chain[Constructor Chaining supported]
-    Abstr --> SubClass[Concrete subclasses must implement abstract methods]
+    Abstr["Abstract Class"]
+    Abstr --> NoInst["Cannot be Instantiated directly"]
+    Abstr --> Methods["Methods"]
+    Methods --> Concrete["Concrete: normal methods with body"]
+    Methods --> Virtual["Abstract: signature with no body"]
+    Abstr --> Chain["Constructor Chaining supported"]
+    Abstr --> SubClass["Concrete subclasses must implement abstract methods"]
 ```
 
 ---

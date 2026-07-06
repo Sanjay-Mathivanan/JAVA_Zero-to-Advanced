@@ -8,10 +8,10 @@ Java also supports **Hierarchical Inheritance**, where multiple child subclasses
 
 ```mermaid
 graph TD
-    Parent[Parent Class]
-    Parent -->|Inherited by| Child1[Child Class A]
-    Parent -->|Inherited by| Child2[Child Class B]
-    Parent -->|Inherited by| Child3[Child Class C]
+    Parent["Parent Class"]
+    Parent -->|Inherited by| Child1["Child Class A"]
+    Parent -->|Inherited by| Child2["Child Class B"]
+    Parent -->|Inherited by| Child3["Child Class C"]
 ```
 
 ---
