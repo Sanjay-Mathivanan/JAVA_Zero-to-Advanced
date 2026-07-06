@@ -1,883 +1,227 @@
-# Advanced OOP Project
+# Advanced Project: Financial Order System
 
-# Financial Order Matching System
+## Introduction
 
----
+In high-throughput trading platforms (like Zerodha, Robinhood, or institutional stock exchange engines), order processing systems receive thousands of transactions per second. The system must process multiple order types (Market, Limit, Stop Loss) with custom execution rules while protecting user funds from corruption.
 
-# Problem Statement
-
-A stock trading platform receives thousands of buy and sell orders every second.
-
-Different order types require different execution strategies:
-
-```text
-Market Order
-Limit Order
-Stop Loss Order
-```
-
-The system must:
-
-```text
-1. Dynamically execute orders
-2. Protect critical account balances
-3. Support future order types
-4. Avoid modifying existing engine code
-```
-
-This project combines:
-
-```text
-Encapsulation
-+
-Inheritance
-+
-Runtime Polymorphism
-```
-
-to create a scalable and secure financial execution engine.
+This project combines the three core pillars of Object-Oriented Programming (OOP) we have learned so far:
+1. **Encapsulation**: Securing user accounts against illegal withdrawals or balance adjustments.
+2. **Inheritance**: Sharing base data properties (ID, price, quantity) across different order subclasses.
+3. **Runtime Polymorphism**: Building a decoupled order processor that executes custom transaction strategies dynamically.
 
 ---
 
-# Real World Example
+## Architectural Class Design
 
-Trading Applications:
+Our order execution system uses a decoupled class architecture:
 
-```text
-NSE
-BSE
-Zerodha
-Upstox
-Groww
-Robinhood
-```
-
-all process multiple order types.
-
-Example:
-
-```text
-User Places Order
-        │
-        ▼
-
-Execution Engine
-        │
- ┌──────┼────────┐
- ▼      ▼        ▼
-
-Market Limit StopLoss
-```
-
-The engine should not care about:
-
-```text
-Order Type
-```
-
-It should simply execute the order.
-
----
-
-# OOP Concepts Used
-
-## Encapsulation
-
-Protect:
-
-```text
-Account Balance
-Available Funds
-```
-
-from direct modification.
-
----
-
-## Inheritance
-
-All order types inherit:
-
-```text
-Order
+```mermaid
+classDiagram
+    class TradingAccount {
+        -double balance
+        +getBalance() double
+        +deposit(double)
+        +withdraw(double) bool
+    }
+    class Order {
+        #int orderId
+        #int quantity
+        #double price
+        +execute(TradingAccount)
+    }
+    class MarketOrder {
+        +execute(TradingAccount)
+    }
+    class LimitOrder {
+        +execute(TradingAccount)
+    }
+    class StopLossOrder {
+        +execute(TradingAccount)
+    }
+    class ExecutionEngine {
+        +processOrder(Order, TradingAccount)
+    }
+    Order <|-- MarketOrder
+    Order <|-- LimitOrder
+    Order <|-- StopLossOrder
+    ExecutionEngine ..> Order : references
+    Order ..> TradingAccount : operates on
 ```
 
 ---
 
-## Runtime Polymorphism
+## Code Implementation
 
-Execution engine uses:
+Below is the complete, compiled stock trading program.
 
+### 1. Encapsulated User Account (`TradingAccount.java`)
 ```java
-Order reference
-```
+public class TradingAccount {
+    private double balance; // Secure private field
 
-and dynamically executes the correct order strategy.
-
----
-
-# System Design
-
-## Class Diagram
-
-```text
-                    Order
-        ---------------------------------
-        - orderId
-        - quantity
-        - price
-        ---------------------------------
-        + execute()
-        ---------------------------------
-
-                    ▲
-                    │
-
-      ┌─────────────┼─────────────┐
-      │             │             │
-      ▼             ▼             ▼
-
- MarketOrder   LimitOrder   StopLossOrder
-```
-
----
-
-## Account System
-
-```text
-TradingAccount
---------------------------------
-
-private balance
-
-getBalance()
-
-deposit()
-
-withdraw()
-
---------------------------------
-```
-
----
-
-# Step 1
-
-## Trading Account
-
-This class demonstrates:
-
-```text
-Encapsulation
-```
-
----
-
-```java
-class TradingAccount {
-
-    private double balance;
-
-    public TradingAccount(
-            double balance) {
-
+    public TradingAccount(double balance) {
         this.balance = balance;
     }
 
     public double getBalance() {
-
         return balance;
     }
 
-    public void deposit(
-            double amount) {
-
-        if(amount > 0) {
-
+    public void deposit(double amount) {
+        if (amount > 0) {
             balance += amount;
         }
     }
 
-    public boolean withdraw(
-            double amount) {
-
-        if(amount <= balance) {
-
+    public boolean withdraw(double amount) {
+        // Enforces withdrawal rules to prevent negative balances
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
-
             return true;
         }
-
         return false;
     }
 }
 ```
 
----
-
-# Why Encapsulation?
-
-Without Encapsulation:
-
+### 2. Abstract Order Base Class (`Order.java`)
 ```java
-account.balance = -500000;
-```
-
-Dangerous.
-
----
-
-Now:
-
-```java
-private balance
-```
-
-cannot be modified directly.
-
-Only:
-
-```java
-deposit()
-
-withdraw()
-```
-
-can change balance.
-
----
-
-# Step 2
-
-## Parent Order Class
-
-```java
-abstract class Order {
-
+public abstract class Order {
     protected int orderId;
     protected int quantity;
     protected double price;
 
-    public Order(
-            int orderId,
-            int quantity,
-            double price) {
-
+    public Order(int orderId, int quantity, double price) {
         this.orderId = orderId;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public abstract void execute(
-            TradingAccount account);
+    // Abstract execution method
+    public abstract void execute(TradingAccount account);
 }
 ```
 
----
-
-# Why Abstract?
-
-Every order must provide its own:
-
+### 3. Specialized Order Subclasses
 ```java
-execute()
-```
-
-logic.
-
----
-
-# Step 3
-
-## Market Order
-
-```java
-class MarketOrder
-        extends Order {
-
-    public MarketOrder(
-            int id,
-            int qty,
-            double price) {
-
+// Subclass 1: Market Order
+class MarketOrder extends Order {
+    public MarketOrder(int id, int qty, double price) {
         super(id, qty, price);
     }
 
     @Override
-    public void execute(
-            TradingAccount account) {
-
-        double total =
-                quantity * price;
-
-        if(account.withdraw(total)) {
-
-            System.out.println(
-                    "Market Order Executed");
-
+    public void execute(TradingAccount account) {
+        double cost = quantity * price;
+        if (account.withdraw(cost)) {
+            System.out.println("Market Order #" + orderId + " filled at current price. Cost: $" + cost);
         } else {
+            System.out.println("Market Order #" + orderId + " failed: Insufficient Funds.");
+        }
+    }
+}
 
-            System.out.println(
-                    "Insufficient Funds");
+// Subclass 2: Limit Order
+class LimitOrder extends Order {
+    public LimitOrder(int id, int qty, double price) {
+        super(id, qty, price);
+    }
+
+    @Override
+    public void execute(TradingAccount account) {
+        double cost = quantity * price;
+        if (account.withdraw(cost)) {
+            System.out.println("Limit Order #" + orderId + " filled at target limit. Cost: $" + cost);
+        } else {
+            System.out.println("Limit Order #" + orderId + " failed: Insufficient Funds.");
+        }
+    }
+}
+
+// Subclass 3: Stop Loss Order
+class StopLossOrder extends Order {
+    public StopLossOrder(int id, int qty, double price) {
+        super(id, qty, price);
+    }
+
+    @Override
+    public void execute(TradingAccount account) {
+        double cost = quantity * price;
+        if (account.withdraw(cost)) {
+            System.out.println("Stop Loss Order #" + orderId + " triggered and filled. Cost: $" + cost);
+        } else {
+            System.out.println("Stop Loss Order #" + orderId + " failed: Insufficient Funds.");
         }
     }
 }
 ```
 
----
-
-# Step 4
-
-## Limit Order
-
+### 4. Decoupled Execution Engine (`ExecutionEngine.java`)
 ```java
-class LimitOrder
-        extends Order {
-
-    public LimitOrder(
-            int id,
-            int qty,
-            double price) {
-
-        super(id, qty, price);
-    }
-
-    @Override
-    public void execute(
-            TradingAccount account) {
-
-        double total =
-                quantity * price;
-
-        if(account.withdraw(total)) {
-
-            System.out.println(
-                    "Limit Order Executed");
-
-        } else {
-
-            System.out.println(
-                    "Insufficient Funds");
-        }
+public class ExecutionEngine {
+    // Accepts any subclass of Order polymorphically
+    public void processOrder(Order order, TradingAccount account) {
+        order.execute(account); // Triggers Late Binding
     }
 }
 ```
 
----
-
-# Step 5
-
-## Stop Loss Order
-
-```java
-class StopLossOrder
-        extends Order {
-
-    public StopLossOrder(
-            int id,
-            int qty,
-            double price) {
-
-        super(id, qty, price);
-    }
-
-    @Override
-    public void execute(
-            TradingAccount account) {
-
-        double total =
-                quantity * price;
-
-        if(account.withdraw(total)) {
-
-            System.out.println(
-                    "Stop Loss Triggered");
-
-        } else {
-
-            System.out.println(
-                    "Insufficient Funds");
-        }
-    }
-}
-```
-
----
-
-# Step 6
-
-## Execution Engine
-
-This is where Runtime Polymorphism happens.
-
-```java
-class ExecutionEngine {
-
-    public void processOrder(
-            Order order,
-            TradingAccount account) {
-
-        order.execute(account);
-    }
-}
-```
-
-Notice:
-
-```text
-Engine Knows Only Order
-```
-
-Not:
-
-```text
-MarketOrder
-
-LimitOrder
-
-StopLossOrder
-```
-
----
-
-# Step 7
-
-## Main Class
-
+### 5. Main Driver Runner (`Main.java`)
 ```java
 public class Main {
-
     public static void main(String[] args) {
+        TradingAccount portfolio = new TradingAccount(100000.0);
+        ExecutionEngine engine = new ExecutionEngine();
 
-        TradingAccount account =
-                new TradingAccount(
-                        100000);
+        // Instantiate polymorphic references
+        Order market = new MarketOrder(101, 10, 1000.0); // Cost: $10,000
+        Order limit = new LimitOrder(102, 5, 2000.0);     // Cost: $10,000
+        Order stop = new StopLossOrder(103, 2, 5000.0);   // Cost: $10,000
 
-        ExecutionEngine engine =
-                new ExecutionEngine();
+        engine.processOrder(market, portfolio);
+        engine.processOrder(limit, portfolio);
+        engine.processOrder(stop, portfolio);
 
-        Order market =
-                new MarketOrder(
-                        101,
-                        10,
-                        1000);
-
-        Order limit =
-                new LimitOrder(
-                        102,
-                        5,
-                        2000);
-
-        Order stop =
-                new StopLossOrder(
-                        103,
-                        2,
-                        5000);
-
-        engine.processOrder(
-                market,
-                account);
-
-        engine.processOrder(
-                limit,
-                account);
-
-        engine.processOrder(
-                stop,
-                account);
-
-        System.out.println(
-                "Remaining Balance : "
-                + account.getBalance());
+        System.out.println("------------------------------------");
+        System.out.println("Final Portfolio Balance: $" + portfolio.getBalance());
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Market Order Executed
-
-Limit Order Executed
-
-Stop Loss Triggered
-
-Remaining Balance : 70000.0
+Market Order #101 filled at current price. Cost: $10000.0
+Limit Order #102 filled at target limit. Cost: $10000.0
+Stop Loss Order #103 triggered and filled. Cost: $10000.0
+------------------------------------
+Final Portfolio Balance: $70000.0
 ```
 
 ---
 
-# Step-by-Step Execution
+## Demonstrating OOP Integration
 
-Initial Balance:
+### 1. Encapsulation
+The `TradingAccount` balance is private. It can only be decreased via the `withdraw()` method. If subclass calculations contain logical errors or attempt to assign negative values directly, `withdraw()` rejects the operation, preserving data integrity.
 
-```text
-100000
-```
+### 2. Inheritance
+The fields `orderId`, `quantity`, and `price` are defined in the `Order` superclass. Subclasses inherit these properties directly, avoiding code duplication across order types.
 
----
-
-## Market Order
-
-```text
-10 × 1000
-
-= 10000
-```
-
-Balance:
-
-```text
-90000
-```
-
----
-
-## Limit Order
-
-```text
-5 × 2000
-
-= 10000
-```
-
-Balance:
-
-```text
-80000
-```
-
----
-
-## Stop Loss
-
-```text
-2 × 5000
-
-= 10000
-```
-
-Balance:
-
-```text
-70000
-```
-
----
-
-# Runtime Polymorphism
-
-Look at:
-
+### 3. Runtime Polymorphism
+The `ExecutionEngine` relies solely on the `Order` reference:
 ```java
-Order market =
-        new MarketOrder(...);
+public void processOrder(Order order, TradingAccount account)
 ```
-
-Reference:
-
-```text
-Order
-```
-
-Object:
-
-```text
-MarketOrder
-```
+When `order.execute(account)` is called, the JVM routes execution to the overridden method of the actual subclass instance (`MarketOrder`, `LimitOrder`, or `StopLossOrder`) on the Heap.
 
 ---
 
-Engine:
+## Key Takeaways
 
-```java
-processOrder(order)
-```
-
-calls:
-
-```java
-order.execute()
-```
-
-Java decides at runtime:
-
-```text
-MarketOrder.execute()
-
-LimitOrder.execute()
-
-StopLossOrder.execute()
-```
+* Combining encapsulation, inheritance, and polymorphism produces clean, maintainable, and secure architectures.
+* Parameterizing abstract parent types in method signatures decouples runner engines from specific subclasses.
+* Adhering to the Open-Closed Principle ensures that new subclass features (e.g. adding an `IcebergOrder` class) can be added without modifying core execution logic.
 
 ---
 
-# Internal Flow
-
-```text
-Order Placed
-      │
-      ▼
-
-Execution Engine
-      │
-      ▼
-
-Order Reference
-      │
-      ▼
-
-Actual Object Type
-      │
-      ▼
-
-Execute Correct Strategy
-```
-
----
-
-# Memory Representation
-
-```text
-Order Reference
-       │
-       ▼
-
-MarketOrder Object
-
-----------------
-
-execute()
-
-----------------
-```
-
----
-
-# Adding New Order Type
-
-Suppose tomorrow we add:
-
-```text
-Iceberg Order
-```
-
-Create:
-
-```java
-class IcebergOrder
-        extends Order {
-
-    @Override
-    public void execute(
-            TradingAccount account) {
-
-        System.out.println(
-                "Iceberg Executed");
-    }
-}
-```
-
-No changes needed inside:
-
-```java
-ExecutionEngine
-```
-
-This demonstrates:
-
-```text
-Open Closed Principle
-```
-
----
-
-# Where Each OOP Concept Is Used?
-
-## Encapsulation
-
-```java
-private double balance;
-```
-
-Protects account balance.
-
----
-
-## Inheritance
-
-```java
-MarketOrder
-extends Order
-
-LimitOrder
-extends Order
-
-StopLossOrder
-extends Order
-```
-
-Reuses common order data.
-
----
-
-## Runtime Polymorphism
-
-```java
-Order order =
-        new MarketOrder();
-```
-
-Execution determined during runtime.
-
----
-
-# Interview Questions
-
-## Why is balance private?
-
-To prevent unauthorized modifications.
-
----
-
-## Why use an abstract Order class?
-
-To enforce a common execution contract.
-
----
-
-## Why does ExecutionEngine use Order reference?
-
-To support all order types.
-
----
-
-## What principle allows adding new order types without modifying the engine?
-
-```text
-Open Closed Principle
-```
-
----
-
-## Which OOP concepts are demonstrated?
-
-```text
-Encapsulation
-
-Inheritance
-
-Runtime Polymorphism
-```
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Add:
-
-```text
-Iceberg Order
-```
-
----
-
-## Challenge 2
-
-Add:
-
-```text
-Trailing Stop Order
-```
-
----
-
-## Challenge 3
-
-Add:
-
-```text
-Trading Fee
-```
-
-for every execution.
-
----
-
-## Challenge 4
-
-Prevent execution if:
-
-```text
-Balance < Required Amount
-```
-
----
-
-## Challenge 5
-
-Store execution history in an ArrayList.
-
----
-
-# Concept Map
-
-```text
-Trading Account
-       │
-       ▼
-Encapsulation
-       │
-       ▼
-Private Balance
-
-       │
-
-       ▼
-
-Order
-       │
-       ▼
-Inheritance
-       │
- ┌─────┼─────┐
- ▼     ▼     ▼
-
-Market Limit StopLoss
-
-       │
-       ▼
-
-Runtime Polymorphism
-
-       │
-       ▼
-
-Execution Engine
-
-       │
-       ▼
-
-Dynamic Method Dispatch
-```
-
----
-
-# Key Takeaways
-
-- Encapsulation protects critical financial data.
-- Inheritance removes duplicate order logic.
-- Runtime Polymorphism allows dynamic order execution.
-- The execution engine remains independent of order types.
-- New order types can be added without changing existing code.
-- This architecture resembles real-world trading systems.
-
----
-
-# Conclusion
-
-This Financial Order Matching System demonstrates how Encapsulation, Inheritance, and Runtime Polymorphism work together in enterprise software. Sensitive balance information is protected through encapsulation, common order behavior is shared through inheritance, and dynamic execution strategies are achieved through runtime polymorphism. This design is scalable, secure, and closely resembles the architecture used in professional trading and financial platforms.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

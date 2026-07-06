@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; fill: #4a5568; }
+    .title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 800; font-size: 14px; fill: #1a202c; }
+    
+    .box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2; rx: 6; }
+    .box-text { fill: #9c4221; }
+    
+    .arrow { stroke: #dd6b20; stroke-width: 2; fill: none; }
+    .arrow-head { fill: #dd6b20; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .title { fill: #f7fafc; }
+      .box { fill: #5c3e21; stroke: #ed8936; }
+      .box-text { fill: #fbd38d; }
+      .desc { fill: #cbd5e0; }
+      .arrow { stroke: #ed8936; }
+      .arrow-head { fill: #ed8936; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Single Inheritance -->
+  <g transform="translate(30, 30)">
+    <text class="title" x="0" y="20">1. Single Inheritance</text>
+    <text class="desc" x="0" y="38">One subclass inherits from one superclass</text>
+    
+    <!-- Superclass -->
+    <g transform="translate(15, 60)">
+      <rect class="box" width="120" height="40" />
+      <text class="label box-text" x="12" y="25">Animal (Parent)</text>
+    </g>
+    
+    <!-- Subclass -->
+    <g transform="translate(15, 160)">
+      <rect class="box" width="120" height="40" />
+      <text class="label box-text" x="12" y="25">Dog (Child)</text>
+    </g>
+
+    <!-- Arrow pointing up -->
+    <g transform="translate(15, 0)">
+      <path class="arrow" d="M 60 160 L 60 108" />
+      <polygon class="arrow-head" points="56,108 60,100 64,108" />
+    </g>
+  </g>
+
+  <!-- Divider Line 1 -->
+  <line x1="210" y1="30" x2="210" y2="270" stroke="#cbd5e0" stroke-dasharray="4 4" />
+
+  <!-- Multilevel Inheritance -->
+  <g transform="translate(230, 30)">
+    <text class="title" x="0" y="20">2. Multilevel Inheritance</text>
+    <text class="desc" x="0" y="38">Subclass inherits from an intermediate class</text>
+    
+    <!-- Grandparent -->
+    <g transform="translate(25, 55)">
+      <rect class="box" width="130" height="35" />
+      <text class="label box-text" x="12" y="22">Animal (Base)</text>
+    </g>
+    
+    <!-- Parent -->
+    <g transform="translate(25, 125)">
+      <rect class="box" width="130" height="35" />
+      <text class="label box-text" x="12" y="22">Dog (Intermediate)</text>
+    </g>
+
+    <!-- Child -->
+    <g transform="translate(25, 195)">
+      <rect class="box" width="130" height="35" />
+      <text class="label box-text" x="12" y="22">Puppy (Derived)</text>
+    </g>
+
+    <!-- Arrows pointing up -->
+    <g transform="translate(25, 0)">
+      <!-- Puppy to Dog -->
+      <path class="arrow" d="M 65 195 L 65 168" />
+      <polygon class="arrow-head" points="61,168 65,160 69,168" />
+      
+      <!-- Dog to Animal -->
+      <path class="arrow" d="M 65 125 L 65 98" />
+      <polygon class="arrow-head" points="61,98 65,90 69,98" />
+    </g>
+  </g>
+
+  <!-- Divider Line 2 -->
+  <line x1="435" y1="30" x2="435" y2="270" stroke="#cbd5e0" stroke-dasharray="4 4" />
+
+  <!-- Hierarchical Inheritance -->
+  <g transform="translate(450, 30)">
+    <text class="title" x="0" y="20">3. Hierarchical</text>
+    <text class="desc" x="0" y="38">Multiple subclasses extend one parent</text>
+    
+    <!-- Parent -->
+    <g transform="translate(25, 60)">
+      <rect class="box" width="120" height="40" />
+      <text class="label box-text" x="12" y="25">Animal (Parent)</text>
+    </g>
+    
+    <!-- Child 1 -->
+    <g transform="translate(0, 160)">
+      <rect class="box" width="80" height="40" />
+      <text class="label box-text" x="10" y="25">Dog (Child)</text>
+    </g>
+
+    <!-- Child 2 -->
+    <g transform="translate(90, 160)">
+      <rect class="box" width="80" height="40" />
+      <text class="label box-text" x="10" y="25">Cat (Child)</text>
+    </g>
+
+    <!-- Arrow Child 1 to Parent -->
+    <g>
+      <path class="arrow" d="M 40 160 L 70 108" />
+      <polygon class="arrow-head" points="66,106 73,103 72,110" />
+    </g>
+
+    <!-- Arrow Child 2 to Parent -->
+    <g>
+      <path class="arrow" d="M 130 160 L 100 108" />
+      <polygon class="arrow-head" points="98,110 97,103 104,106" />
+    </g>
+  </g>
+</svg>

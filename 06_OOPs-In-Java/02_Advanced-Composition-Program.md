@@ -2,184 +2,45 @@
 
 ## Introduction
 
-In the previous chapter, we learned that Composition represents a:
+In previous guides, we learned that Composition represents a **`HAS-A` relationship** where one class references objects of other classes as its fields. 
 
-```text
-HAS-A Relationship
-```
+In this chapter, we will build a small **College Management System** using composition to see how multiple classes collaborate to form a nested object model.
 
-In this chapter, we will build a small college management system using Composition.
-
-The goal is to understand how multiple classes work together to form a larger system.
-
----
-
-# Problem Statement
-
-Design a system that models the following relationship:
-
-```text
-KGISL College
-    │
-    └── Department
-            │
-            └── Student
-```
-
-Requirements:
-
-1. A College should contain a Department.
-2. A Department should contain a Student.
-3. The program should display:
-   - College Name
-   - Department Opening Date
-   - Student Roll Number
-
----
-
-# Understanding the Solution
-
-Before looking at code, let's understand the relationship.
-
----
-
-## Real-World Structure
-
-```text
-KGISL
-  │
-  ▼
-Department (AIDS)
-  │
-  ▼
-Student (Sanjay)
+```mermaid
+graph TD
+    College[College Object] -->|HAS-A dept| Dept[Department Object]
+    Dept -->|HAS-A student| Student[Student Object]
 ```
 
 ---
 
-## Composition Hierarchy
+## Problem Statement
 
-```text
-Student
-   ▲
-   │
-Department HAS-A Student
-   ▲
-   │
-KGISL HAS-A Department
-```
+Design a college tracking system that models the following relationship:
+* A `College` HAS-A `Department`.
+* A `Department` HAS-A `Student`.
 
----
-
-## Object Creation Flow
-
-```text
-Create Student
-      ↓
-Create Department using Student
-      ↓
-Create KGISL using Department
-      ↓
-Access Data Through Objects
-```
+The program must instantiate these objects, wire their dependencies, and output:
+1. The College name.
+2. The Department opening date announcement.
+3. The Student's roll number (accessed via nested getter method calls).
 
 ---
 
-# Visual Representation
+## Complete Java Solution
 
-```text
-KGISL Object
---------------------------------
+Here is the source code implementation structured across three class files and a main runner.
 
-name = kgisl
-
-dept
-  │
-  ▼
-
-Department Object
---------------------------------
-
-deptName = AIDS
-floor = 6
-
-student
-   │
-   ▼
-
-Student Object
---------------------------------
-
-name = sanjay
-rollNo = 23
-regNo = 86
-
---------------------------------
-```
-
----
-
-# Full Solution
-
-## Main Class
-
-```java
-package composition;
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Students student =
-                new Students(
-                        "sanjay",
-                        23,
-                        86);
-
-        Dept dep =
-                new Dept(
-                        "AIDS",
-                        6,
-                        student);
-
-        Kgisl college =
-                new Kgisl(
-                        "kgisl",
-                        dep);
-
-        System.out.println(
-                college.getName());
-
-        college.getDept()
-               .OpeningDate();
-
-        System.out.println(
-                college.getDept()
-                       .getStudents()
-                       .getRollno());
-
-    }
-}
-```
-
----
-
-## Student Class
-
+### 1. Student Class (`Students.java`)
 ```java
 package composition;
 
 public class Students {
-
     private String stdname;
     private int rollno;
     private int regno;
 
-    public Students(
-            String stdname,
-            int roll,
-            int reg) {
-
+    public Students(String stdname, int roll, int reg) {
         this.stdname = stdname;
         this.rollno = roll;
         this.regno = reg;
@@ -199,24 +60,16 @@ public class Students {
 }
 ```
 
----
-
-## Department Class
-
+### 2. Department Class (`Dept.java`)
 ```java
 package composition;
 
 public class Dept {
-
     private String deptName;
     private int deptFloor;
-    private Students std;
+    private Students std; // Composition: Department HAS-A Student
 
-    public Dept(
-            String deptName,
-            int floor,
-            Students std) {
-
+    public Dept(String deptName, int floor, Students std) {
         this.deptName = deptName;
         this.deptFloor = floor;
         this.std = std;
@@ -234,30 +87,21 @@ public class Dept {
         return std;
     }
 
-    public void OpeningDate() {
-
-        System.out.println(
-                "The Opening date is 20th JAN");
+    public void displayOpeningDate() {
+        System.out.println("The Department opening date is 20th JAN");
     }
 }
 ```
 
----
-
-## KGISL Class
-
+### 3. College Class (`Kgisl.java`)
 ```java
 package composition;
 
 public class Kgisl {
-
     private String name;
-    private Dept dept;
+    private Dept dept; // Composition: College HAS-A Department
 
-    public Kgisl(
-            String name,
-            Dept dept) {
-
+    public Kgisl(String name, Dept dept) {
         this.name = name;
         this.dept = dept;
     }
@@ -272,351 +116,128 @@ public class Kgisl {
 }
 ```
 
----
-
-# Program Output
-
-```text
-kgisl
-The Opening date is 20th JAN
-23
-```
-
----
-
-# Step-by-Step Execution
-
-## Step 1
-
-Create Student Object
-
+### 4. Main Runner (`Main.java`)
 ```java
-Students student =
-        new Students(
-                "sanjay",
-                23,
-                86);
+package composition;
+
+public class Main {
+    public static void main(String[] args) {
+        // Step 1: Create the base dependency (Student)
+        Students student = new Students("sanjay", 23, 86);
+
+        // Step 2: Inject Student into Department
+        Dept dep = new Dept("AIDS", 6, student);
+
+        // Step 3: Inject Department into College
+        Kgisl college = new Kgisl("kgisl", dep);
+
+        // Access and print values
+        System.out.println("College: " + college.getName());
+        college.getDept().displayOpeningDate();
+
+        // Retrieve student roll number through nested getters (Method Chaining)
+        System.out.println("Student Roll No: " + college.getDept().getStudents().getRollno());
+    }
+}
 ```
 
-Object:
-
+### Output:
 ```text
-Student
-----------------
-Name   = sanjay
-RollNo = 23
-RegNo  = 86
-----------------
+College: kgisl
+The Department opening date is 20th JAN
+Student Roll No: 23
 ```
 
 ---
 
-## Step 2
+## Deconstructing Nested Getter Calls
 
-Create Department Object
+The statement `college.getDept().getStudents().getRollno()` is an example of method chaining. It resolves step-by-step:
 
+1. **`college.getDept()`**:
+   * References the `Kgisl` object on the Stack.
+   * Looks up the `dept` reference variable.
+   * Returns the `Dept` object address (e.g. `0x3a2b`).
+2. **`...getStudents()`**:
+   * Takes the returned `Dept` object.
+   * Looks up the `std` reference variable.
+   * Returns the `Students` object address (e.g. `0x5f8e`).
+3. **`...getRollno()`**:
+   * Takes the returned `Students` object.
+   * Reads and returns the primitive `rollno` value (`23`).
+
+```mermaid
+graph LR
+    college[college reference] -->|1. getDept()| dept[Dept instance]
+    dept -->|2. getStudents()| student[Students instance]
+    student -->|3. getRollno()| rollno[23]
+```
+
+---
+
+## Memory Layout
+
+Here is how the object allocations look on the Heap. The reference pointer values are copied during instantiation to establish the composition chain.
+
+```text
+Heap Memory
+┌─────────────────────────────────────────────────────────────┐
+│  Kgisl (College) Object                                     │
+│  ┌──────────────────┐                                       │
+│  │ name = "kgisl"   │                                       │
+│  │ dept = 0x3a2b    │ ────────────────┐                     │
+│  └──────────────────┘                 │                     │
+├───────────────────────────────────────┼─────────────────────┤
+│  Dept (Department) Object <───────────┘                     │
+│  ┌──────────────────┐                                       │
+│  │ deptName = "AIDS"│                                       │
+│  │ deptFloor = 6    │                                       │
+│  │ std = 0x5f8e     │ ────────────────┐                     │
+│  └──────────────────┘                 │                     │
+├───────────────────────────────────────┼─────────────────────┤
+│  Students (Student) Object <──────────┘                     │
+│  ┌──────────────────┐                                       │
+│  │ stdname = "sanjay"│                                      │
+│  │ rollno = 23      │                                       │
+│  │ regno = 86       │                                       │
+│  └──────────────────┘                                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Why Use Composition Here?
+
+If we did not use composition, the `Kgisl` class would have to declare all student and department variables directly:
 ```java
-Dept dep =
-        new Dept(
-                "AIDS",
-                6,
-                student);
+class Kgisl {
+    String name;
+    String deptName;
+    int deptFloor;
+    String studentName;
+    int studentRollNo;
+}
 ```
-
-Object:
-
-```text
-Department
-----------------
-Name  = AIDS
-Floor = 6
-
-Contains
- ↓
-Student Object
-----------------
-```
+This design violates the **Single Responsibility Principle**. By separating student, department, and college definitions into dedicated classes, the code remains modular, reusable, and easy to maintain.
 
 ---
 
-## Step 3
+## Interview Questions (FAQ)
 
-Create College Object
+### Is KGISL inheriting Department?
+No. There is no `extends` keyword. `Kgisl` simply holds a reference variable pointing to a `Dept` object in its instance variables.
 
-```java
-Kgisl college =
-        new Kgisl(
-                "kgisl",
-                dep);
-```
-
-Object:
-
-```text
-College
-----------------
-Name = kgisl
-
-Contains
- ↓
-Department Object
-----------------
-```
+### What is the advantage of using composition over inheritance for deep hierarchies?
+Deep inheritance chains create high coupling: changes in the base parent classes can trigger unexpected compile errors down the tree (the Fragile Base Class Problem). Composition decouples the components, making them easier to refactor, test in isolation, and swap at runtime.
 
 ---
 
-# Understanding This Statement
+## Key Takeaways
 
-```java
-college.getDept()
-       .getStudents()
-       .getRollno();
-```
-
-Many beginners get confused here.
-
-Let's break it down.
+* Complex application models are constructed by nesting simpler object types.
+* Method chaining (e.g., `a.getB().getC()`) traverses the reference addresses on the Heap.
+* Composition separates responsibilities, making classes clean and highly testable.
 
 ---
 
-## Step 1
-
-```java
-college.getDept()
-```
-
-Returns:
-
-```text
-Department Object
-```
-
----
-
-## Step 2
-
-```java
-college.getDept()
-       .getStudents()
-```
-
-Returns:
-
-```text
-Student Object
-```
-
----
-
-## Step 3
-
-```java
-college.getDept()
-       .getStudents()
-       .getRollno();
-```
-
-Returns:
-
-```text
-23
-```
-
----
-
-# Visual Flow
-
-```text
-college
-   │
-   ▼
-
-Department
-   │
-   ▼
-
-Student
-   │
-   ▼
-
-Roll Number
-```
-
----
-
-# Memory Representation
-
-```text
-College Object
---------------------------------
-
-name = kgisl
-
-dept
- │
- ▼
-
-Department Object
---------------------------------
-
-name = AIDS
-floor = 6
-
-student
- │
- ▼
-
-Student Object
---------------------------------
-
-name = sanjay
-rollNo = 23
-regNo = 86
-
---------------------------------
-```
-
----
-
-# Why Composition Is Used Here?
-
-Without Composition:
-
-```text
-College would store:
-
-Department Name
-Department Floor
-Student Name
-Student RollNo
-Student RegNo
-```
-
-Everything would be inside one class.
-
-This becomes difficult to manage.
-
----
-
-With Composition:
-
-```text
-Student Class
-      ↓
-Department Class
-      ↓
-College Class
-```
-
-Responsibilities are separated.
-
----
-
-# Real-World Analogy
-
-```text
-University
-    │
-    ▼
-Department
-    │
-    ▼
-Student
-```
-
-A university manages departments.
-
-A department manages students.
-
-This hierarchy naturally follows:
-
-```text
-HAS-A Relationship
-```
-
----
-
-# Key Learning
-
-```text
-KGISL HAS-A Department
-
-Department HAS-A Student
-```
-
-This is Composition.
-
----
-
-# Interview Questions
-
-## What relationship does Composition represent?
-
-```text
-HAS-A Relationship
-```
-
----
-
-## Is KGISL inheriting Department?
-
-```text
-No
-```
-
-It contains a Department object.
-
----
-
-## Is Department inheriting Student?
-
-```text
-No
-```
-
-It contains a Student object.
-
----
-
-## Why use Composition?
-
-- Better code organization
-- Reusability
-- Flexibility
-- Real-world modeling
-
----
-
-# Concept Map
-
-```text
-Composition
-      │
-      ▼
-HAS-A Relationship
-      │
-      ▼
-KGISL
-  │
-  ▼
-Department
-  │
-  ▼
-Student
-```
-
----
-
-# Key Takeaways
-
-- Composition represents a HAS-A relationship.
-- Objects can contain other objects.
-- Complex systems are built from smaller classes.
-- Composition promotes modular design.
-- Real-world software heavily uses Composition.
-
----
-
-# Conclusion
-
-This program demonstrates Composition using a College → Department → Student hierarchy. Instead of creating one large class, we divide responsibilities among multiple classes and connect them through object references. This approach makes programs more maintainable, reusable, and aligned with real-world design principles.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

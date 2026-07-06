@@ -1,474 +1,111 @@
-# Upcasting and Downcasting in Java
+# Reference Type Casting: Upcasting and Downcasting
 
 ## Introduction
 
-Upcasting and Downcasting are important concepts in:
+In Java, object references are static-typed at compile-time but dynamic-typed at runtime. To bridge compile-time definitions and runtime implementations, Java uses reference type casting.
 
-```text
-Inheritance
-+
-Runtime Polymorphism
-```
+Understanding **Upcasting** and **Downcasting** is essential to implement runtime polymorphism and access subclass-unique behaviors safely.
 
-Many Java interview questions revolve around:
+---
 
-```java
-Parent reference = Child object;
-```
+## Real-World Analogy: Animals
 
-To understand Runtime Polymorphism deeply, you must understand:
+* Every **Dog** is an **Animal**. Therefore, converting a Dog reference to an Animal reference is implicit and safe.
+* However, not every **Animal** is a **Dog**. It could be a Cat or a Lion. Converting a generic Animal reference to a specific Dog reference is unsafe and must be declared explicitly.
 
-```text
-Upcasting
-Downcasting
+```mermaid
+graph TD
+    Animal[Animal Class]
+    Dog[Dog Class]
+    Animal -->|Implicit Casting: Upcasting| Dog
+    Dog -.->|Explicit Casting: Downcasting| Animal
 ```
 
 ---
 
-# Prerequisites
+## What is Upcasting?
 
-Before learning this topic, you should know:
+Upcasting is casting a subclass object to a parent class reference. This is done implicitly by the compiler and is always safe.
 
-```text
-Inheritance
+![Upcasting and Downcasting](../assets/images/upcasting-downcasting.svg)
 
-Method Overriding
-
-Runtime Polymorphism
-
-Parent Reference Child Object
-```
-
----
-
-# Real-World Analogy
-
-Imagine:
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
-
-Every Dog is an Animal.
-
-But every Animal is NOT a Dog.
-
-Example:
-
-```text
-Dog IS-A Animal
-```
-
-Therefore:
-
-```java
-Animal animal =
-        new Dog();
-```
-
-is valid.
-
-This is called:
-
-```text
-Upcasting
-```
-
----
-
-# What is Upcasting?
-
-Upcasting means:
-
-```text
-Converting Child Object
-into Parent Reference
-```
-
-Syntax:
-
-```java
-Parent ref =
-        new Child();
-```
-
----
-
-# First Upcasting Example
-
-## Parent Class
-
+### Upcasting Example:
 ```java
 class Animal {
-
     public void eat() {
-
-        System.out.println(
-                "Animal Eating");
+        System.out.println("Animal is eating.");
     }
 }
-```
 
----
-
-## Child Class
-
-```java
 class Dog extends Animal {
-
     public void bark() {
+        System.out.println("Dog barks: Woof!");
+    }
+}
 
-        System.out.println(
-                "Dog Barking");
+public class Main {
+    public static void main(String[] args) {
+        // Implicit upcasting: Dog reference assigned to Animal reference
+        Animal animal = new Dog(); 
+        animal.eat(); // Output: Animal is eating.
     }
 }
 ```
 
 ---
 
-## Main Class
+## What Can Be Accessed After Upcasting?
 
+When a child object is upcast to a parent reference:
+* You **can** access all methods declared in the parent class.
+* You **cannot** access subclass-unique methods directly.
+
+```java
+Animal animal = new Dog();
+animal.eat();  // VALID - declared in Animal
+animal.bark(); // COMPILER ERROR - cannot find symbol 'bark()' in Animal
+```
+
+### Why?
+The compiler determines member accessibility based on the **reference variable type** (`Animal`), not the runtime object type (`Dog`).
+
+---
+
+## What is Downcasting?
+
+Downcasting is casting a parent reference back to its subclass reference type. This must be performed explicitly, as it is potentially unsafe.
+
+### Why Downcast?
+We use downcasting when we have a parent reference but need to access subclass-unique methods (e.g. calling `bark()` using an `Animal` reference).
+
+### Downcasting Example:
 ```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Animal animal =
-                new Dog();
-
-        animal.eat();
+        Animal animal = new Dog(); // Upcast
+        
+        // Explicit Downcast
+        Dog dog = (Dog) animal; 
+        dog.bark(); // VALID - Output: Dog barks: Woof!
     }
 }
 ```
 
 ---
 
-# Output
+## Unsafe Downcasting & `ClassCastException`
 
-```text
-Animal Eating
-```
-
----
-
-# Understanding the Statement
+If you attempt to downcast an object to a type it does not belong to, the JVM will throw a **`ClassCastException`** at runtime.
 
 ```java
-Animal animal =
-        new Dog();
-```
+class Cat extends Animal {}
 
----
-
-Reference Type:
-
-```text
-Animal
-```
-
-Object Type:
-
-```text
-Dog
-```
-
----
-
-Visualization:
-
-```text
-Animal Reference
-        │
-        ▼
-
-      Dog Object
-```
-
----
-
-# Why is Upcasting Allowed?
-
-Because:
-
-```text
-Every Dog
-IS-A
-Animal
-```
-
-Java guarantees:
-
-```text
-Dog contains everything
-Animal has.
-```
-
----
-
-# Automatic Upcasting
-
-Upcasting happens automatically.
-
-Example:
-
-```java
-Dog dog =
-        new Dog();
-
-Animal animal =
-        dog;
-```
-
-No cast required.
-
----
-
-# What Can Be Accessed?
-
-Consider:
-
-```java
-Animal animal =
-        new Dog();
-```
-
-Available:
-
-```java
-animal.eat();
-```
-
-Not Available:
-
-```java
-animal.bark();
-```
-
-Compiler Error.
-
----
-
-# Why?
-
-Reference Type:
-
-```text
-Animal
-```
-
-determines accessible members.
-
----
-
-# Example
-
-```java
-class Animal {
-
-    public void eat() {
-
-        System.out.println(
-                "Eating");
-    }
-}
-
-class Dog extends Animal {
-
-    public void bark() {
-
-        System.out.println(
-                "Barking");
-    }
-}
-```
-
----
-
-Main:
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Animal animal =
-                new Dog();
-
-        animal.eat();
-
-        // animal.bark();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Eating
-```
-
----
-
-# Runtime Polymorphism Example
-
-```java
-class Animal {
-
-    public void sound() {
-
-        System.out.println(
-                "Animal Sound");
-    }
-}
-```
-
----
-
-```java
-class Dog extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Dog Barks");
-    }
-}
-```
-
----
-
-Main:
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Animal animal =
-                new Dog();
-
-        animal.sound();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Dog Barks
-```
-
----
-
-# Important Rule
-
-Methods:
-
-```text
-Runtime → Object Type
-```
-
-Variables:
-
-```text
-Compile Time → Reference Type
-```
-
----
-
-# What is Downcasting?
-
-Downcasting means:
-
-```text
-Converting Parent Reference
-Back Into Child Reference
-```
-
-Syntax:
-
-```java
-Child ref =
-        (Child) parentRef;
-```
-
----
-
-# Why Downcasting?
-
-Suppose:
-
-```java
-Animal animal =
-        new Dog();
-```
-
-We want access to:
-
-```java
-bark()
-```
-
-which belongs to Dog.
-
-Need:
-
-```java
-Dog dog =
-        (Dog) animal;
-```
-
----
-
-# First Downcasting Example
-
-```java
-class Animal {
-
-    public void eat() {
-
-        System.out.println(
-                "Eating");
-    }
-}
-```
-
----
-
-```java
-class Dog extends Animal {
-
-    public void bark() {
-
-        System.out.println(
-                "Barking");
-    }
-}
-```
-
----
-
-Main:
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Animal animal =
-                new Dog();
-
-        Dog dog =
-                (Dog) animal;
-
+        Animal animal = new Cat(); // animal is actually a Cat
+        
+        // Attempting to downcast Cat to Dog
+        Dog dog = (Dog) animal; // Compiles fine, but throws ClassCastException at runtime!
         dog.bark();
     }
 }
@@ -476,490 +113,82 @@ public class Main {
 
 ---
 
-# Output
+## Safe Downcasting using `instanceof`
 
-```text
-Barking
-```
-
----
-
-# Internal Working
-
-Step 1
+To prevent `ClassCastException`, always use the **`instanceof`** operator to verify the runtime object type before downcasting.
 
 ```java
-Animal animal =
-        new Dog();
-```
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Dog();
 
-```text
-Animal Ref
-     │
-     ▼
-
-Dog Object
-```
-
----
-
-Step 2
-
-```java
-Dog dog =
-        (Dog) animal;
-```
-
-```text
-Dog Ref
-    │
-    ▼
-
-Dog Object
-```
-
----
-
-# Memory Diagram
-
-```text
-Before Downcasting
-
-Animal Ref
-      │
-      ▼
-
-Dog Object
-```
-
----
-
-```text
-After Downcasting
-
-Animal Ref ──┐
-             │
-             ▼
-
-         Dog Object
-
-             ▲
-             │
-
-Dog Ref ─────┘
-```
-
-Both references point to the same object.
-
----
-
-# Unsafe Downcasting
-
-Example:
-
-```java
-Animal animal =
-        new Animal();
-
-Dog dog =
-        (Dog) animal;
-```
-
----
-
-# Result
-
-```text
-Runtime Error
-
-ClassCastException
-```
-
----
-
-# Why?
-
-Actual Object:
-
-```text
-Animal
-```
-
-Cannot become:
-
-```text
-Dog
-```
-
----
-
-# Safe Downcasting Using instanceof
-
-Before downcasting:
-
-```java
-if(animal instanceof Dog)
-```
-
-check object type.
-
----
-
-Example:
-
-```java
-Animal animal =
-        new Dog();
-
-if(animal instanceof Dog) {
-
-    Dog dog =
-            (Dog) animal;
-
-    dog.bark();
-}
-```
-
----
-
-# Output
-
-```text
-Barking
-```
-
----
-
-# Real-World Example
-
-## Employee System
-
-Parent:
-
-```java
-class Employee {
-
-    public void work() {
-
-        System.out.println(
-                "Working");
+        if (animal instanceof Dog) {
+            Dog dog = (Dog) animal; // Safe downcast
+            dog.bark();
+        } else {
+            System.out.println("Casting aborted: Object is not a Dog.");
+        }
     }
 }
 ```
 
 ---
 
-Child:
+## Upcasting vs. Downcasting
 
-```java
-class Developer
-        extends Employee {
+| Feature | Upcasting | Downcasting |
+| :--- | :--- | :--- |
+| **Direction** | Subclass to Superclass (`Child` $\rightarrow$ `Parent`) | Superclass to Subclass (`Parent` $\rightarrow$ `Child`) |
+| **Casting Syntax**| Implicit / Automatic | Explicit (requires manual cast syntax) |
+| **Safety** | Always safe | Unsafe (can throw `ClassCastException`) |
+| **Purpose** | Enables runtime polymorphism | Accesses subclass-unique members |
 
-    public void code() {
+---
 
-        System.out.println(
-                "Coding");
-    }
-}
+## Concept Map
+
+```mermaid
+graph TD
+    Cast[Reference Casting]
+    Cast --> Up[Upcasting: Child to Parent]
+    Up --> Implicit[Automatic & Safe]
+    Up --> Access1[Restricts access to parent members only]
+    
+    Cast --> Down[Downcasting: Parent to Child]
+    Down --> Explicit[Manual & Unsafe]
+    Down --> Instance[instanceof Check prevents ClassCastException]
+    Down --> Access2[Unlocks child-specific members]
 ```
 
 ---
 
-Main:
+## Interview Questions (FAQ)
 
-```java
-Employee emp =
-        new Developer();
+### Why is upcasting safe but downcasting unsafe?
+Upcasting is safe because a subclass inherits all fields and methods from the parent class, guaranteeing their presence. Downcasting is unsafe because a parent reference might point to a different subclass (e.g. an `Animal` reference pointing to a `Cat` cannot be cast to a `Dog`).
 
-Developer dev =
-        (Developer) emp;
+### What exception is thrown on invalid downcasting?
+`java.lang.ClassCastException` is thrown.
 
-dev.code();
-```
-
----
-
-# Output
-
-```text
-Coding
-```
+### Can we bypass compiler checks during downcasting?
+No. The compiler requires an explicit cast syntax `(Subclass) reference` to acknowledge that you are taking responsibility for casting safety.
 
 ---
 
-# Upcasting vs Downcasting
+## Practice Challenges
 
-| Upcasting | Downcasting |
-|------------|------------|
-| Child → Parent | Parent → Child |
-| Automatic | Manual |
-| Safe | May Cause Exception |
-| No Cast Needed | Cast Required |
-| Commonly Used | Used When Needed |
+1. **Multimedia Player**: Create a base class `Media` and subclass `Video`. Add a subclass-unique method `playVideo()`. Upcast a `Video` object to a `Media` reference. Then, safely downcast it back using `instanceof` to call `playVideo()`.
+2. **Staff Hierarchy**: Design a `Staff` base class and a `Professor` subclass. Add `giveLecture()` to `Professor`. Demonstrate safe downcasting from a `Staff` reference to trigger `giveLecture()`.
 
 ---
 
-# Visual Comparison
+## Key Takeaways
 
-## Upcasting
-
-```text
-Dog
- │
- ▼
-Animal
-```
-
-Code:
-
-```java
-Animal animal =
-        new Dog();
-```
+* Upcasting converts a child reference to a parent reference type. It is implicit, safe, and powers runtime polymorphism.
+* Downcasting converts a parent reference back to a child reference type. It is explicit and can throw a `ClassCastException`.
+* Always use `instanceof` to check the runtime object type before downcasting.
+* Casting reference variables changes the compile-time visibility of members, not the underlying object type on the Heap.
 
 ---
 
-## Downcasting
-
-```text
-Animal
- │
- ▼
-Dog
-```
-
-Code:
-
-```java
-Dog dog =
-        (Dog) animal;
-```
-
----
-
-# Why Upcasting is Important?
-
-Almost all Runtime Polymorphism uses:
-
-```java
-Parent ref =
-        new Child();
-```
-
-Examples:
-
-```java
-Animal a =
-        new Dog();
-
-Vehicle v =
-        new Car();
-
-Employee e =
-        new Manager();
-```
-
-This is Upcasting.
-
----
-
-# Common Mistakes
-
-## Calling Child Methods
-
-Wrong:
-
-```java
-Animal a =
-        new Dog();
-
-a.bark();
-```
-
-Compiler Error.
-
----
-
-Correct:
-
-```java
-Dog d =
-        (Dog) a;
-
-d.bark();
-```
-
----
-
-## Unsafe Downcasting
-
-Wrong:
-
-```java
-Animal a =
-        new Animal();
-
-Dog d =
-        (Dog) a;
-```
-
-Runtime Error.
-
----
-
-Correct:
-
-```java
-if(a instanceof Dog)
-```
-
----
-
-# Interview Questions
-
-## What is Upcasting?
-
-Converting a child object into a parent reference.
-
----
-
-## What is Downcasting?
-
-Converting a parent reference back into a child reference.
-
----
-
-## Is Upcasting Automatic?
-
-Yes.
-
----
-
-## Is Downcasting Automatic?
-
-No.
-
-Explicit cast required.
-
----
-
-## Which One Is Safer?
-
-```text
-Upcasting
-```
-
----
-
-## Which Exception Occurs During Invalid Downcasting?
-
-```text
-ClassCastException
-```
-
----
-
-## Why Use Downcasting?
-
-To access child-specific methods.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```text
-Animal
-Dog
-```
-
-Demonstrate Upcasting.
-
----
-
-## Challenge 2
-
-Perform Downcasting and call child methods.
-
----
-
-## Challenge 3
-
-Create:
-
-```text
-Vehicle
-Car
-```
-
-Use Runtime Polymorphism.
-
----
-
-## Challenge 4
-
-Use instanceof before downcasting.
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-Employee
-Developer
-```
-
-and demonstrate safe casting.
-
----
-
-# Concept Map
-
-```text
-Inheritance
-      │
-      ▼
-Runtime Polymorphism
-      │
-      ▼
-Parent Reference
-      │
-      ▼
-Child Object
-      │
-      ▼
-Upcasting
-      │
-      ▼
-Access Parent Features
-      │
-      ▼
-Downcasting
-      │
-      ▼
-Access Child Features
-```
-
----
-
-# Key Takeaways
-
-- Upcasting converts a child object into a parent reference.
-- Upcasting is automatic and safe.
-- Downcasting converts a parent reference back into a child reference.
-- Downcasting requires explicit casting.
-- Invalid downcasting causes `ClassCastException`.
-- Use `instanceof` before downcasting.
-- Runtime Polymorphism heavily depends on upcasting.
-- Downcasting allows access to child-specific behavior.
-
----
-
-# Conclusion
-
-Upcasting and Downcasting are essential concepts in Java inheritance and runtime polymorphism. Upcasting enables flexible and reusable code by allowing parent references to manage child objects, while downcasting allows access to child-specific functionality when needed. Understanding both concepts is crucial for mastering Java OOP and performing well in technical interviews.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

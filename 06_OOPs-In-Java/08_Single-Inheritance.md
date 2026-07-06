@@ -2,861 +2,258 @@
 
 ## Introduction
 
-Inheritance is one of the most important concepts in Object-Oriented Programming (OOP).
+Inheritance creates a logical `IS-A` relationship between classes. The simplest and most common form of this relationship is **Single Inheritance**, where a single child subclass inherits directly from a single parent superclass.
 
-In the previous chapter, we learned that inheritance creates an:
-
-```text
-IS-A Relationship
-```
-
-between classes.
-
-The simplest form of inheritance is:
-
-```text
-Single Inheritance
-```
+This guide explores the structure, execution flow, memory details, and advantages of implementing single inheritance in Java.
 
 ---
 
-# What is Single Inheritance?
+## What is Single Inheritance?
 
-Single Inheritance occurs when:
+Single Inheritance is a design structure where one subclass extends exactly one superclass. 
 
-```text
-One Child Class
-inherits from
-One Parent Class
+```mermaid
+graph TD
+    Parent[Parent Class / Superclass] -->|Inherits behavior| Child[Child Class / Subclass]
 ```
 
-Diagram:
-
-```text
-Parent Class
-      │
-      ▼
- Child Class
-```
+### Real-World Models:
+* **Student** IS-A **Person**: A `Student` subclass inherits base properties (like name and age) from a `Person` superclass.
+* **Car** IS-A **Vehicle**: A `Car` subclass inherits base actions (like start and stop) from a `Vehicle` superclass.
+* **Dog** IS-A **Animal**: A `Dog` subclass inherits properties (like weight and breed) from an `Animal` superclass.
 
 ---
 
-# Real-World Examples
+## Basic Single Inheritance Example
 
-```text
-Person
-   │
-   ▼
-Student
-```
-
-Student IS-A Person.
-
----
-
-```text
-Vehicle
-   │
-   ▼
-Car
-```
-
-Car IS-A Vehicle.
-
----
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
-
-Dog IS-A Animal.
-
----
-
-# Why Use Single Inheritance?
-
-Without inheritance:
+Here is a simple example showing a subclass inheriting a method from its superclass:
 
 ```java
-class Dog {
-
-    public void eat() {
-        System.out.println("Eating");
-    }
-}
-
-class Cat {
-
-    public void eat() {
-        System.out.println("Eating");
-    }
-}
-```
-
-Problem:
-
-```text
-Duplicate Code
-```
-
----
-
-Using inheritance:
-
-```java
+// Superclass
 class Animal {
-
     public void eat() {
-        System.out.println("Eating");
+        System.out.println("Animal is eating.");
     }
 }
 
-class Dog extends Animal {
+// Subclass inheriting from Animal
+class Dog extends Animal {}
 
-}
-
-class Cat extends Animal {
-
-}
-```
-
-Now the code is reused.
-
----
-
-# Syntax
-
-```java
-class Parent {
-
-}
-
-class Child extends Parent {
-
-}
-```
-
-Example:
-
-```java
-class Animal {
-
-}
-
-class Dog extends Animal {
-
-}
-```
-
----
-
-# First Single Inheritance Program
-
-## Parent Class
-
-```java
-class Animal {
-
-    public void eat() {
-
-        System.out.println(
-                "Animal is Eating");
-
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Dog extends Animal {
-
-}
-```
-
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
         Dog dog = new Dog();
-
-        dog.eat();
+        dog.eat(); // Method eat() is inherited from Animal class
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Animal is Eating
+Animal is eating.
 ```
 
----
-
-# Understanding the Flow
-
-```text
-Dog Object Created
-       │
-       ▼
-
-eat() Called
-       │
-       ▼
-
-Method Not Found in Dog
-       │
-       ▼
-
-Search Parent Class
-       │
-       ▼
-
-Method Found
-       │
-       ▼
-
-Execute Method
-```
+### Subclass Method Resolution Flow:
+When `dog.eat()` is executed:
+1. Java searches the `Dog` class template on the Heap/Metaspace for the `eat()` method.
+2. Finding no local implementation, Java traverses up the inheritance link to the `Animal` superclass.
+3. The method is found in `Animal` and executed.
 
 ---
 
-# Memory Representation
+## Inheriting Fields and Methods Together
 
-```text
-Dog Object
-----------------
-
-Inherited Methods
-
-eat()
-
-----------------
-```
-
----
-
-# Example with Variables
-
-## Parent Class
+Inheriting both fields and methods enables child classes to reuse variables as well.
 
 ```java
+// Parent Class
 class Person {
-
     String name = "Sanjay";
 
+    public void displayInfo() {
+        System.out.println("Person Name: " + name);
+    }
 }
-```
 
----
+// Child Class extending Person
+class Student extends Person {}
 
-## Child Class
-
-```java
-class Student extends Person {
-
-}
-```
-
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Student student =
-                new Student();
-
-        System.out.println(
-                student.name);
+        Student student = new Student();
+        student.displayInfo(); // Accessing inherited method
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Sanjay
+Person Name: Sanjay
 ```
 
 ---
 
-# Example with Methods and Variables
+## Constructor Execution Flow in Single Inheritance
 
-## Parent Class
-
-```java
-class Person {
-
-    String name = "Sanjay";
-
-    public void display() {
-
-        System.out.println(
-                "Name : " + name);
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Student extends Person {
-
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student student =
-                new Student();
-
-        student.display();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Name : Sanjay
-```
-
----
-
-# Real-World Example: Vehicle System
-
-## Parent Class
-
-```java
-class Vehicle {
-
-    public void start() {
-
-        System.out.println(
-                "Vehicle Started");
-    }
-
-    public void stop() {
-
-        System.out.println(
-                "Vehicle Stopped");
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Car extends Vehicle {
-
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Car car = new Car();
-
-        car.start();
-        car.stop();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Vehicle Started
-Vehicle Stopped
-```
-
----
-
-# Constructor Example
-
-## Parent Class
+When instantiating a subclass object, the parent class constructor executes **first**, followed by the child class constructor.
 
 ```java
 class Animal {
-
     public Animal() {
-
-        System.out.println(
-                "Animal Constructor");
+        System.out.println("Animal (Parent) Constructor Called");
     }
 }
-```
 
----
-
-## Child Class
-
-```java
 class Dog extends Animal {
-
     public Dog() {
-
-        System.out.println(
-                "Dog Constructor");
+        // super() is called implicitly here by the compiler
+        System.out.println("Dog (Child) Constructor Called");
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
         Dog dog = new Dog();
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Animal Constructor
-Dog Constructor
+Animal (Parent) Constructor Called
+Dog (Child) Constructor Called
+```
+
+```mermaid
+graph TD
+    Inst[new Dog()] -->|Triggers| Child[Dog Constructor]
+    Child -->|Implicitly calls super() first line| Parent[Animal Constructor]
+    Parent -->|Completes parent setup| ChildBody[Executes Dog Constructor Body]
+    ChildBody --> Ready[Dog Object Ready in Heap]
 ```
 
 ---
 
-# Why Parent Constructor Executes First?
+## Parameterized Constructors & the `super()` Keyword
 
-Execution Flow:
-
-```text
-Create Dog Object
-        │
-        ▼
-
-Call Animal Constructor
-        │
-        ▼
-
-Call Dog Constructor
-        │
-        ▼
-
-Object Ready
-```
-
----
-
-# Student Management Example
-
-## Parent Class
+If the parent class constructor has parameters, the child constructor must call the parent constructor explicitly using the **`super(...)`** keyword on the first line of the child constructor.
 
 ```java
 class Person {
-
-    protected String name;
+    protected String name; // protected modifier allows direct subclass access
 
     public Person(String name) {
-
         this.name = name;
     }
 
     public void displayPerson() {
-
-        System.out.println(
-                "Name : " + name);
+        System.out.println("Name: " + name);
     }
 }
-```
 
----
-
-## Child Class
-
-```java
 class Student extends Person {
-
     private int rollNo;
 
-    public Student(
-            String name,
-            int rollNo) {
-
-        super(name);
-
+    public Student(String name, int rollNo) {
+        super(name); // Explicitly calling the parent constructor
         this.rollNo = rollNo;
     }
 
     public void displayStudent() {
-
-        displayPerson();
-
-        System.out.println(
-                "Roll No : "
-                + rollNo);
+        displayPerson(); // Accessing parent method
+        System.out.println("Roll No: " + rollNo);
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Student student =
-                new Student(
-                        "Sanjay",
-                        23);
-
+        Student student = new Student("Sanjay", 23);
         student.displayStudent();
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Name : Sanjay
-Roll No : 23
+Name: Sanjay
+Roll No: 23
 ```
 
 ---
 
-# Advantages of Single Inheritance
+## Advantages of Single Inheritance
 
-## Code Reusability
-
-Methods written once can be reused.
-
----
-
-## Reduced Duplication
-
-Avoids repeating code.
+* **Reusability**: Subclasses inherit existing fields/methods, reducing redundant code.
+* **Low Redundancy**: Common features are maintained in one centralized superclass.
+* **Organized Structure**: The class hierarchy naturally mirrors real-world relationships.
+* **Simplicity**: With only one parent class, name shadowing conflicts and debugging are straightforward.
 
 ---
 
-## Better Organization
+## Common Mistakes
 
-Common functionality stays in parent class.
-
----
-
-## Easier Maintenance
-
-Changes in parent class affect all child classes.
-
----
-
-# Common Mistakes
-
-## Forgetting extends
-
-Wrong:
-
+### 1. Forgetting that Private Variables Are Not Inherited Directly
+Subclasses cannot access `private` parent variables directly. Use `protected` variables or `public` getter/setter methods.
 ```java
-class Dog {
+class Parent {
+    private String secret;
+}
 
+class Child extends Parent {
+    public void print() {
+        System.out.println(secret); // COMPILER ERROR: secret has private access in Parent
+    }
 }
 ```
 
-No inheritance.
-
----
-
-Correct:
-
+### 2. Violating the IS-A Relationship
+Do not use inheritance when classes do not have an `IS-A` relationship. For example, an `Engine` is not a `Car`. Use Composition instead.
 ```java
-class Dog extends Animal {
-
-}
+// WRONG
+class Engine extends Car {}
 ```
 
 ---
 
-## Private Variables Access
+## Concept Map
 
-Wrong:
-
-```java
-private String name;
-```
-
-Direct access from child class is not allowed.
-
----
-
-Use:
-
-```java
-protected
-```
-
-or
-
-```java
-Getter Methods
+```mermaid
+graph TD
+    Single[Single Inheritance]
+    Single --> Structure[One Parent Class -> One Child Class]
+    Single --> Keyword[extends Keyword]
+    Single --> Relationship[IS-A Relationship]
+    Single --> Constructors[Parent Constructor executes first]
 ```
 
 ---
 
-## Wrong Relationship
+## Interview Questions (FAQ)
 
-Wrong:
+### What is single inheritance?
+Single inheritance is a type of class design where a subclass inherits state and behavior from exactly one parent superclass.
 
-```java
-class Engine extends Car {
+### Can a parent class access members of a child class?
+No. Inheritance is one-way: subclasses inherit from superclasses. A parent class has no knowledge of variables or methods defined in its child classes.
 
-}
-```
-
-Engine is not a Car.
-
-Use Composition instead.
+### What is the purpose of the `super` keyword in constructors?
+The `super(...)` call is used to invoke a parent class's constructor from a subclass constructor, allowing parent fields to be initialized correctly.
 
 ---
 
-# Single Inheritance Diagram
+## Practice Challenges
 
-```text
-Animal
-   │
-   ▼
-Dog
-```
+1. **Animal Sound System**: Create a parent class `Animal` with a method `sound()`. Create a `Dog` subclass that overrides `sound()` to print `"Bark"`.
+2. **Employee Structure**: Create a parent class `Employee` with fields `name` and `salary` initialized via a constructor. Create a subclass `Manager` that adds a `bonus` field and utilizes `super()` to initialize the employee details.
 
 ---
 
-```text
-Person
-   │
-   ▼
-Student
-```
+## Key Takeaways
+
+* Single inheritance represents an **`IS-A`** relationship with one parent class and one child class.
+* The `extends` keyword establishes the inheritance hierarchy.
+* Private parent members are not directly accessible; use `protected` or getter/setter methods instead.
+* Subclass constructors call parent constructors (`super()`) before running their own initialization code.
 
 ---
 
-```text
-Vehicle
-   │
-   ▼
-Car
-```
-
----
-
-# Single Inheritance vs Multilevel Inheritance
-
-## Single Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
-
-One Parent → One Child
-
----
-
-## Multilevel Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-   │
-   ▼
-Puppy
-```
-
-Chain of inheritance.
-
----
-
-# Interview Questions
-
-## What is Single Inheritance?
-
-A type of inheritance where one child class inherits from one parent class.
-
----
-
-## Which Keyword Is Used?
-
-```java
-extends
-```
-
----
-
-## What Relationship Does It Represent?
-
-```text
-IS-A Relationship
-```
-
----
-
-## Can a Child Class Access Parent Methods?
-
-Yes.
-
----
-
-## Which Constructor Executes First?
-
-Parent Constructor.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```text
-Animal
-Dog
-```
-
-Use single inheritance.
-
----
-
-## Challenge 2
-
-Create:
-
-```text
-Person
-Student
-```
-
-Display inherited data.
-
----
-
-## Challenge 3
-
-Create:
-
-```text
-Vehicle
-Bike
-```
-
-Reuse methods.
-
----
-
-## Challenge 4
-
-Create:
-
-```text
-Employee
-Manager
-```
-
-Use constructor inheritance.
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-Shape
-Circle
-```
-
-Reuse parent methods.
-
----
-
-# Concept Map
-
-```text
-Single Inheritance
-        │
-        ▼
-   One Parent
-        │
-        ▼
-    One Child
-        │
-        ▼
-  Code Reuse
-        │
-        ▼
-  Better Design
-```
-
----
-
-# Key Takeaways
-
-- Single Inheritance means one child class inherits from one parent class.
-- Java uses the `extends` keyword.
-- It represents an IS-A relationship.
-- Child classes can use parent methods and variables.
-- Parent constructors execute before child constructors.
-- Single inheritance promotes code reuse and maintainability.
-
----
-
-# Conclusion
-
-Single Inheritance is the simplest and most commonly used form of inheritance in Java. It allows a child class to inherit properties and behaviors from a parent class, reducing code duplication and improving program organization. Understanding Single Inheritance is essential before learning Multilevel Inheritance, Hierarchical Inheritance, and Runtime Polymorphism.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

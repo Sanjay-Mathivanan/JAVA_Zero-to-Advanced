@@ -2,782 +2,324 @@
 
 ## Introduction
 
-Composition is one of the fundamental concepts of Object-Oriented Programming (OOP).
+In Object-Oriented Programming (OOP), modeling relationships between different classes is a core task. While **Inheritance** represents an `IS-A` relationship (e.g., a Car is a Vehicle), **Composition** represents a **`HAS-A` relationship**.
 
-It represents a:
+Composition is a design technique where one class contains reference variables pointing to objects of other classes as instance variables. This allows us to build complex objects by combining simpler, specialized objects.
 
-```text
-HAS-A Relationship
-```
-
-between classes.
-
-Unlike inheritance, where one class extends another, composition allows one class to contain objects of other classes as its members.
+![Composition vs Inheritance](../assets/images/composition-vs-inheritance.svg)
 
 ---
 
-# Real-World Example
+## Real-World Analogy: The Computer
 
-Consider a Computer.
+A real-world computer is not a single, indivisible entity. It is composed of multiple specialized components working together:
 
-A Computer has:
+* A Computer **HAS-A** Monitor
+* A Computer **HAS-A** Keyboard
+* A Computer **HAS-A** Motherboard
+* A Computer **HAS-A** Processor
 
-```text
-Monitor
-Keyboard
-Motherboard
-Processor
-```
-
-A Computer is not a Monitor.
-
-A Computer is not a Keyboard.
-
-Instead:
-
-```text
-Computer HAS-A Monitor
-Computer HAS-A Keyboard
-Computer HAS-A Motherboard
-```
-
-This is Composition.
+In Java, instead of writing all keyboard and monitor fields inside the `Computer` class, we design separate `Keyboard` and `Monitor` classes and include them as fields inside the `Computer` class.
 
 ---
 
-# Composition vs Inheritance
+## Composition vs. Inheritance
 
-## Inheritance
-
-```text
-Car IS-A Vehicle
-Dog IS-A Animal
-```
-
-Relationship:
-
-```text
-IS-A
-```
-
-Example:
-
+### Inheritance (IS-A)
+Inheritance is used when a subclass is a specialized version of a superclass.
 ```java
-class Vehicle {
-
-}
-
-class Car extends Vehicle {
-
-}
+class Vehicle {}
+class Car extends Vehicle {} // Car IS-A Vehicle
 ```
 
----
-
-## Composition
-
-```text
-Computer HAS-A Monitor
-House HAS-A Room
-Car HAS-A Engine
-```
-
-Relationship:
-
-```text
-HAS-A
-```
-
-Example:
-
+### Composition (HAS-A)
+Composition is used when a class contains other objects to construct its state.
 ```java
-class Engine {
-
-}
-
+class Engine {}
 class Car {
-
-    Engine engine;
-
+    private Engine engine; // Car HAS-A Engine
 }
 ```
 
 ---
 
-# Why Use Composition?
+## Why Use Composition?
 
-Composition helps:
-
-- Reuse code
-- Reduce complexity
-- Improve flexibility
-- Follow real-world design
-- Avoid deep inheritance chains
+Using composition over deep inheritance hierarchies offers several key advantages:
+* **Code Reusability**: Components like an `Address` class can be reused across different classes (e.g., `Customer`, `Employee`, `Supplier`).
+* **Flexibility**: The internal object implementation can be replaced or updated at runtime.
+* **Low Coupling**: Changing the internal code of the component class (e.g., `Engine`) does not break the container class (`Car`).
+* **Avoids Fragile Base Class Problem**: Deep inheritance chains make sub-classes highly fragile to parent modifications. Composition avoids this.
 
 ---
 
-# Simple Composition Example
+## Basic Composition Example
 
-## Engine Class
+Here is a basic program showing a `Car` containing a reference to an `Engine` object.
 
+### Class Definitions:
 ```java
 class Engine {
-
     public void start() {
-
-        System.out.println(
-                "Engine Started");
-
+        System.out.println("Engine started. Vroom!");
     }
 }
-```
 
----
-
-## Car Class
-
-```java
 class Car {
-
-    private Engine engine;
+    private Engine engine; // HAS-A relationship
 
     public Car() {
-
-        engine = new Engine();
-
+        // Instantiate the dependent object inside the constructor
+        this.engine = new Engine();
     }
 
     public void startCar() {
-
-        engine.start();
-
-        System.out.println(
-                "Car Started");
-
+        engine.start(); // Delegating behavior
+        System.out.println("Car is ready to drive.");
     }
 }
 ```
 
----
-
-## Main Class
-
+### Main Class Execution:
 ```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Car car = new Car();
-
-        car.startCar();
-
+        Car myCar = new Car();
+        myCar.startCar();
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Engine Started
-Car Started
+Engine started. Vroom!
+Car is ready to drive.
 ```
 
 ---
 
-# Understanding the Relationship
+## Memory Representation
 
-```text
-Car
- │
- └── Engine
-```
+When you instantiate a container object, memory is allocated on the Heap for the container, which contains references pointing to separate child objects on the Heap.
 
-Car contains an Engine object.
-
-Therefore:
-
-```text
-Car HAS-A Engine
+```mermaid
+graph LR
+    StackRef[Stack Reference: myCar] -->|points to| HeapCar[Car Object in Heap]
+    HeapCar -->|engine field points to| HeapEngine[Engine Object in Heap]
 ```
 
 ---
 
-# Internal Working
+## Composition with Multiple Component Classes
 
-When:
-
-```java
-Car car = new Car();
-```
-
-executes,
-
-Java creates:
-
-```text
-Car Object
-      │
-      ▼
-Engine Object
-```
-
----
-
-# Memory Representation
-
-```text
-Car Object
-----------------
-
-engine
-   │
-   ▼
-
-Engine Object
-
-----------------
-```
-
----
-
-# Composition with Multiple Classes
-
-Real applications use multiple objects.
-
-Example:
-
-```text
-Computer
- ├── Monitor
- ├── Keyboard
- └── Motherboard
-```
-
----
-
-# Monitor Class
+Let's look at a computer model composed of a separate `Monitor` and `Keyboard`.
 
 ```java
 class Monitor {
-
     public void display() {
-
-        System.out.println(
-                "Display ON");
-
+        System.out.println("Display rendering pixels.");
     }
 }
-```
 
----
-
-# Keyboard Class
-
-```java
 class Keyboard {
-
     public void type() {
-
-        System.out.println(
-                "Typing...");
-
+        System.out.println("Keyboard sending key inputs.");
     }
 }
-```
 
----
-
-# Computer Class
-
-```java
 class Computer {
-
     private Monitor monitor;
     private Keyboard keyboard;
 
     public Computer() {
-
-        monitor = new Monitor();
-        keyboard = new Keyboard();
-
+        this.monitor = new Monitor();
+        this.keyboard = new Keyboard();
     }
 
-    public void startComputer() {
-
+    public void bootSystem() {
         monitor.display();
         keyboard.type();
-
-        System.out.println(
-                "Computer Ready");
-
+        System.out.println("Computer booted and ready for use.");
     }
 }
-```
 
----
-
-# Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Computer pc =
-                new Computer();
-
-        pc.startComputer();
-
+        Computer pc = new Computer();
+        pc.bootSystem();
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Display ON
-Typing...
-Computer Ready
+Display rendering pixels.
+Keyboard sending key inputs.
+Computer booted and ready for use.
 ```
 
 ---
 
-# Composition Using Constructor Injection
+## Composition via Constructor Injection
 
-Instead of creating objects inside a class, we can pass them through constructors.
-
----
-
-## Engine Class
+Instead of instantiating components directly inside the constructor (which hard-codes the dependency), it is often better design to pass pre-created component objects into the constructor. This is called **Constructor Dependency Injection**.
 
 ```java
 class Engine {
-
     public void start() {
-
-        System.out.println(
-                "Engine Started");
-
+        System.out.println("Engine started.");
     }
 }
-```
 
----
-
-## Car Class
-
-```java
 class Car {
-
     private Engine engine;
 
+    // Engine is injected from the outside
     public Car(Engine engine) {
-
         this.engine = engine;
-
     }
 
-    public void startCar() {
-
+    public void drive() {
         engine.start();
-
+        System.out.println("Driving...");
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Engine engine =
-                new Engine();
-
-        Car car =
-                new Car(engine);
-
-        car.startCar();
-
+        Engine V8 = new Engine();
+        Car muscleCar = new Car(V8); // Injecting V8 engine
+        muscleCar.drive();
     }
 }
 ```
 
 ---
 
-# Output
+## Real-World Banking Example
 
-```text
-Engine Started
-```
-
----
-
-# Real-World Banking Example
-
-## Address Class
+In enterprise applications, data models are heavily composed. For example, a `Customer` has a contact `Address`.
 
 ```java
 class Address {
-
     private String city;
 
     public Address(String city) {
-
         this.city = city;
-
     }
 
     public String getCity() {
-
         return city;
-
     }
 }
-```
 
----
-
-## Customer Class
-
-```java
 class Customer {
-
     private String name;
-    private Address address;
+    private Address address; // Composition
 
-    public Customer(
-            String name,
-            Address address) {
-
+    public Customer(String name, Address address) {
         this.name = name;
         this.address = address;
-
     }
 
-    public void display() {
-
-        System.out.println(
-                name +
-                " lives in " +
-                address.getCity());
-
+    public void displayCustomer() {
+        System.out.println("Customer: " + name);
+        System.out.println("City: " + address.getCity());
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Address address =
-                new Address("Chennai");
-
-        Customer customer =
-                new Customer(
-                        "Sanjay",
-                        address);
-
-        customer.display();
-
+        Address addr = new Address("Chennai");
+        Customer cust = new Customer("Sanjay", addr);
+        cust.displayCustomer();
     }
 }
 ```
 
 ---
 
-# Output
+## Composition vs. Aggregation
 
-```text
-Sanjay lives in Chennai
-```
+While both represent `HAS-A` relationships, they differ in relationship strength:
 
----
+### 1. Composition (Strong HAS-A)
+The child object's lifecycle is bound to the parent object's lifecycle. The child cannot exist independently.
+* **Example**: A `House` has `Rooms`. If the house is demolished, the rooms cease to exist.
 
-# Composition Diagram
-
-```text
-Customer
-   │
-   ▼
-Address
-```
-
-Relationship:
-
-```text
-Customer HAS-A Address
-```
+### 2. Aggregation (Weak HAS-A)
+The child object can exist independently of the parent object.
+* **Example**: A `Department` has `Teachers`. If the department is closed down, the teachers still exist.
 
 ---
 
-# Advantages of Composition
+## Common Mistakes
 
-## Code Reusability
-
-The same class can be reused.
-
-Example:
-
-```text
-Address
-```
-
-can be used by:
-
-```text
-Customer
-Employee
-Student
-```
-
----
-
-## Flexible Design
-
-Objects can be replaced easily.
-
----
-
-## Better Maintainability
-
-Changes in one class usually do not affect unrelated classes.
-
----
-
-## Follows Real-World Modeling
-
-Most real-world relationships are:
-
-```text
-HAS-A
-```
-
-relationships.
-
----
-
-# Composition vs Aggregation
-
-Composition and Aggregation are similar.
-
----
-
-## Composition
-
-Strong relationship.
-
-Example:
-
-```text
-House HAS-A Room
-```
-
-If house is destroyed:
-
-```text
-Rooms are also gone.
-```
-
----
-
-## Aggregation
-
-Weak relationship.
-
-Example:
-
-```text
-Department HAS-A Teacher
-```
-
-If department is removed:
-
-```text
-Teacher still exists.
-```
-
----
-
-# Common Mistakes
-
-## Using Inheritance Instead of Composition
-
-Wrong:
-
+### 1. Inheriting when Composition is Appropriate
 ```java
-class Car extends Engine {
+// WRONG - Car IS NOT an Engine
+class Car extends Engine {}
 
+// CORRECT - Car HAS AN Engine
+class Car {
+    private Engine engine;
 }
 ```
 
-A Car is not an Engine.
-
----
-
-Correct:
-
+### 2. Failing to check for Null Reference
+If components are injected or uninitialized, calling methods on them directly will throw a `NullPointerException`.
 ```java
 class Car {
-
-    Engine engine;
-
+    private Engine engine; // Defaults to null
+    
+    public void start() {
+        engine.start(); // Throws NullPointerException if V8 not passed!
+    }
 }
 ```
 
 ---
 
-## Creating Too Many Dependencies
+## Concept Map
 
-Avoid unnecessary object nesting.
-
----
-
-# Interview Questions
-
-## What is Composition?
-
-A design technique where one class contains another class object.
-
----
-
-## What Relationship Does Composition Represent?
-
-```text
-HAS-A
-```
-
-relationship.
-
----
-
-## Difference Between Composition and Inheritance?
-
-| Composition | Inheritance |
-|------------|------------|
-| HAS-A | IS-A |
-| More Flexible | Less Flexible |
-| Uses Objects | Uses extends |
-
----
-
-## Why Prefer Composition Over Inheritance?
-
-Because it provides:
-
-- Better flexibility
-- Better maintainability
-- Better code reuse
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```text
-Car
-Engine
-```
-
-using composition.
-
----
-
-## Challenge 2
-
-Create:
-
-```text
-Library
-Book
-```
-
-using composition.
-
----
-
-## Challenge 3
-
-Create:
-
-```text
-University
-Department
-```
-
-using composition.
-
----
-
-## Challenge 4
-
-Create:
-
-```text
-Mobile
-Battery
-```
-
-using composition.
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-House
-Room
-```
-
-using composition.
-
----
-
-# Concept Map
-
-```text
-Composition
-      │
-      ▼
-HAS-A Relationship
-      │
-      ├── Car → Engine
-      ├── Computer → Monitor
-      ├── Customer → Address
-      ├── House → Room
-      └── Mobile → Battery
+```mermaid
+graph TD
+    Comp[Composition]
+    Comp --> HasA[HAS-A Relationship]
+    HasA --> Ex1[Car HAS-A Engine]
+    HasA --> Ex2[Computer HAS-A Monitor]
+    HasA --> Ex3[Customer HAS-A Address]
 ```
 
 ---
 
-# Key Takeaways
+## Interview Questions (FAQ)
 
-- Composition represents a HAS-A relationship.
-- One class contains another class object.
-- Composition promotes code reuse.
-- Composition is often preferred over inheritance.
-- Real-world systems frequently use composition.
-- Composition creates flexible and maintainable designs.
+### What is composition in Java?
+Composition is a design technique in which a class contains reference variables pointing to instances of other classes as its fields, creating a `HAS-A` relationship.
+
+### What is the difference between inheritance and composition?
+Inheritance is an `IS-A` relationship where a class inherits directly from a parent class. Composition is a `HAS-A` relationship where a class wraps instance variables of other class types.
+
+### Why is composition preferred over inheritance?
+Composition provides better flexibility (components can be replaced at runtime), avoids multiple inheritance restrictions, does not expose parent implementation details to the outer scope, and reduces class coupling.
 
 ---
 
-# Conclusion
+## Practice Challenges
 
-Composition is one of the most important design principles in Java. It allows classes to work together through HAS-A relationships rather than relying solely on inheritance. Understanding composition helps build flexible, reusable, and real-world object-oriented applications and is a key skill expected in Java interviews and software development projects.
+1. **Mobile Battery System**: Create a `Battery` class with fields `capacity` (int) and `brand` (String). Create a `MobilePhone` class that contains a `Battery` reference and outputs battery statistics.
+2. **Library Catalog**: Create a `Book` class containing `title` and `author`. Create a `Library` class containing an array of `Book` objects. Implement a method displaying all book titles in the library.
+
+---
+
+## Key Takeaways
+
+* Composition represents a **`HAS-A`** relationship.
+* One class contains objects of other classes as member fields.
+* Composition promotes looser coupling and higher runtime flexibility.
+* Favor composition over inheritance whenever modeling system configurations or structural parts.
+
+---
+
+**Back to Module Home:** [Object-Oriented Programming](README.md)

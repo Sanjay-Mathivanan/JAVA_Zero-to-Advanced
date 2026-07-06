@@ -1,475 +1,66 @@
-# Advanced Polymorphism Program in Java
+# Advanced Polymorphism: Notification System
 
-# E-Commerce Notification System
+## Introduction
+
+In enterprise software engineering, code must be built for scalability. When new features are requested, developers should not have to modify existing, tested code. Instead, the architecture should allow adding new classes that integrate seamlessly.
+
+This design goal is summarized by the **Open-Closed Principle (OCP)**:
+> Software entities (classes, modules, functions) should be open for extension, but closed for modification.
+
+This chapter walks through building an **E-Commerce Notification Dispatcher** using runtime polymorphism to satisfy the Open-Closed Principle.
 
 ---
 
-# Problem Statement
+## The Problem Statement
 
-An e-commerce company wants to send notifications to customers through multiple communication channels.
+An e-commerce platform needs to send transactional notifications (order confirmation, shipping updates) using different channels:
+* Email
+* SMS
+* Push Notifications
 
-Currently supported channels:
+The delivery manager class (the "Notification Engine") must remain completely decoupled from the specific channel implementations. Adding a new channel (like WhatsApp, Slack, or Telegram) in the future must require **zero modifications** to the core `NotificationEngine` class.
 
-```text
-Email
-SMS
-Push Notification
-```
-
-Future channels may include:
-
-```text
-WhatsApp
-Slack
-Telegram
-Microsoft Teams
-```
-
-The company wants a system where:
-
-```text
-New notification channels
-can be added
-
-WITHOUT
-
-changing the existing
-notification delivery engine.
-```
-
-This is one of the most common real-world uses of:
-
-```text
-Runtime Polymorphism
+```mermaid
+graph TD
+    Engine[Notification Engine] -->|Sends| Base[Notification Reference]
+    Base -->|Dispatches dynamically to| Email[Email Notification]
+    Base -->|Dispatches dynamically to| SMS[SMS Notification]
+    Base -->|Dispatches dynamically to| Push[Push Notification]
 ```
 
 ---
 
-# Real-World Scenario
+## Why Avoid `if-else` Type Code?
 
-When a customer places an order:
-
-```text
-Order Placed
-      │
-      ▼
-Notification System
-      │
-      ├── Email
-      ├── SMS
-      └── Push Notification
-```
-
-The delivery engine should not care about:
-
-```text
-Which notification channel
-is being used.
-```
-
-It should simply call:
+A common anti-pattern in intermediate programming is using type flags:
 
 ```java
-sendNotification()
-```
-
-and let Java decide which implementation to execute.
-
----
-
-# OOP Concepts Used
-
-This project demonstrates:
-
-```text
-Inheritance
-       +
-Method Overriding
-       +
-Runtime Polymorphism
-       +
-Loose Coupling
-```
-
----
-
-# System Design
-
-## Class Diagram
-
-```text
-                    Notification
-            --------------------------
-            + sendNotification()
-            --------------------------
-
-                     ▲
-                     │
-
-      ┌──────────────┼──────────────┐
-      │              │              │
-      ▼              ▼              ▼
-
- EmailNotification  SMSNotification  PushNotification
-```
-
----
-
-# Why Use Polymorphism?
-
-Without polymorphism:
-
-```java
-if(type.equals("EMAIL")) {
-   ...
-}
-
-else if(type.equals("SMS")) {
-   ...
-}
-
-else if(type.equals("PUSH")) {
-   ...
-}
-```
-
-Problem:
-
-Whenever a new channel is added:
-
-```text
-Modify Existing Code
-```
-
-This violates:
-
-```text
-Open Closed Principle
-```
-
----
-
-# Solution
-
-Use Runtime Polymorphism.
-
-The delivery engine works with:
-
-```java
-Notification
-```
-
-reference only.
-
----
-
-# Step 1: Parent Class
-
-```java
-class Notification {
-
-    public void sendNotification() {
-
-        System.out.println(
-                "Sending Notification");
+public void deliver(String type, String message) {
+    if (type.equals("EMAIL")) {
+        // Send Email
+    } else if (type.equals("SMS")) {
+        // Send SMS
+    } else if (type.equals("PUSH")) {
+        // Send Push
     }
 }
 ```
 
+### The Problem:
+Every time a new notification channel (e.g. WhatsApp) is added, you must open this file and insert a new `else if` block. This violates the Open-Closed Principle, increases the risk of regression bugs, and makes automated testing difficult.
+
 ---
 
-# Step 2: Email Notification
+## Polymorphic Design Solution
 
+We create an abstract parent class `Notification` and subclass it for each channel type. The `NotificationEngine` then depends exclusively on the `Notification` reference.
+
+### 1. Abstract Base Class (`Notification.java`)
 ```java
-class EmailNotification
-        extends Notification {
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "Sending Email Notification");
-    }
-}
-```
-
----
-
-# Step 3: SMS Notification
-
-```java
-class SMSNotification
-        extends Notification {
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "Sending SMS Notification");
-    }
-}
-```
-
----
-
-# Step 4: Push Notification
-
-```java
-class PushNotification
-        extends Notification {
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "Sending Push Notification");
-    }
-}
-```
-
----
-
-# Step 5: Notification Engine
-
-This is the most important class.
-
-```java
-class NotificationEngine {
-
-    public void deliver(
-            Notification notification) {
-
-        notification.sendNotification();
-    }
-}
-```
-
-Notice:
-
-```text
-Engine knows only Notification
-```
-
-It doesn't know:
-
-```text
-Email
-
-SMS
-
-Push
-```
-
----
-
-# Step 6: Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        NotificationEngine engine =
-                new NotificationEngine();
-
-        Notification email =
-                new EmailNotification();
-
-        Notification sms =
-                new SMSNotification();
-
-        Notification push =
-                new PushNotification();
-
-        engine.deliver(email);
-
-        engine.deliver(sms);
-
-        engine.deliver(push);
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Sending Email Notification
-
-Sending SMS Notification
-
-Sending Push Notification
-```
-
----
-
-# Understanding Runtime Polymorphism
-
-Consider:
-
-```java
-Notification email =
-        new EmailNotification();
-```
-
-Reference Type:
-
-```text
-Notification
-```
-
-Actual Object:
-
-```text
-EmailNotification
-```
-
----
-
-When:
-
-```java
-email.sendNotification();
-```
-
-Java checks:
-
-```text
-Actual Object Type
-```
-
-and executes:
-
-```java
-EmailNotification.sendNotification()
-```
-
----
-
-# Internal Working
-
-```text
-Notification Reference
-           │
-           ▼
-
- EmailNotification Object
-
-           │
-           ▼
-
-sendNotification()
-
-           │
-           ▼
-
-EmailNotification Method Executes
-```
-
----
-
-# Memory Representation
-
-```text
-Notification email
-        │
-        ▼
-
-EmailNotification Object
------------------------
-
-sendNotification()
-
------------------------
-```
-
----
-
-# Adding a New Channel
-
-Suppose management asks for:
-
-```text
-WhatsApp Notifications
-```
-
----
-
-# New Class
-
-```java
-class WhatsAppNotification
-        extends Notification {
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "Sending WhatsApp Notification");
-    }
-}
-```
-
----
-
-# Main Method
-
-```java
-Notification whatsapp =
-        new WhatsAppNotification();
-
-engine.deliver(whatsapp);
-```
-
----
-
-# Output
-
-```text
-Sending WhatsApp Notification
-```
-
----
-
-# What Changed?
-
-Only:
-
-```text
-Added New Class
-```
-
-No modification inside:
-
-```java
-NotificationEngine
-```
-
-This is the power of:
-
-```text
-Polymorphism
-```
-
----
-
-# Advanced Version
-
-Let's include notification messages.
-
----
-
-## Parent Class
-
-```java
-abstract class Notification {
-
+public abstract class Notification {
     protected String message;
 
-    public Notification(
-            String message) {
-
+    public Notification(String message) {
         this.message = message;
     }
 
@@ -477,255 +68,152 @@ abstract class Notification {
 }
 ```
 
----
-
-## Email Class
-
+### 2. Email Channel Implementation (`EmailNotification.java`)
 ```java
-class EmailNotification
-        extends Notification {
-
-    public EmailNotification(
-            String message) {
-
+public class EmailNotification extends Notification {
+    public EmailNotification(String message) {
         super(message);
     }
 
     @Override
     public void sendNotification() {
+        System.out.println("[EMAIL] Dispatching Email -> Content: " + message);
+    }
+}
+```
 
-        System.out.println(
-                "[EMAIL] "
-                + message);
+### 3. SMS Channel Implementation (`SMSNotification.java`)
+```java
+public class SMSNotification extends Notification {
+    public SMSNotification(String message) {
+        super(message);
+    }
+
+    @Override
+    public void sendNotification() {
+        System.out.println("[SMS] Dispatching SMS text -> Content: " + message);
+    }
+}
+```
+
+### 4. Push Channel Implementation (`PushNotification.java`)
+```java
+public class PushNotification extends Notification {
+    public PushNotification(String message) {
+        super(message);
+    }
+
+    @Override
+    public void sendNotification() {
+        System.out.println("[PUSH] Dispatching App Push notification -> Content: " + message);
+    }
+}
+```
+
+### 5. Decoupled Delivery Engine (`NotificationEngine.java`)
+```java
+public class NotificationEngine {
+    // Accepts any subclass of Notification Polymorphically
+    public void deliver(Notification notification) {
+        notification.sendNotification(); // Triggers Late Binding
     }
 }
 ```
 
 ---
 
-## SMS Class
+## Main Runner Execution
 
-```java
-class SMSNotification
-        extends Notification {
-
-    public SMSNotification(
-            String message) {
-
-        super(message);
-    }
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "[SMS] "
-                + message);
-    }
-}
-```
-
----
-
-## Push Class
-
-```java
-class PushNotification
-        extends Notification {
-
-    public PushNotification(
-            String message) {
-
-        super(message);
-    }
-
-    @Override
-    public void sendNotification() {
-
-        System.out.println(
-                "[PUSH] "
-                + message);
-    }
-}
-```
-
----
-
-## Main Class
+Here is how we set up a list of notification requests and process them through the delivery engine:
 
 ```java
 public class Main {
-
     public static void main(String[] args) {
+        NotificationEngine engine = new NotificationEngine();
 
-        Notification[] notifications = {
-
-            new EmailNotification(
-                    "Order Confirmed"),
-
-            new SMSNotification(
-                    "Payment Successful"),
-
-            new PushNotification(
-                    "Flash Sale Started")
+        // Create an array of polymorphic references
+        Notification[] queue = {
+            new EmailNotification("Your order has shipped!"),
+            new SMSNotification("Auth Code: 4892"),
+            new PushNotification("Flash sale ends in 5 minutes!")
         };
 
-        for(Notification n :
-                notifications) {
-
-            n.sendNotification();
+        System.out.println("=== Starting Notification Dispatcher ===");
+        for (Notification n : queue) {
+            engine.deliver(n); // Dynamic Method Dispatch
         }
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-[EMAIL] Order Confirmed
-
-[SMS] Payment Successful
-
-[PUSH] Flash Sale Started
+=== Starting Notification Dispatcher ===
+[EMAIL] Dispatching Email -> Content: Your order has shipped!
+[SMS] Dispatching SMS text -> Content: Auth Code: 4892
+[PUSH] Dispatching App Push notification -> Content: Flash sale ends in 5 minutes!
 ```
 
 ---
 
-# Why This Design Is Good?
+## Demonstrating OCP: Adding WhatsApp
 
-## Loose Coupling
+If client requirements update and we must support **WhatsApp** notifications:
 
-Notification Engine depends only on:
+1. **Write the new class**:
+   ```java
+   public class WhatsAppNotification extends Notification {
+       public WhatsAppNotification(String message) {
+           super(message);
+       }
 
-```java
-Notification
-```
+       @Override
+       public void sendNotification() {
+           System.out.println("[WHATSAPP] Dispatching secure text -> Content: " + message);
+       }
+   }
+   ```
+2. **Execute it**:
+   ```java
+   engine.deliver(new WhatsAppNotification("Order delivered."));
+   ```
 
-not concrete classes.
-
----
-
-## Extensible
-
-Add:
-
-```text
-WhatsApp
-Slack
-Telegram
-Teams
-```
-
-without changing existing code.
+### What Changed?
+We added `WhatsAppNotification` without altering a single line of code inside `NotificationEngine`. The engine successfully dispatched the new channel dynamically. This is the power of runtime polymorphism.
 
 ---
 
-## Reusable
+## Concept Map
 
-Same engine works for all channels.
-
----
-
-## Maintainable
-
-No large:
-
-```java
-if-else
-switch
-```
-
-blocks.
-
----
-
-# Interview Questions
-
-## Why is this Runtime Polymorphism?
-
-Because:
-
-```java
-Notification ref =
-        new EmailNotification();
-```
-
-and method selection happens during execution.
-
----
-
-## Which OOP Concept Makes This Possible?
-
-```text
-Method Overriding
+```mermaid
+graph TD
+    Engine[NotificationEngine] -->|depends on| Parent[Notification Abstract Class]
+    Parent -->|Inherited by| Email[EmailNotification]
+    Parent -->|Inherited by| SMS[SMSNotification]
+    Parent -->|Inherited by| WhatsApp[WhatsAppNotification]
+    
+    classDef ocp fill:#e6fffa,stroke:#319795,stroke-width:2px;
+    class Engine,Parent ocp;
 ```
 
 ---
 
-## What Design Principle Is Followed?
+## Interview Questions (FAQ)
 
-```text
-Open Closed Principle
-```
+### How does this project demonstrate the Open-Closed Principle?
+The `NotificationEngine` is **closed for modification** (we do not need to change its source code to support new channels) but **open for extension** (we can add new subclasses of `Notification` at any time).
 
-Open for extension.
-
-Closed for modification.
+### Why use an abstract class here instead of a regular class?
+Making the class `abstract` prevents direct instantiation of a generic `Notification` object, forcing subclasses to implement their own specific `sendNotification()` logic.
 
 ---
 
-## Why Use Parent References?
+## Key Takeaways
 
-To write generic code.
-
----
-
-## What Happens When a New Channel Is Added?
-
-Only a new child class is created.
-
-No changes to the engine.
+* Runtime polymorphism enables **loose coupling** between managers and handlers.
+* Decoupled architectures allow adding new features without editing existing code templates.
+* Polymorphic reference arrays (e.g. `Notification[]`) streamline batch processing.
 
 ---
 
-# Concept Map
-
-```text
-Notification
-      │
-      ▼
-Runtime Polymorphism
-      │
-      ▼
-Notification Engine
-      │
- ┌────┼─────┬───────┐
- ▼    ▼     ▼       ▼
-
-Email SMS Push WhatsApp
-      │
-      ▼
-Method Overriding
-      │
-      ▼
-Dynamic Method Dispatch
-```
-
----
-
-# Key Takeaways
-
-- Runtime Polymorphism allows one interface to support many implementations.
-- Parent references can hold child objects.
-- Method execution is decided at runtime.
-- Notification Engine remains unchanged when new channels are added.
-- This approach creates scalable enterprise applications.
-- Real-world systems such as payment gateways, notification systems, and logging frameworks heavily use runtime polymorphism.
-
----
-
-# Conclusion
-
-This E-Commerce Notification System is a practical example of Runtime Polymorphism in action. By using a common Notification parent class and multiple child implementations, the application remains flexible, maintainable, and extensible. New communication channels can be introduced without modifying the core delivery engine, making the design suitable for real-world enterprise software development.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

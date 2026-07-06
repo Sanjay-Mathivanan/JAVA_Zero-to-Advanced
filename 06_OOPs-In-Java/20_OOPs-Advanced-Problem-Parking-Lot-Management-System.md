@@ -1,926 +1,293 @@
-# OOPs Advanced Problem
+# Capstone Project: Parking Lot System
 
-# Multi-Level Parking Lot Management System
+## Introduction
 
----
+In modern smart-city architectures, municipal infrastructure relies heavily on automated management systems. A key system is the **Multi-Level Parking Lot Manager**, which coordinates vehicle parking spot allocations, validates parking dimensions, and calculates billing fees dynamically.
 
-# Problem Statement
-
-You are tasked with building the backend of a Multi-Level Parking Lot Management System.
-
-The parking lot must support different vehicle types:
-
-```text
-Car
-Motorcycle
-Truck
-```
-
-Each vehicle requires a specific parking space:
-
-```text
-Small Spot
-Medium Spot
-Large Spot
-```
-
-Business Rules:
-
-```text
-Motorcycle
-→ Small, Medium, Large
-
-Car
-→ Medium, Large
-
-Truck
-→ Large Only
-```
-
-The system must:
-
-- Park vehicles.
-- Validate parking rules.
-- Calculate parking fees.
-- Support future vehicle types.
-- Prevent invalid parking allocations.
-
-This project combines:
-
-```text
-Encapsulation
-+
-Inheritance
-+
-Polymorphism
-+
-Abstraction
-```
+This capstone project combines the four pillars of Object-Oriented Programming (OOP) we have covered in this module:
+1. **Encapsulation**: Securing parking spot occupation states and vehicle identifiers.
+2. **Inheritance**: Creating a hierarchy of vehicle classifications.
+3. **Abstraction**: Modeling generic vehicle actions (e.g. fee calculation, parking rules).
+4. **Polymorphism**: Interacting with all vehicles via a base type reference to invoke subclass-specific logic.
 
 ---
 
-# Real World Example
+## Business Rules
 
-Applications:
+* **Motorcycles**: Can park in Small, Medium, or Large spots. Fee: ₹10/hour.
+* **Cars**: Can park in Medium or Large spots. Fee: ₹20/hour.
+* **Trucks**: Can park in Large spots only. Fee: ₹50/hour.
 
-```text
-Airport Parking
+---
 
-Shopping Mall Parking
+## Architectural Class Design
 
-Railway Station Parking
-
-Smart City Parking
+```mermaid
+classDiagram
+    class SpotSize {
+        <<enumeration>>
+        SMALL
+        MEDIUM
+        LARGE
+    }
+    class Vehicle {
+        -String vehicleNumber
+        +getVehicleNumber() String
+        +canPark(SpotSize) bool*
+        +calculateFee(int) double*
+    }
+    class Motorcycle {
+        +canPark(SpotSize) bool
+        +calculateFee(int) double
+    }
+    class Car {
+        +canPark(SpotSize) bool
+        +calculateFee(int) double
+    }
+    class Truck {
+        +canPark(SpotSize) bool
+        +calculateFee(int) double
+    }
+    class ParkingSpot {
+        -int spotId
+        -SpotSize spotSize
+        -boolean occupied
+        +getSpotSize() SpotSize
+        +isOccupied() bool
+        +parkVehicle()
+    }
+    class ParkingManager {
+        +parkVehicle(Vehicle, ParkingSpot)
+        +calculateBill(Vehicle, int)
+    }
+    Vehicle <|-- Motorcycle
+    Vehicle <|-- Car
+    Vehicle <|-- Truck
+    ParkingSpot --> SpotSize
+    ParkingManager ..> Vehicle : processes
+    ParkingManager ..> ParkingSpot : allocates
 ```
 
 ---
 
-# System Requirements
+## Code Implementation
 
-## Vehicle Types
+Below is the complete Java implementation of the smart parking lot backend.
 
-```text
-Motorcycle
-
-Car
-
-Truck
-```
-
----
-
-## Parking Spot Types
-
-```text
-Small
-
-Medium
-
-Large
-```
-
----
-
-## Parking Fees
-
-```text
-Motorcycle
-₹10/hour
-
-Car
-₹20/hour
-
-Truck
-₹50/hour
-```
-
----
-
-# OOP Concepts Used
-
-## Encapsulation
-
-Protect:
-
-```text
-Vehicle Number
-
-Parking Duration
-
-Parking Fee
-```
-
-using private variables.
-
----
-
-## Inheritance
-
-All vehicles inherit from:
-
-```text
-Vehicle
-```
-
----
-
-## Runtime Polymorphism
-
-Parking system calculates fees differently for each vehicle.
-
----
-
-## Abstraction
-
-Every vehicle must implement:
-
+### 1. Spot Size Enumeration (`SpotSize.java`)
 ```java
-calculateFee()
-```
-
----
-
-# Understanding the Design
-
-## Class Diagram
-
-```text
-                   Vehicle
-          ------------------------
-          vehicleNumber
-          calculateFee()
-          canPark()
-          ------------------------
-                    ▲
-                    │
-
-     ┌──────────────┼──────────────┐
-     │              │              │
-     ▼              ▼              ▼
-
- Motorcycle       Car           Truck
-```
-
----
-
-## Parking Spot
-
-```text
-ParkingSpot
---------------------
-
-spotId
-
-spotSize
-
-isOccupied
-
---------------------
-```
-
----
-
-# Step 1
-
-## Spot Size Enum
-
-Enums make code readable.
-
-```java
-enum SpotSize {
-
+public enum SpotSize {
     SMALL,
     MEDIUM,
     LARGE
 }
 ```
 
----
-
-# Why Enum?
-
-Instead of:
-
+### 2. Abstract Vehicle Base Class (`Vehicle.java`)
 ```java
-"small"
-"medium"
-"large"
-```
+public abstract class Vehicle {
+    private String vehicleNumber; // Secure private field
 
-Use:
-
-```java
-SpotSize.SMALL
-```
-
-Safer and professional.
-
----
-
-# Step 2
-
-## Abstract Vehicle Class
-
-```java
-abstract class Vehicle {
-
-    private String vehicleNumber;
-
-    public Vehicle(
-            String vehicleNumber) {
-
-        this.vehicleNumber =
-                vehicleNumber;
+    public Vehicle(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
     }
 
     public String getVehicleNumber() {
-
         return vehicleNumber;
     }
 
-    public abstract boolean canPark(
-            SpotSize size);
-
-    public abstract double calculateFee(
-            int hours);
+    // Abstract methods to be overridden by subclasses
+    public abstract boolean canPark(SpotSize size);
+    public abstract double calculateFee(int hours);
 }
 ```
 
----
-
-# Why Abstract?
-
-Every vehicle:
-
-```text
-Can Park
-
-Can Calculate Fee
-```
-
-but implementation differs.
-
----
-
-# Step 3
-
-## Motorcycle
-
+### 3. Specialized Vehicle Subclasses
 ```java
-class Motorcycle
-        extends Vehicle {
-
-    public Motorcycle(
-            String vehicleNumber) {
-
+// Motorcycle Subclass
+class Motorcycle extends Vehicle {
+    public Motorcycle(String vehicleNumber) {
         super(vehicleNumber);
     }
 
     @Override
-    public boolean canPark(
-            SpotSize size) {
-
-        return true;
+    public boolean canPark(SpotSize size) {
+        return true; // Motorcycles can park in small, medium, or large spots
     }
 
     @Override
-    public double calculateFee(
-            int hours) {
-
-        return hours * 10;
+    public double calculateFee(int hours) {
+        return hours * 10.0;
     }
 }
-```
 
----
-
-# Step 4
-
-## Car
-
-```java
-class Car
-        extends Vehicle {
-
-    public Car(
-            String vehicleNumber) {
-
+// Car Subclass
+class Car extends Vehicle {
+    public Car(String vehicleNumber) {
         super(vehicleNumber);
     }
 
     @Override
-    public boolean canPark(
-            SpotSize size) {
-
-        return size ==
-                SpotSize.MEDIUM
-                ||
-                size ==
-                SpotSize.LARGE;
+    public boolean canPark(SpotSize size) {
+        return size == SpotSize.MEDIUM || size == SpotSize.LARGE;
     }
 
     @Override
-    public double calculateFee(
-            int hours) {
-
-        return hours * 20;
+    public double calculateFee(int hours) {
+        return hours * 20.0;
     }
 }
-```
 
----
-
-# Step 5
-
-## Truck
-
-```java
-class Truck
-        extends Vehicle {
-
-    public Truck(
-            String vehicleNumber) {
-
+// Truck Subclass
+class Truck extends Vehicle {
+    public Truck(String vehicleNumber) {
         super(vehicleNumber);
     }
 
     @Override
-    public boolean canPark(
-            SpotSize size) {
-
-        return size ==
-                SpotSize.LARGE;
+    public boolean canPark(SpotSize size) {
+        return size == SpotSize.LARGE;
     }
 
     @Override
-    public double calculateFee(
-            int hours) {
-
-        return hours * 50;
+    public double calculateFee(int hours) {
+        return hours * 50.0;
     }
 }
 ```
 
----
-
-# Step 6
-
-## Parking Spot Class
-
+### 4. Parking Spot Representation (`ParkingSpot.java`)
 ```java
-class ParkingSpot {
-
+public class ParkingSpot {
     private int spotId;
-
     private SpotSize spotSize;
-
     private boolean occupied;
 
-    public ParkingSpot(
-            int spotId,
-            SpotSize spotSize) {
-
+    public ParkingSpot(int spotId, SpotSize spotSize) {
         this.spotId = spotId;
         this.spotSize = spotSize;
+        this.occupied = false;
     }
 
     public SpotSize getSpotSize() {
-
         return spotSize;
     }
 
     public boolean isOccupied() {
-
         return occupied;
     }
 
     public void parkVehicle() {
+        this.occupied = true;
+    }
 
-        occupied = true;
+    public void vacateSpot() {
+        this.occupied = false;
     }
 }
 ```
 
----
-
-# Step 7
-
-## Parking Manager
-
+### 5. Decoupled Parking Coordinator (`ParkingManager.java`)
 ```java
-class ParkingManager {
-
-    public void parkVehicle(
-            Vehicle vehicle,
-            ParkingSpot spot) {
-
-        if(spot.isOccupied()) {
-
-            System.out.println(
-                    "Spot Already Occupied");
-
+public class ParkingManager {
+    public void parkVehicle(Vehicle vehicle, ParkingSpot spot) {
+        if (spot.isOccupied()) {
+            System.out.println("Parking Failed: Spot #" + spot.getSpotSize() + " is already occupied.");
             return;
         }
 
-        if(vehicle.canPark(
-                spot.getSpotSize())) {
-
+        // Evaluate vehicle-specific spot compatibility rules polymorphically
+        if (vehicle.canPark(spot.getSpotSize())) {
             spot.parkVehicle();
-
-            System.out.println(
-                    vehicle.getVehicleNumber()
-                    +
-                    " Parked Successfully");
-
-        }
-        else {
-
-            System.out.println(
-                    "Parking Not Allowed");
+            System.out.println("Vehicle [" + vehicle.getVehicleNumber() + "] parked successfully.");
+        } else {
+            System.out.println("Parking Failed: Vehicle [" + vehicle.getVehicleNumber() + 
+                               "] is too large for spot size " + spot.getSpotSize());
         }
     }
 
-    public void calculateBill(
-            Vehicle vehicle,
-            int hours) {
-
-        System.out.println(
-                "Fee : ₹"
-                +
-                vehicle.calculateFee(
-                        hours));
+    public void calculateBill(Vehicle vehicle, int hours) {
+        double fee = vehicle.calculateFee(hours);
+        System.out.println("Billing Code: " + vehicle.getVehicleNumber() + " | Parking Fee: ₹" + fee);
     }
 }
 ```
 
----
-
-# Step 8
-
-## Main Class
-
+### 6. Main Runner Setup (`Main.java`)
 ```java
 public class Main {
-
     public static void main(String[] args) {
+        ParkingManager manager = new ParkingManager();
 
-        Vehicle car =
-                new Car("TN38AB1234");
+        // Instantiate vehicles
+        Vehicle bike = new Motorcycle("TN38BIKE01");
+        Vehicle sedan = new Car("TN38AB1234");
+        Vehicle freight = new Truck("TN38TRUCK99");
 
-        Vehicle bike =
-                new Motorcycle(
-                        "TN38BIKE01");
+        // Instantiate spots
+        ParkingSpot smallSpot = new ParkingSpot(1, SpotSize.SMALL);
+        ParkingSpot mediumSpot = new ParkingSpot(2, SpotSize.MEDIUM);
+        ParkingSpot largeSpot = new ParkingSpot(3, SpotSize.LARGE);
 
-        Vehicle truck =
-                new Truck(
-                        "TN38TRUCK99");
+        System.out.println("=== Parking Operations ===");
+        manager.parkVehicle(bike, smallSpot);      // Success: Bike in small spot
+        manager.parkVehicle(sedan, mediumSpot);    // Success: Sedan in medium spot
+        manager.parkVehicle(freight, mediumSpot);  // Fails: Truck in medium spot
+        manager.parkVehicle(freight, largeSpot);   // Success: Truck in large spot
 
-        ParkingSpot small =
-                new ParkingSpot(
-                        1,
-                        SpotSize.SMALL);
-
-        ParkingSpot medium =
-                new ParkingSpot(
-                        2,
-                        SpotSize.MEDIUM);
-
-        ParkingSpot large =
-                new ParkingSpot(
-                        3,
-                        SpotSize.LARGE);
-
-        ParkingManager manager =
-                new ParkingManager();
-
-        manager.parkVehicle(
-                bike,
-                small);
-
-        manager.parkVehicle(
-                car,
-                medium);
-
-        manager.parkVehicle(
-                truck,
-                large);
-
-        manager.calculateBill(
-                bike,
-                5);
-
-        manager.calculateBill(
-                car,
-                5);
-
-        manager.calculateBill(
-                truck,
-                5);
+        System.out.println("\n=== Billing Operations ===");
+        manager.calculateBill(bike, 5);
+        manager.calculateBill(sedan, 5);
+        manager.calculateBill(freight, 5);
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-TN38BIKE01 Parked Successfully
+=== Parking Operations ===
+Vehicle [TN38BIKE01] parked successfully.
+Vehicle [TN38AB1234] parked successfully.
+Parking Failed: Vehicle [TN38TRUCK99] is too large for spot size MEDIUM
+Vehicle [TN38TRUCK99] parked successfully.
 
-TN38AB1234 Parked Successfully
-
-TN38TRUCK99 Parked Successfully
-
-Fee : ₹50.0
-
-Fee : ₹100.0
-
-Fee : ₹250.0
+=== Billing Operations ===
+Billing Code: TN38BIKE01 | Parking Fee: ₹50.0
+Billing Code: TN38AB1234 | Parking Fee: ₹100.0
+Billing Code: TN38TRUCK99 | Parking Fee: ₹250.0
 ```
 
 ---
 
-# Business Rule Validation
+## OOP Principles In Action
 
-Suppose:
+### 1. Encapsulation
+The class variables `vehicleNumber`, `spotId`, `spotSize`, and `occupied` are marked `private`. Changing spot states must only occur through verified methods (`parkVehicle()` or `vacateSpot()`), preventing illegal modifications.
 
-```java
-Truck truck =
-        new Truck("TN99");
+### 2. Abstraction
+The `Vehicle` class declares abstract signatures `canPark()` and `calculateFee()` but provides no implementation details. This exposes *what* variables and methods a vehicle possesses, hiding *how* specific vehicles calculate fees or evaluate spots.
 
-manager.parkVehicle(
-        truck,
-        mediumSpot);
-```
+### 3. Inheritance
+The child classes (`Motorcycle`, `Car`, `Truck`) inherit the basic initialization properties and variable structures of the `Vehicle` parent class.
 
----
-
-Truck Rule:
-
-```java
-return size ==
-        SpotSize.LARGE;
-```
-
-Result:
-
-```text
-Parking Not Allowed
-```
+### 4. Runtime Polymorphism
+The `ParkingManager` operates on the generic `Vehicle` superclass reference type. During execution, dynamic dispatch resolves the correct overridden method implementation of the actual subclass instance (`Motorcycle`, `Car`, or `Truck`) in memory.
 
 ---
 
-# Runtime Polymorphism
+## Practice Challenges
 
-Look at:
-
-```java
-Vehicle vehicle =
-        new Truck(...);
-```
-
-Reference:
-
-```text
-Vehicle
-```
-
-Object:
-
-```text
-Truck
-```
+1. **Electric Vehicle (EV) Spot Support**: Add a new spot size `CHARGING_SPOT`. Derive a subclass `ElectricCar` that requires `CHARGING_SPOT` and charges ₹25/hour.
+2. **Floor Level Management**: Expand the system to manage multiple floors (e.g. `Level 1`, `Level 2`), each holding an array of `ParkingSpot` objects.
 
 ---
 
-When:
+## Key Takeaways
 
-```java
-vehicle.calculateFee()
-```
-
-Java executes:
-
-```java
-Truck.calculateFee()
-```
-
-at runtime.
+* Capstone architectures leverage encapsulation, inheritance, abstraction, and polymorphism together.
+* Using enums (e.g. `SpotSize`) prevents compile-time spelling errors and provides type safety.
+* Extensible designs support adding new subclasses (e.g. `ElectricCar`) without modifying existing core logic.
 
 ---
 
-# Internal Execution Flow
-
-```text
-Vehicle Arrives
-        │
-        ▼
-
-Parking Manager
-        │
-        ▼
-
-Check Spot Size
-        │
-        ▼
-
-Vehicle.canPark()
-        │
-        ▼
-
-Allowed ?
-   │         │
-  YES       NO
-   │         │
-   ▼         ▼
-
-Parked    Rejected
-```
-
----
-
-# Memory Representation
-
-```text
-Vehicle Reference
-        │
-        ▼
-
-Car Object
-
-----------------
-
-vehicleNumber
-
-calculateFee()
-
-canPark()
-
-----------------
-```
-
----
-
-# Advanced Challenge
-
-Add:
-
-```text
-Electric Car
-```
-
-Rules:
-
-```text
-Requires Charging Spot
-
-₹25/hour
-```
-
----
-
-Add:
-
-```text
-VIP Parking
-```
-
-Rules:
-
-```text
-Higher Charges
-
-Reserved Spots
-```
-
----
-
-Add:
-
-```text
-Multi-Level Floors
-
-Level 1
-
-Level 2
-
-Level 3
-```
-
----
-
-# Where Each OOP Concept Is Used?
-
-## Encapsulation
-
-```java
-private String vehicleNumber;
-```
-
-Protects vehicle data.
-
----
-
-## Inheritance
-
-```java
-Car extends Vehicle
-
-Truck extends Vehicle
-
-Motorcycle extends Vehicle
-```
-
----
-
-## Abstraction
-
-```java
-abstract calculateFee()
-
-abstract canPark()
-```
-
----
-
-## Runtime Polymorphism
-
-```java
-Vehicle vehicle =
-        new Car();
-```
-
-Different fee calculation at runtime.
-
----
-
-# Interview Questions
-
-## Why use an Abstract Class?
-
-To enforce common behavior for all vehicles.
-
----
-
-## Why use Runtime Polymorphism?
-
-To support multiple vehicle types through a single reference.
-
----
-
-## Why use Encapsulation?
-
-To protect internal vehicle and parking data.
-
----
-
-## Why use Enum?
-
-To avoid invalid spot size values.
-
----
-
-## Which OOP concepts are demonstrated?
-
-```text
-Encapsulation
-
-Inheritance
-
-Polymorphism
-
-Abstraction
-```
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Add:
-
-```text
-ElectricCar
-```
-
-with charging station support.
-
----
-
-## Challenge 2
-
-Add:
-
-```text
-Bus
-```
-
-which requires two large spots.
-
----
-
-## Challenge 3
-
-Track:
-
-```text
-Entry Time
-
-Exit Time
-```
-
-Automatically calculate duration.
-
----
-
-## Challenge 4
-
-Add:
-
-```text
-VIP Parking Spots
-```
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-Multi-Level Parking
-```
-
-with floor management.
-
----
-
-# Concept Map
-
-```text
-Vehicle
-     │
-     ▼
-Abstraction
-     │
-     ▼
-Car Truck Motorcycle
-     │
-     ▼
-Inheritance
-     │
-     ▼
-calculateFee()
-canPark()
-     │
-     ▼
-Runtime Polymorphism
-     │
-     ▼
-Parking Manager
-     │
-     ▼
-Spot Allocation
-     │
-     ▼
-Fee Calculation
-```
-
----
-
-# Key Takeaways
-
-- Abstract classes define common vehicle behavior.
-- Inheritance removes duplicate code.
-- Runtime polymorphism enables dynamic fee calculation.
-- Encapsulation protects parking and vehicle data.
-- Enums improve type safety.
-- The design is extensible and supports future vehicle types.
-- This architecture resembles real-world smart parking systems.
-
----
-
-# Conclusion
-
-The Multi-Level Parking Lot Management System is a practical enterprise-style OOP project that combines Encapsulation, Inheritance, Abstraction, and Polymorphism. The design allows new vehicle types, parking rules, and billing strategies to be added with minimal changes, making it scalable, maintainable, and suitable for real-world software development.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

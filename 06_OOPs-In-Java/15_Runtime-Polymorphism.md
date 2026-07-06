@@ -2,895 +2,204 @@
 
 ## Introduction
 
-In the previous chapter, we learned:
+In previous guides, we explored **Compile-Time Polymorphism** (early binding resolved via method overloading). 
 
-```text
-Compile-Time Polymorphism
-      ↓
-Method Overloading
-```
+This guide examines **Runtime Polymorphism**, where method calls are bound to their implementations during program execution rather than compilation. Runtime polymorphism is the core mechanism that allows Java to execute subclass-specific behaviors dynamically.
 
-where the compiler decides which method to execute.
-
-Now we will learn:
-
-```text
-Runtime Polymorphism
-```
-
-where the decision is made while the program is running.
-
-Runtime Polymorphism is one of the most powerful concepts in Object-Oriented Programming.
+This mechanism is also known as:
+* **Dynamic Polymorphism**
+* **Late Binding**
+* **Dynamic Method Dispatch**
 
 ---
-
-# What is Runtime Polymorphism?
-
-Runtime Polymorphism occurs when:
-
-```text
-Method Execution Decision
-is made during Runtime
-```
-
-instead of compilation.
-
-It is achieved using:
-
-```text
-Method Overriding
-+
-Inheritance
-+
-Parent Reference Child Object
-```
-
----
-
-# Another Names
-
-Runtime Polymorphism is also called:
-
-```text
-Dynamic Polymorphism
-
-or
-
-Late Binding
-
-or
-
-Dynamic Method Dispatch
-```
-
----
-
-# Real-World Example
-
-Imagine a Remote Control.
-
-```text
-Remote
-   │
-   ├── TV
-   ├── AC
-   └── Music System
-```
-
-Same button:
-
-```text
-powerOn()
-```
-
-Different behavior.
-
----
-
-# Understanding Method Overriding
-
-Method Overriding occurs when:
-
-A child class provides its own implementation of a method already present in the parent class.
-
----
-
-# Rules for Method Overriding
-
-The method must have:
-
-```text
-Same Method Name
-
-Same Parameters
-
-Same Return Type
-```
-
----
-
-# First Runtime Polymorphism Program
-
-## Parent Class
-
-```java
-class Animal {
-
-    public void sound() {
-
-        System.out.println(
-                "Animal Makes Sound");
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Dog extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Dog Barks");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Animal animal =
-                new Dog();
-
-        animal.sound();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Dog Barks
-```
-
----
-
-# Why Dog Method Executes?
-
-Reference:
-
-```java
-Animal animal
-```
-
-Object:
-
-```java
-new Dog()
-```
-
-Java checks:
-
-```text
-Actual Object Type
-```
-
-during execution.
-
-Since the object is Dog:
-
-```java
-Dog.sound()
-```
-
-runs.
-
----
-
-# Internal Working
-
-```text
-Animal animal =
-        new Dog();
-
-animal.sound();
-
-        │
-        ▼
-
-Reference Type
-Animal
-
-        │
-        ▼
-
-Actual Object
-Dog
-
-        │
-        ▼
-
-Execute Dog.sound()
-```
-
----
-
-# Parent Reference Child Object
-
-This is the foundation of Runtime Polymorphism.
-
-```java
-Animal animal =
-        new Dog();
-```
-
----
-
-## Diagram
-
-```text
-Animal Reference
-        │
-        ▼
-
-    Dog Object
-```
-
----
-
-Reference Type:
-
-```java
-Animal
-```
-
-Actual Object:
-
-```java
-Dog
-```
-
----
-
-# Multiple Child Classes Example
-
-## Parent Class
-
-```java
-class Animal {
-
-    public void sound() {
-
-        System.out.println(
-                "Animal Sound");
-    }
-}
-```
-
----
-
-## Dog Class
-
-```java
-class Dog extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Dog Barks");
-    }
-}
-```
-
----
-
-## Cat Class
-
-```java
-class Cat extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Cat Meows");
-    }
-}
-```
-
----
-
-## Cow Class
-
-```java
-class Cow extends Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println(
-                "Cow Moos");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Animal animal;
-
-        animal = new Dog();
-        animal.sound();
-
-        animal = new Cat();
-        animal.sound();
-
-        animal = new Cow();
-        animal.sound();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Dog Barks
-
-Cat Meows
-
-Cow Moos
-```
-
----
-
-# Real-World Example
-
-## Employee System
-
-### Parent Class
-
-```java
-class Employee {
-
-    public void work() {
-
-        System.out.println(
-                "Employee Working");
-    }
-}
-```
-
----
-
-### Developer Class
-
-```java
-class Developer extends Employee {
-
-    @Override
-    public void work() {
-
-        System.out.println(
-                "Writing Code");
-    }
-}
-```
-
----
-
-### Tester Class
-
-```java
-class Tester extends Employee {
-
-    @Override
-    public void work() {
-
-        System.out.println(
-                "Testing Application");
-    }
-}
-```
-
----
-
-### Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Employee emp;
-
-        emp = new Developer();
-        emp.work();
-
-        emp = new Tester();
-        emp.work();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Writing Code
-
-Testing Application
-```
-
----
-
-# Memory Representation
-
-```text
-Employee emp
-      │
-      ▼
-
-Developer Object
-
------------------
-
-work()
-
------------------
-```
-
-Method Call:
-
-```java
-emp.work();
-```
-
-Java checks:
-
-```text
-Actual Object Type
-```
-
-and executes:
-
-```java
-Developer.work()
-```
-
----
-
-# Dynamic Method Dispatch
-
-Runtime Polymorphism is also called:
-
-```text
-Dynamic Method Dispatch
-```
-
-because method selection happens dynamically during execution.
-
----
-
-# Constructor and Runtime Polymorphism
-
-Constructors cannot be overridden.
-
-Wrong:
-
-```java
-class A {
-
-    public A() {
-
-    }
-}
-
-class B extends A {
-
-    @Override
-    public B() {
-
-    }
-}
-```
-
-Compiler Error.
-
----
-
-# Why?
-
-Constructors are not inherited.
-
-Therefore:
-
-```text
-No Overriding
-```
-
----
-
-# Variables and Runtime Polymorphism
-
-Methods are polymorphic.
-
-Variables are not.
-
-Example:
-
-```java
-class Animal {
-
-    String name = "Animal";
-}
-
-class Dog extends Animal {
-
-    String name = "Dog";
-}
-```
-
----
-
-```java
-Animal animal =
-        new Dog();
-
-System.out.println(
-        animal.name);
-```
-
-Output:
-
-```text
-Animal
-```
-
-Because variables use:
-
-```text
-Reference Type
-```
-
-not object type.
-
----
-
-# Method Example
-
-```java
-animal.sound();
-```
-
-Output:
-
-```text
-Dog Barks
-```
-
-Methods use:
-
-```text
-Actual Object Type
-```
-
----
-
-# Runtime vs Compile-Time Polymorphism
-
-| Runtime | Compile-Time |
-|----------|----------|
-| Method Overriding | Method Overloading |
-| Decided During Execution | Decided During Compilation |
-| Dynamic Binding | Static Binding |
-| Requires Inheritance | Doesn't Require Inheritance |
-| More Flexible | Faster |
-
----
-
-# Advantages of Runtime Polymorphism
-
-## Flexibility
-
-One reference can handle many objects.
-
----
-
-## Reusability
-
-Common interfaces for different implementations.
-
----
-
-## Scalability
-
-New child classes can be added easily.
-
----
-
-## Loose Coupling
-
-Programs become easier to maintain.
-
----
-
-# Banking Example
-
-```text
-Account
-   │
-   ├── SavingsAccount
-   ├── CurrentAccount
-   └── LoanAccount
-```
-
-Each class overrides:
-
-```java
-calculateInterest()
-```
-
-One reference:
-
-```java
-Account account;
-```
-
-can handle all account types.
-
----
-
-# Common Mistakes
-
-## Forgetting Inheritance
-
-Wrong:
-
-```java
-class Dog {
-
-}
-```
-
-No inheritance.
-
----
-
-## Different Parameters
-
-Wrong:
-
-```java
-sound(int x)
-```
-
-Not overriding.
-
-It becomes overloading.
-
----
-
-## Missing Parent Reference
-
-Wrong:
-
-```java
-Dog dog =
-        new Dog();
-```
-
-No runtime polymorphism demonstrated.
-
----
-
-Correct:
-
-```java
-Animal animal =
-        new Dog();
-```
-
----
-
-# Interview Questions
 
 ## What is Runtime Polymorphism?
 
-Method execution decision made during runtime.
+Runtime Polymorphism is the capability by which a call to an overridden method is resolved at runtime. It is implemented in Java by combining three distinct concepts:
+1. **Inheritance**: Subclasses must inherit from a common parent class.
+2. **Method Overriding**: Subclasses must provide their own custom implementations of a method declared in the parent class.
+3. **Upcasting (Parent Reference, Child Object)**: A reference variable of the parent class must point to a subclass object.
 
----
-
-## How is it achieved?
-
-```text
-Method Overriding
+```mermaid
+graph TD
+    RunPoly[Runtime Polymorphism]
+    RunPoly --> Inherit[1. Class Inheritance]
+    RunPoly --> Override[2. Method Overriding]
+    RunPoly --> Upcast[3. Parent Ref -> Child Instance]
 ```
 
 ---
 
-## What is Dynamic Method Dispatch?
+## Core Mechanics: Method Overriding Rules
 
-Runtime selection of overridden methods.
+For a subclass to successfully override a parent method and trigger runtime polymorphism:
+* The subclass method must share the **exact same name** as the parent method.
+* The subclass method must declare the **exact same parameter list** (signatures must match).
+* The subclass method's return type must be the same (or a subtype, known as a **covariant return type**).
+* The access modifier of the overriding method cannot be more restrictive than the parent method (e.g. if the parent method is `protected`, the child method must be `protected` or `public`).
 
 ---
 
-## What is the most important syntax?
+## Runtime Polymorphism Example
+
+Here is a complete program demonstrating dynamic binding.
 
 ```java
-Parent ref =
-        new Child();
+// Superclass
+class Animal {
+    public void sound() {
+        System.out.println("Animal makes a general sound.");
+    }
+}
+
+// Subclass A
+class Dog extends Animal {
+    @Override
+    public void sound() {
+        System.out.println("Dog barks: Woof!");
+    }
+}
+
+// Subclass B
+class Cat extends Animal {
+    @Override
+    public void sound() {
+        System.out.println("Cat meows: Meow!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal; // Parent Reference Variable
+
+        animal = new Dog(); // Reference points to Dog object on Heap
+        animal.sound();     // Output: Dog barks: Woof!
+
+        animal = new Cat(); // Reference points to Cat object on Heap
+        animal.sound();     // Output: Cat meows: Meow!
+    }
+}
 ```
 
----
-
-## Can Constructors Be Overridden?
-
-No.
+### Why does `Dog.sound()` execute?
+Even though the compile-time type of the variable `animal` is `Animal`, the JVM inspects the **actual object type in Heap memory** when executing `animal.sound()`. Since the object is an instance of `Dog` (or `Cat`), the overridden method inside `Dog` (or `Cat`) is dispatched.
 
 ---
 
-## Are Variables Polymorphic?
+## Dynamic Method Dispatch
 
-No.
+Dynamic Method Dispatch is the name of the execution-time algorithm that resolves overridden method calls. The JVM locates the correct method inside the subclass's method table (vtable) dynamically.
 
-Only methods participate in runtime polymorphism.
+![Polymorphism Dispatch](../assets/images/polymorphism-dispatch.svg)
 
 ---
 
-# Practice Challenges
+## Crucial Rule: Variables are NOT Polymorphic
 
-## Challenge 1
-
-Create:
-
-```text
-Animal
-Dog
-Cat
-Cow
-```
-
-Override:
+While method invocations participate in late binding, instance variables do not. Variable resolution is determined strictly by the compile-time reference type (Static Binding).
 
 ```java
-sound()
+class Animal {
+    String name = "Generic Animal";
+}
+
+class Dog extends Animal {
+    String name = "Dog";
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        System.out.println(animal.name); // Prints "Generic Animal", NOT "Dog"!
+    }
+}
+```
+
+### Output:
+```text
+Generic Animal
 ```
 
 ---
 
-## Challenge 2
+## Constructors and Runtime Polymorphism
 
-Create:
-
-```text
-Employee
-Developer
-Tester
-Manager
-```
-
-Override:
+**Constructors cannot be overridden.** A constructor is tied to a specific class definition and is never inherited by subclasses. Therefore, constructors cannot participate in runtime polymorphism.
 
 ```java
-work()
+class Parent {
+    public Parent() {} // Constructor
+}
+
+class Child extends Parent {
+    // INVALID - Compile error
+    @Override
+    public Parent() {} 
+}
 ```
 
 ---
 
-## Challenge 3
+## Compile-Time vs. Runtime Polymorphism
 
-Create:
+| Parameter | Compile-Time Polymorphism | Runtime Polymorphism |
+| :--- | :--- | :--- |
+| **Technique** | Method Overloading | Method Overriding |
+| **Binding Mechanism** | Early Binding / Static Binding | Late Binding / Dynamic Binding |
+| **Execution Speed** | Faster execution (binding resolved at compile-time) | Slightly slower (method lookup occurs at runtime) |
+| **Inheritance Requirement**| Not required | Mandatory |
 
-```text
-Vehicle
-Car
-Bike
-Truck
-```
+---
 
-Override:
+## Advantages of Runtime Polymorphism
 
-```java
-start()
+* **Plug-and-Play Extensibility**: New subclasses can be written and plugged into existing codebases with zero adjustments to calls referencing the parent.
+* **Loose Coupling**: Client programs interact with general interfaces rather than hardcoding child dependencies.
+* **Code Cleanliness**: Replaces cluttered `if-else` or `switch` type checks (e.g. checking whether a vehicle is a car, truck, or bike) with a single polymorphic call (`vehicle.start()`).
+
+---
+
+## Concept Map
+
+```mermaid
+graph TD
+    Late[Runtime Polymorphism]
+    Late --> Over[Method Overriding]
+    Late --> Upcast[Upcasting: Parent ref = new Child()]
+    Late --> Dispatch[Dynamic Method Dispatch]
+    Dispatch --> Check[JVM checks Heap object type]
+    Check --> Exec[Executes subclass overridden method]
 ```
 
 ---
 
-## Challenge 4
+## Interview Questions (FAQ)
 
-Create:
+### What is dynamic method dispatch?
+It is the runtime mechanism by which the JVM resolves calls to overridden methods, executing the implementation corresponding to the actual instance on the Heap.
 
-```text
-Shape
-Circle
-Rectangle
-Triangle
-```
+### Can static methods be overridden?
+No. Static methods belong to the class namespace, not object instances. Redefining a static method in a subclass hides the parent method, which is known as **Method Hiding**, and does not support late binding.
 
-Override:
-
-```java
-area()
-```
+### What is a covariant return type in overriding?
+It allows an overriding subclass method to return a subtype of the return type declared in the parent method. For example, if a parent method returns `Animal`, the overridden child method can return `Dog`.
 
 ---
 
-## Challenge 5
+## Practice Challenges
 
-Create:
-
-```text
-Account
-SavingsAccount
-CurrentAccount
-```
-
-Override:
-
-```java
-calculateInterest()
-```
+1. **Shape Area Calculator**: Create a base class `Shape` with a method `calculateArea()`. Extend it with subclasses `Circle` (needs radius) and `Rectangle` (needs width/height). Override `calculateArea()` in each subclass. Use a parent `Shape` reference array to compute and display areas for different shapes.
+2. **Device Remote System**: Define a `Device` superclass with a method `turnOn()`. Extend it with `Television` and `AirConditioner` subclasses. Demonstrate dynamic dispatch by invoking `turnOn()` on different device instances.
 
 ---
 
-# Concept Map
+## Key Takeaways
 
-```text
-Runtime Polymorphism
-          │
-          ▼
-    Method Overriding
-          │
-          ▼
-      Inheritance
-          │
-          ▼
- Parent Reference
- Child Object
-          │
-          ▼
- Dynamic Method Dispatch
-          │
-          ▼
-  Execute Child Method
-```
+* Runtime polymorphism relies on method overriding and upcasting.
+* Overridden method execution is resolved at runtime based on the actual object type in the Heap.
+* Instance variables are **not** polymorphic; they are resolved based on the compile-time reference type.
+* Constructors cannot be overridden.
 
 ---
 
-# Key Takeaways
-
-- Runtime Polymorphism is achieved through Method Overriding.
-- The method is selected during execution.
-- Parent Reference Child Object is required.
-- Java uses Dynamic Method Dispatch.
-- Methods are polymorphic, variables are not.
-- Constructors cannot be overridden.
-- Runtime Polymorphism improves flexibility and scalability.
-
----
-
-# Conclusion
-
-Runtime Polymorphism is one of the most powerful features of Java. It allows a single parent reference to interact with multiple child objects while executing the correct overridden method at runtime. This enables flexible, scalable, and maintainable software design and forms the foundation of many enterprise-level Java applications.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

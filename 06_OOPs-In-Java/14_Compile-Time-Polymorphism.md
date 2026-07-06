@@ -2,781 +2,203 @@
 
 ## Introduction
 
-Polymorphism means:
+In Object-Oriented Programming (OOP), **Compile-Time Polymorphism** occurs when the binding between a method call and its actual implementation is resolved by the compiler at compile-time, before the program runs.
 
-```text
-One Thing
-Can Have Many Forms
-```
+Because these decisions are made early during compilation, this concept is also known as:
+* **Static Polymorphism**
+* **Static Binding**
+* **Early Binding**
 
-Java supports two types of polymorphism:
+In Java, compile-time polymorphism is achieved using **Method Overloading** and **Constructor Overloading**.
 
-```text
-1. Compile-Time Polymorphism
-2. Runtime Polymorphism
-```
+---
 
-This chapter focuses on:
+## What is Method Overloading?
 
-```text
-Compile-Time Polymorphism
-```
+Method Overloading is a class design feature that allows a class to declare multiple methods with the **same name** but **different parameter lists**.
 
-which is achieved using:
+### Rules for Overloading Method Parameters:
+To overload a method name, the parameter declarations must differ in at least one of the following criteria:
+1. **The number of parameters** (e.g., `add(int, int)` vs. `add(int, int, int)`).
+2. **The data types of parameters** (e.g., `show(int)` vs. `show(double)`).
+3. **The order of parameters** (e.g., `display(int, String)` vs. `display(String, int)`).
 
-```text
-Method Overloading
+```mermaid
+graph TD
+    Overload[Method Overloading]
+    Overload --> Count[Different Parameter Count]
+    Overload --> Type[Different Parameter Data Types]
+    Overload --> Order[Different Parameter Ordering]
 ```
 
 ---
 
-# What is Compile-Time Polymorphism?
+## Method Overloading Examples
 
-Compile-Time Polymorphism occurs when the Java compiler determines:
-
-```text
-Which Method Should Execute
-```
-
-during compilation.
-
-Because the decision happens before program execution, it is called:
-
-```text
-Compile-Time Polymorphism
-```
-
-It is also known as:
-
-```text
-Static Polymorphism
-
-OR
-
-Early Binding
-```
-
----
-
-# Real-World Example
-
-Imagine a calculator.
-
-```text
-Add 2 Numbers
-Add 3 Numbers
-Add 4 Numbers
-```
-
-All operations are called:
-
-```text
-add()
-```
-
-but perform different tasks.
-
----
-
-# Understanding Method Overloading
-
-Method Overloading means:
-
-```text
-Same Method Name
-
-Different Parameter List
-```
-
----
-
-# Rules of Method Overloading
-
-Methods must differ in:
-
-```text
-Number of Parameters
-```
-
-or
-
-```text
-Data Type of Parameters
-```
-
-or
-
-```text
-Order of Parameters
-```
-
----
-
-# Valid Overloading Examples
-
-```java
-add(int a, int b)
-```
-
-```java
-add(int a, int b, int c)
-```
-
-```java
-add(double a, double b)
-```
-
-All are valid.
-
----
-
-# First Compile-Time Polymorphism Program
-
+### 1. Different Number of Parameters
 ```java
 class Calculator {
-
-    public int add(
-            int a,
-            int b) {
-
+    public int add(int a, int b) {
         return a + b;
     }
 
-    public int add(
-            int a,
-            int b,
-            int c) {
-
+    public int add(int a, int b, int c) {
         return a + b + c;
     }
 }
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Calculator calc =
-                new Calculator();
-
-        System.out.println(
-                calc.add(10,20));
-
-        System.out.println(
-                calc.add(10,20,30));
-    }
-}
 ```
 
----
-
-# Output
-
-```text
-30
-60
-```
-
----
-
-# How Compiler Decides?
-
-When:
-
-```java
-calc.add(10,20);
-```
-
-Compiler searches:
-
-```java
-add(int,int)
-```
-
-and selects it.
-
----
-
-When:
-
-```java
-calc.add(10,20,30);
-```
-
-Compiler selects:
-
-```java
-add(int,int,int)
-```
-
----
-
-# Internal Working
-
-```text
-Method Call
-      │
-      ▼
-
-Compiler Checks Arguments
-      │
-      ▼
-
-Find Matching Method
-      │
-      ▼
-
-Generate Bytecode
-```
-
-Decision happens before execution.
-
----
-
-# Example 2: Different Data Types
-
+### 2. Different Parameter Data Types
 ```java
 class Display {
-
     public void show(int num) {
-
-        System.out.println(
-                "Integer : " + num);
+        System.out.println("Integer input: " + num);
     }
 
     public void show(double num) {
+        System.out.println("Double input: " + num);
+    }
+}
+```
 
-        System.out.println(
-                "Double : " + num);
+### 3. Different Parameter Ordering
+```java
+class Reporter {
+    public void display(int id, String status) {
+        System.out.println("ID: " + id + ", Status: " + status);
+    }
+
+    public void display(String status, int id) {
+        System.out.println("Status: " + status + ", ID: " + id);
     }
 }
 ```
 
 ---
 
-## Main Class
+## Execution Flow & Binding Mechanics
+
+When the compiler encounters a method call like `calc.add(10, 20)`, it performs signature matching:
+
+```mermaid
+graph LR
+    Call[Method Call: calc.add 10, 20] -->|1. Inspect arguments| Match{Check count & types}
+    Match -->|Matches int, int| Bind1[Bind to add int, int]
+    Match -->|Matches int, int, int| Bind2[Bind to add int, int, int]
+    Bind1 -->|Compile-time complete| Bytecode[Generate explicit method call byte code]
+```
+
+Since the target method is mapped directly in the bytecode, execution is highly optimized at runtime.
+
+---
+
+## Method Signatures and Return Type Restrictions
+
+In Java, a method is uniquely identified within a class by its **Method Signature**:
+$$\text{Method Signature} = \text{Method Name} + \text{Parameter List}$$
+
+### Return Type Restriction:
+Changing only the return type of a method is **not** valid overloading. The compiler ignores return types during resolution and throws a duplicate method compilation error.
 
 ```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Display d =
-                new Display();
-
-        d.show(10);
-
-        d.show(25.5);
-    }
+// INVALID OVERLOADING (Will cause compile error)
+class Calculator {
+    public int add(int a, int b) { return a + b; }
+    public double add(int a, int b) { return a + b; } // Error: duplicate method add(int, int)
 }
 ```
 
 ---
 
-# Output
+## Constructor Overloading
 
-```text
-Integer : 10
-Double : 25.5
-```
-
----
-
-# Example 3: Different Parameter Order
-
-```java
-class Test {
-
-    public void display(
-            int age,
-            String name) {
-
-        System.out.println(
-                age + " " + name);
-    }
-
-    public void display(
-            String name,
-            int age) {
-
-        System.out.println(
-                name + " " + age);
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Test obj = new Test();
-
-        obj.display(21,"Sanjay");
-
-        obj.display("Rahul",22);
-    }
-}
-```
-
----
-
-# Output
-
-```text
-21 Sanjay
-Rahul 22
-```
-
----
-
-# Real-World Example
-
-## Employee Payroll System
-
-```java
-class Payroll {
-
-    public double salary(
-            double basic) {
-
-        return basic;
-    }
-
-    public double salary(
-            double basic,
-            double bonus) {
-
-        return basic + bonus;
-    }
-
-    public double salary(
-            double basic,
-            double bonus,
-            double allowance) {
-
-        return basic +
-               bonus +
-               allowance;
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Payroll payroll =
-                new Payroll();
-
-        System.out.println(
-                payroll.salary(30000));
-
-        System.out.println(
-                payroll.salary(
-                        30000,
-                        5000));
-
-        System.out.println(
-                payroll.salary(
-                        30000,
-                        5000,
-                        2000));
-    }
-}
-```
-
----
-
-# Output
-
-```text
-30000.0
-35000.0
-37000.0
-```
-
----
-
-# Method Signature
-
-Java identifies overloaded methods using:
-
-```text
-Method Name
-+
-Parameter List
-```
-
-This is called:
-
-```text
-Method Signature
-```
-
-Example:
-
-```java
-add(int,int)
-```
-
-and
-
-```java
-add(int,int,int)
-```
-
-have different signatures.
-
----
-
-# Invalid Method Overloading
-
-Changing only return type is NOT overloading.
-
-Wrong:
-
-```java
-public int add(
-        int a,
-        int b) {
-
-    return a + b;
-}
-
-public double add(
-        int a,
-        int b) {
-
-    return a + b;
-}
-```
-
-Compiler Error.
-
-Because:
-
-```text
-Parameter List Same
-```
-
----
-
-# Memory Representation
-
-```text
-Calculator Object
-
-----------------
-
-add(int,int)
-
-add(int,int,int)
-
-add(double,double)
-
-----------------
-```
-
-Compiler chooses the correct method.
-
----
-
-# Advantages of Compile-Time Polymorphism
-
-## Readability
-
-Same method name for similar operations.
-
----
-
-## Reusability
-
-Avoid creating multiple method names.
-
----
-
-## Flexibility
-
-Supports multiple input combinations.
-
----
-
-## Easier Maintenance
-
-Code becomes cleaner.
-
----
-
-# Constructor Overloading
-
-Constructors can also be overloaded.
+Constructors, like regular methods, can be overloaded to provide multiple ways to instantiate objects.
 
 ```java
 class Student {
+    private String name;
 
+    // No-arg constructor
     public Student() {
-
-        System.out.println(
-                "Default Constructor");
+        this.name = "Unknown";
+        System.out.println("Default Constructor Called");
     }
 
+    // Parameterized constructor
     public Student(String name) {
-
-        System.out.println(
-                "Name : " + name);
+        this.name = name;
+        System.out.println("Parameterized Constructor Called: " + name);
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
-        Student s1 =
-                new Student();
-
-        Student s2 =
-                new Student("Sanjay");
+        Student s1 = new Student();         // Binds to no-arg constructor
+        Student s2 = new Student("Sanjay"); // Binds to parameterized constructor
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Default Constructor
-Name : Sanjay
+Default Constructor Called
+Parameterized Constructor Called: Sanjay
 ```
 
 ---
 
-# Compile-Time vs Runtime Polymorphism
+## Advantages of Compile-Time Polymorphism
 
-| Compile-Time | Runtime |
-|-------------|----------|
-| Method Overloading | Method Overriding |
-| Decided by Compiler | Decided at Runtime |
-| Early Binding | Late Binding |
-| Faster | Slightly Slower |
-| Same Class Mostly | Parent-Child Classes |
+* **Readability**: Operations that are conceptually identical but accept different parameters use the same name (e.g. `add()` or `print()`).
+* **Flexibility**: Clients can call methods using different argument patterns.
+* **Performance**: Early binding incurs zero runtime lookup overhead.
 
 ---
 
-# Common Mistakes
+## Concept Map
 
-## Changing Only Return Type
-
-Wrong:
-
-```java
-int add()
-
-double add()
-```
-
-Not Overloading.
-
----
-
-## Same Parameter List
-
-Wrong:
-
-```java
-add(int,int)
-
-add(int,int)
-```
-
-Duplicate method.
-
----
-
-## Confusing Overloading with Overriding
-
-Overloading:
-
-```java
-add(int,int)
-
-add(int,int,int)
-```
-
-Different parameters.
-
----
-
-Overriding:
-
-```java
-sound()
-```
-
-Same signature.
-
----
-
-# Interview Questions
-
-## What is Compile-Time Polymorphism?
-
-Polymorphism resolved during compilation.
-
----
-
-## How is it Achieved?
-
-Using:
-
-```text
-Method Overloading
+```mermaid
+graph TD
+    Static[Static Polymorphism]
+    Static --> Overload[Method Overloading]
+    Overload --> Diff[Differ by parameter count, type, or order]
+    Static --> Const[Constructor Overloading]
+    Static --> Sign[Method Signature = Name + Parameter Types]
+    Static --> Binding[Early Binding: Complete at Compile-Time]
 ```
 
 ---
 
-## What is Another Name?
+## Interview Questions (FAQ)
 
-```text
-Static Polymorphism
+### What is Compile-Time Polymorphism?
+A polymorphism model where the method binding is decided by the compiler during compilation based on the method signatures.
 
-Early Binding
-```
+### Why is changing only the return type invalid for overloading?
+Because at call site, e.g. `add(5, 10)`, the compiler cannot determine the return type context. The compiler matches methods based on method signatures (name + parameter types), which excludes return types.
 
----
-
-## Can Constructors Be Overloaded?
-
-Yes.
+### Can static methods be overloaded?
+Yes. Static methods can be overloaded in the same class as long as their parameter lists are different.
 
 ---
 
-## Is Changing Return Type Enough?
+## Practice Challenges
 
-No.
-
-Parameter list must change.
-
----
-
-## What is Method Signature?
-
-```text
-Method Name
-+
-Parameter List
-```
+1. **Area Calculator**: Write a class `AreaCalculator` with overloaded methods:
+   * `area(int side)` $\rightarrow$ Calculates square area.
+   * `area(int length, int breadth)` $\rightarrow$ Calculates rectangle area.
+   * `area(double radius)` $\rightarrow$ Calculates circle area.
+2. **Contact Card**: Create a class `Contact` with overloaded constructors to create contacts with either `(name, phone)` or `(name, phone, email)`.
 
 ---
 
-# Practice Challenges
+## Key Takeaways
 
-## Challenge 1
-
-Create overloaded methods:
-
-```java
-area(int side)
-
-area(int length,int breadth)
-```
+* Compile-time polymorphism is achieved via method and constructor overloading.
+* Overloaded methods must differ in parameter count, type, or order.
+* Return types are not part of method signatures and cannot be used alone for overloading.
+* It is also referred to as Static Polymorphism or Early/Static Binding.
 
 ---
 
-## Challenge 2
-
-Create overloaded methods:
-
-```java
-print(int)
-
-print(String)
-
-print(double)
-```
-
----
-
-## Challenge 3
-
-Create overloaded salary methods.
-
----
-
-## Challenge 4
-
-Create overloaded constructors in a Student class.
-
----
-
-## Challenge 5
-
-Create a Calculator with:
-
-```java
-add()
-
-subtract()
-
-multiply()
-```
-
-all overloaded.
-
----
-
-# Concept Map
-
-```text
-Compile-Time Polymorphism
-            │
-            ▼
-     Method Overloading
-            │
-    ┌───────┼────────┐
-    ▼       ▼        ▼
-
-Different Different Different
-Count     Type      Order
-
-            │
-            ▼
-
-Compiler Chooses Method
-            │
-            ▼
-
-Early Binding
-```
-
----
-
-# Key Takeaways
-
-- Compile-Time Polymorphism is achieved through Method Overloading.
-- The compiler decides which method to call.
-- Overloaded methods must differ in parameters.
-- Changing only the return type is not valid overloading.
-- Constructor overloading is also a form of compile-time polymorphism.
-- It is also called Static Polymorphism or Early Binding.
-
----
-
-# Conclusion
-
-Compile-Time Polymorphism allows Java programs to use the same method name for multiple operations. Through Method Overloading, developers can create cleaner, more readable, and flexible code while enabling the compiler to determine the correct method before execution. It is one of the foundational concepts of Java OOP and an essential interview topic.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

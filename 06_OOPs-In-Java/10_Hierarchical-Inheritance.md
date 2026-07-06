@@ -2,156 +2,72 @@
 
 ## Introduction
 
-Inheritance allows classes to reuse code from other classes.
+In previous guides, we explored **Single Inheritance** (one parent, one child) and **Multilevel Inheritance** (chained ancestor relationships). 
 
-In the previous chapters, we learned:
+Java also supports **Hierarchical Inheritance**, where multiple child subclasses extend a single, shared parent superclass. This type of inheritance is highly effective for sharing common traits across multiple specialized entity types.
 
-```text
-Single Inheritance
-    ↓
-One Parent → One Child
-
-Multilevel Inheritance
-    ↓
-One Parent → Child → Grandchild
+```mermaid
+graph TD
+    Parent[Parent Class]
+    Parent -->|Inherited by| Child1[Child Class A]
+    Parent -->|Inherited by| Child2[Child Class B]
+    Parent -->|Inherited by| Child3[Child Class C]
 ```
-
-Now we will learn:
-
-```text
-Hierarchical Inheritance
-```
-
-where multiple child classes inherit from a single parent class.
 
 ---
 
-# What is Hierarchical Inheritance?
+## What is Hierarchical Inheritance?
 
-Hierarchical Inheritance occurs when:
+Hierarchical Inheritance is a class design pattern where a single superclass serves as the base for multiple distinct subclasses.
 
-```text
-One Parent Class
-       │
- ┌─────┼─────┐
- │     │     │
- ▼     ▼     ▼
-A      B     C
-```
-
-Multiple child classes inherit from the same parent class.
+### Real-World Examples:
+* **Animal** $\rightarrow$ `Dog`, `Cat`, `Horse`
+* **Employee** $\rightarrow$ `Developer`, `Tester`, `Manager`
+* **Account** $\rightarrow$ `SavingsAccount`, `CurrentAccount`, `LoanAccount`
+* **Product** $\rightarrow$ `Electronics`, `Clothing`, `Grocery`
 
 ---
 
-# Real-World Example
+## Hierarchical Inheritance Example
 
-```text
-Animal
-  │
-  ├── Dog
-  ├── Cat
-  └── Horse
-```
-
-All child classes inherit common behavior from Animal.
-
----
-
-# Why Use Hierarchical Inheritance?
-
-Suppose we have:
-
-```text
-Dog
-Cat
-Horse
-```
-
-All animals can:
-
-```text
-Eat
-Sleep
-Breathe
-```
-
-Instead of writing these methods repeatedly, we place them inside a parent class.
-
----
-
-# First Hierarchical Inheritance Program
-
-## Parent Class
+Here is a complete program demonstrating how three separate classes inherit a base method from a common parent class:
 
 ```java
+// Parent Superclass
 class Animal {
-
     public void eat() {
-
-        System.out.println(
-                "Animal is Eating");
+        System.out.println("Animal is eating.");
     }
 }
-```
 
----
-
-## Child Class 1
-
-```java
+// Subclass A
 class Dog extends Animal {
-
     public void bark() {
-
-        System.out.println(
-                "Dog is Barking");
+        System.out.println("Dog is barking.");
     }
 }
-```
 
----
-
-## Child Class 2
-
-```java
+// Subclass B
 class Cat extends Animal {
-
     public void meow() {
-
-        System.out.println(
-                "Cat is Meowing");
+        System.out.println("Cat is meowing.");
     }
 }
-```
 
----
-
-## Child Class 3
-
-```java
+// Subclass C
 class Horse extends Animal {
-
     public void run() {
-
-        System.out.println(
-                "Horse is Running");
+        System.out.println("Horse is running.");
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
         Dog dog = new Dog();
         Cat cat = new Cat();
         Horse horse = new Horse();
 
+        // All subclasses execute the inherited eat() method
         dog.eat();
         dog.bark();
 
@@ -164,665 +80,169 @@ public class Main {
 }
 ```
 
+### Output:
+```text
+Animal is eating.
+Dog is barking.
+Animal is eating.
+Cat is meowing.
+Animal is eating.
+Horse is running.
+```
+
 ---
 
-# Output
+## Memory Representation
+
+When you instantiate subclass objects in hierarchical inheritance, each subclass maintains its own separate block of memory on the Heap, carrying both the inherited properties and local properties.
 
 ```text
-Animal is Eating
-Dog is Barking
-
-Animal is Eating
-Cat is Meowing
-
-Animal is Eating
-Horse is Running
+Dog Object (0x2a3b)        Cat Object (0x4c5d)        Horse Object (0x6e7f)
+┌──────────────────┐        ┌──────────────────┐        ┌──────────────────┐
+│ eat() (Inherited)│        │ eat() (Inherited)│        │ eat() (Inherited)│
+│ bark() (Local)   │        │ meow() (Local)   │        │ run() (Local)    │
+└──────────────────┘        └──────────────────┘        └──────────────────┘
 ```
 
 ---
 
-# Understanding the Structure
+## Constructor Execution Flow
 
-```text
-Animal
-  │
-  ├── Dog
-  ├── Cat
-  └── Horse
-```
-
-Each child class gets:
-
-```text
-eat()
-```
-
-from Animal.
-
-Additionally:
-
-```text
-Dog    → bark()
-
-Cat    → meow()
-
-Horse  → run()
-```
-
----
-
-# Memory Representation
-
-```text
-Dog Object
-----------------
-eat()
-bark()
-----------------
-
-Cat Object
-----------------
-eat()
-meow()
-----------------
-
-Horse Object
-----------------
-eat()
-run()
-----------------
-```
-
----
-
-# Student Example
-
-## Parent Class
-
-```java
-class Person {
-
-    public void displayName() {
-
-        System.out.println(
-                "I am a Person");
-    }
-}
-```
-
----
-
-## Student Class
-
-```java
-class Student extends Person {
-
-    public void study() {
-
-        System.out.println(
-                "Student is Studying");
-    }
-}
-```
-
----
-
-## Teacher Class
-
-```java
-class Teacher extends Person {
-
-    public void teach() {
-
-        System.out.println(
-                "Teacher is Teaching");
-    }
-}
-```
-
----
-
-## Employee Class
-
-```java
-class Employee extends Person {
-
-    public void work() {
-
-        System.out.println(
-                "Employee is Working");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student student =
-                new Student();
-
-        Teacher teacher =
-                new Teacher();
-
-        Employee employee =
-                new Employee();
-
-        student.displayName();
-        student.study();
-
-        teacher.displayName();
-        teacher.teach();
-
-        employee.displayName();
-        employee.work();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-I am a Person
-Student is Studying
-
-I am a Person
-Teacher is Teaching
-
-I am a Person
-Employee is Working
-```
-
----
-
-# Vehicle Example
-
-```java
-class Vehicle {
-
-    public void start() {
-
-        System.out.println(
-                "Vehicle Started");
-    }
-}
-```
-
----
-
-```java
-class Car extends Vehicle {
-
-    public void drive() {
-
-        System.out.println(
-                "Driving Car");
-    }
-}
-```
-
----
-
-```java
-class Bike extends Vehicle {
-
-    public void ride() {
-
-        System.out.println(
-                "Riding Bike");
-    }
-}
-```
-
----
-
-```java
-class Truck extends Vehicle {
-
-    public void load() {
-
-        System.out.println(
-                "Loading Goods");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Car car = new Car();
-        Bike bike = new Bike();
-        Truck truck = new Truck();
-
-        car.start();
-        bike.start();
-        truck.start();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Vehicle Started
-Vehicle Started
-Vehicle Started
-```
-
----
-
-# Constructor Example
-
-## Parent Class
+Each instantiation of a subclass object triggers the parent class constructor followed by the subclass constructor. Instantiating one subclass does not affect the other subclasses.
 
 ```java
 class Animal {
-
     public Animal() {
-
-        System.out.println(
-                "Animal Constructor");
+        System.out.println("Animal Constructor Executed");
     }
 }
-```
 
----
-
-## Child Classes
-
-```java
 class Dog extends Animal {
-
     public Dog() {
-
-        System.out.println(
-                "Dog Constructor");
+        System.out.println("Dog Constructor Executed");
     }
 }
-```
 
-```java
 class Cat extends Animal {
-
     public Cat() {
-
-        System.out.println(
-                "Cat Constructor");
+        System.out.println("Cat Constructor Executed");
     }
 }
-```
 
----
-
-## Main Class
-
-```java
 public class Main {
-
     public static void main(String[] args) {
-
         Dog dog = new Dog();
-
+        System.out.println("---");
         Cat cat = new Cat();
     }
 }
 ```
 
----
-
-# Output
-
+### Output:
 ```text
-Animal Constructor
-Dog Constructor
-
-Animal Constructor
-Cat Constructor
+Animal Constructor Executed
+Dog Constructor Executed
+---
+Animal Constructor Executed
+Cat Constructor Executed
 ```
 
 ---
 
-# Internal Working
+## Real-World Case Study: Banking Accounts
 
-When:
+Hierarchical inheritance is a standard architecture for banking applications. All account types inherit base transaction data, but compute interest or limits differently.
 
-```java
-Dog dog = new Dog();
-```
-
-Java executes:
-
-```text
-Animal Constructor
-       ↓
-Dog Constructor
+```mermaid
+graph TD
+    Acc[BankAccount]
+    Acc --> Savings[SavingsAccount: adds interestRate]
+    Acc --> Current[CurrentAccount: adds overdraftLimit]
 ```
 
 ---
 
-When:
+## Advantages of Hierarchical Inheritance
 
+* **Eliminates Code Duplication**: Core features (e.g. `eat()`, `start()`, `getBalance()`) are declared once in the parent class.
+* **Organized Structures**: Keeps class responsibilities clearly separated.
+* **Scalability**: A new child subclass (e.g., `Sheep` extending `Animal`) can be added with zero impact on existing siblings like `Dog` or `Cat`.
+
+---
+
+## Common Mistakes
+
+### 1. Assuming Siblings Share Subclass Properties
+Subclasses do not inherit from one another. A `Cat` object has no access to the `bark()` method defined in the `Dog` class.
 ```java
+// WRONG
 Cat cat = new Cat();
+cat.bark(); // COMPILER ERROR: cannot find symbol method bark()
 ```
 
-Java executes:
-
-```text
-Animal Constructor
-       ↓
-Cat Constructor
-```
+### 2. Violating the IS-A Relationship
+Ensure every subclass extends a conceptual parent. A `Wheel` is not a `Car`. Use Composition instead.
 
 ---
 
-# Advantages of Hierarchical Inheritance
+## Single vs. Multilevel vs. Hierarchical Inheritance
 
-## Code Reusability
-
-Common methods are written once.
-
----
-
-## Reduced Duplication
-
-Avoids repeating code in multiple classes.
-
----
-
-## Better Organization
-
-Shared functionality stays in one parent class.
-
----
-
-## Easier Maintenance
-
-Modify parent class once and all child classes benefit.
-
----
-
-# Real-World Applications
-
-## Banking System
-
-```text
-Account
-   │
-   ├── SavingsAccount
-   ├── CurrentAccount
-   └── FixedDepositAccount
+```mermaid
+graph TD
+    subgraph Single
+        S1[Parent] --> S2[Child]
+    end
+    subgraph Multilevel
+        M1[Grandparent] --> M2[Parent] --> M3[Child]
+    end
+    subgraph Hierarchical
+        H1[Parent] --> H2[Child A]
+        H1 --> H3[Child B]
+    end
 ```
 
 ---
 
-## Employee Management
+## Concept Map
 
-```text
-Employee
-   │
-   ├── Developer
-   ├── Tester
-   └── Manager
+```mermaid
+graph TD
+    Hier[Hierarchical Inheritance]
+    Hier --> Structure[One Superclass -> Multiple Subclasses]
+    Hier --> Ex[Person -> Student, Teacher, Employee]
+    Hier --> CodeReuse[Promotes Code Reuse]
+    Hier --> Sibling[Siblings are independent]
 ```
 
 ---
 
-## E-Commerce
+## Interview Questions (FAQ)
 
-```text
-Product
-   │
-   ├── Electronics
-   ├── Clothing
-   └── Grocery
-```
+### What is hierarchical inheritance?
+Hierarchical inheritance is a class structure where multiple subclasses extend a single, shared parent class.
 
----
+### Can child classes in hierarchical inheritance access each other's members?
+No. Siblings share a parent class, but their subclass declarations are independent. They cannot access each other's fields or methods.
 
-# Common Mistakes
-
-## Wrong Relationship
-
-Wrong:
-
-```java
-class Engine extends Car
-```
-
-Engine is not a Car.
-
-Use Composition.
+### Can static variables be shared across all subclasses in hierarchical inheritance?
+Yes. If the parent class defines a static variable, all subclasses and their instances share access to that single memory address.
 
 ---
 
-Correct:
+## Practice Challenges
 
-```text
-Car HAS-A Engine
-```
-
----
-
-## Forgetting extends
-
-Wrong:
-
-```java
-class Dog {
-
-}
-```
-
-No inheritance.
+1. **E-Commerce Classification**: Create a `Product` parent class containing `price` and `display()`. Create subclasses `Electronics` and `Clothing` extending `Product`, each adding unique attributes.
+2. **Vehicle Classification System**: Create a parent class `Vehicle` with a method `start()`. Extend it with subclasses `Car`, `Motorcycle`, and `Truck`. Instantiate objects for each and verify method access.
 
 ---
 
-Correct:
+## Key Takeaways
 
-```java
-class Dog extends Animal {
-
-}
-```
-
----
-
-# Single vs Multilevel vs Hierarchical
-
-## Single Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
+* Hierarchical inheritance maps one superclass to multiple subclasses.
+* Subclasses share parent features but remain completely independent of their siblings.
+* This type of inheritance promotes modularity, code reuse, and easy system extensions.
+* Subclass constructors invoke parent constructors (`super()`) on the first line.
 
 ---
 
-## Multilevel Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-   │
-   ▼
-Puppy
-```
-
----
-
-## Hierarchical Inheritance
-
-```text
-        Animal
-      /    |    \
-    Dog   Cat   Horse
-```
-
----
-
-# Interview Questions
-
-## What is Hierarchical Inheritance?
-
-One parent class inherited by multiple child classes.
-
----
-
-## Does Java Support Hierarchical Inheritance?
-
-Yes.
-
----
-
-## What Relationship Does It Represent?
-
-```text
-IS-A Relationship
-```
-
----
-
-## Can All Child Classes Access Parent Methods?
-
-Yes.
-
----
-
-## Can Child Classes Have Their Own Methods?
-
-Yes.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
-
-```text
-Animal
- ├── Dog
- ├── Cat
- └── Cow
-```
-
-Add separate methods.
-
----
-
-## Challenge 2
-
-Create:
-
-```text
-Person
- ├── Student
- ├── Teacher
- └── Employee
-```
-
-Display different responsibilities.
-
----
-
-## Challenge 3
-
-Create:
-
-```text
-Vehicle
- ├── Car
- ├── Bike
- └── Truck
-```
-
-Reuse start() method.
-
----
-
-## Challenge 4
-
-Create:
-
-```text
-Shape
- ├── Circle
- ├── Rectangle
- └── Triangle
-```
-
-Add area methods.
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-Account
- ├── SavingsAccount
- ├── CurrentAccount
- └── LoanAccount
-```
-
-Display account details.
-
----
-
-# Concept Map
-
-```text
-Hierarchical Inheritance
-            │
-            ▼
-      One Parent
-            │
-    ┌───────┼───────┐
-    ▼       ▼       ▼
- Child1  Child2  Child3
-            │
-            ▼
-       Code Reuse
-            │
-            ▼
-      Better Design
-```
-
----
-
-# Key Takeaways
-
-- Hierarchical Inheritance means one parent class has multiple child classes.
-- All child classes inherit common methods and variables.
-- Java supports hierarchical inheritance.
-- It promotes code reuse and maintainability.
-- Child classes can also have their own unique methods.
-- Constructor execution always starts from the parent class.
-
----
-
-# Conclusion
-
-Hierarchical Inheritance is a powerful inheritance model where multiple child classes share a common parent class. It helps eliminate duplicate code, improves maintainability, and accurately models many real-world systems such as employees, vehicles, animals, and banking applications. Understanding hierarchical inheritance is essential before moving to Method Overriding and Runtime Polymorphism.
+**Back to Module Home:** [Object-Oriented Programming](README.md)

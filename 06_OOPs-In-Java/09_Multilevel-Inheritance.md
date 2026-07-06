@@ -2,771 +2,237 @@
 
 ## Introduction
 
-Inheritance allows one class to inherit properties and methods from another class.
+In previous guides, we explored **Single Inheritance**, where one subclass inherits directly from one parent class. 
 
-In the previous chapter, we learned:
+Java also supports **Multilevel Inheritance**, which extends the inheritance hierarchy into a chain: a child class is derived from a parent class, which in turn is derived from another grandparent class.
 
-```text
-Single Inheritance
-```
-
-where:
-
-```text
-One Parent
-     ↓
-One Child
-```
-
-Now we will learn:
-
-```text
-Multilevel Inheritance
-```
-
-which creates a chain of inheritance.
-
----
-
-# What is Multilevel Inheritance?
-
-Multilevel Inheritance occurs when:
-
-```text
-Class C inherits from Class B
-
-Class B inherits from Class A
-```
-
-Diagram:
-
-```text
-Class A
-   │
-   ▼
-Class B
-   │
-   ▼
-Class C
-```
-
-This forms an inheritance chain.
-
----
-
-# Real-World Example
-
-```text
-LivingThing
-      │
-      ▼
-Animal
-      │
-      ▼
-Dog
-```
-
-Dog inherits:
-
-- Dog Features
-- Animal Features
-- LivingThing Features
-
----
-
-# Why Use Multilevel Inheritance?
-
-Suppose we have:
-
-```text
-LivingThing
-```
-
-All living things can:
-
-```text
-Breathe
-```
-
-Animals can:
-
-```text
-Eat
-```
-
-Dogs can:
-
-```text
-Bark
-```
-
-Instead of writing the same code repeatedly, we can reuse it through inheritance.
-
----
-
-# First Multilevel Inheritance Program
-
-## Parent Class
-
-```java
-class LivingThing {
-
-    public void breathe() {
-
-        System.out.println(
-                "Breathing...");
-    }
-}
+```mermaid
+graph TD
+    Grandparent[Grandparent Class] -->|Inherited by| Parent[Parent Class / Intermediate]
+    Parent -->|Inherited by| Child[Child Class / Subclass]
 ```
 
 ---
-
-## Child Class
-
-```java
-class Animal extends LivingThing {
-
-    public void eat() {
-
-        System.out.println(
-                "Eating...");
-    }
-}
-```
-
----
-
-## Grandchild Class
-
-```java
-class Dog extends Animal {
-
-    public void bark() {
-
-        System.out.println(
-                "Barking...");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Dog dog = new Dog();
-
-        dog.breathe();
-        dog.eat();
-        dog.bark();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Breathing...
-Eating...
-Barking...
-```
-
----
-
-# Understanding the Flow
-
-```text
-Dog
- │
- ▼
-Animal
- │
- ▼
-LivingThing
-```
-
-Dog can access:
-
-```text
-Dog Methods
-Animal Methods
-LivingThing Methods
-```
-
----
-
-# Memory Representation
-
-```text
-Dog Object
-
---------------------------------
-
-Inherited From LivingThing
-
-breathe()
-
---------------------------------
-
-Inherited From Animal
-
-eat()
-
---------------------------------
-
-Dog Methods
-
-bark()
-
---------------------------------
-```
-
----
-
-# Student Example
-
-## Person Class
-
-```java
-class Person {
-
-    public void displayName() {
-
-        System.out.println(
-                "Name : Sanjay");
-    }
-}
-```
-
----
-
-## Student Class
-
-```java
-class Student extends Person {
-
-    public void displayRollNo() {
-
-        System.out.println(
-                "Roll No : 23");
-    }
-}
-```
-
----
-
-## CollegeStudent Class
-
-```java
-class CollegeStudent extends Student {
-
-    public void displayDepartment() {
-
-        System.out.println(
-                "Department : AIDS");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        CollegeStudent student =
-                new CollegeStudent();
-
-        student.displayName();
-        student.displayRollNo();
-        student.displayDepartment();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Name : Sanjay
-Roll No : 23
-Department : AIDS
-```
-
----
-
-# Constructor Example
-
-Understanding constructor execution order is important.
-
----
-
-## Parent Class
-
-```java
-class Animal {
-
-    public Animal() {
-
-        System.out.println(
-                "Animal Constructor");
-    }
-}
-```
-
----
-
-## Child Class
-
-```java
-class Dog extends Animal {
-
-    public Dog() {
-
-        System.out.println(
-                "Dog Constructor");
-    }
-}
-```
-
----
-
-## Grandchild Class
-
-```java
-class Puppy extends Dog {
-
-    public Puppy() {
-
-        System.out.println(
-                "Puppy Constructor");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        Puppy puppy =
-                new Puppy();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Animal Constructor
-Dog Constructor
-Puppy Constructor
-```
-
----
-
-# Constructor Execution Flow
-
-```text
-Create Puppy Object
-        │
-        ▼
-
-Animal Constructor
-        │
-        ▼
-
-Dog Constructor
-        │
-        ▼
-
-Puppy Constructor
-```
-
-Java always executes constructors from top to bottom.
-
----
-
-# Vehicle Example
-
-## Vehicle
-
-```java
-class Vehicle {
-
-    public void start() {
-
-        System.out.println(
-                "Vehicle Started");
-    }
-}
-```
-
----
-
-## Car
-
-```java
-class Car extends Vehicle {
-
-    public void drive() {
-
-        System.out.println(
-                "Driving Car");
-    }
-}
-```
-
----
-
-## SportsCar
-
-```java
-class SportsCar extends Car {
-
-    public void turboMode() {
-
-        System.out.println(
-                "Turbo Mode Activated");
-    }
-}
-```
-
----
-
-## Main Class
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        SportsCar car =
-                new SportsCar();
-
-        car.start();
-        car.drive();
-        car.turboMode();
-    }
-}
-```
-
----
-
-# Output
-
-```text
-Vehicle Started
-Driving Car
-Turbo Mode Activated
-```
-
----
-
-# Accessing Parent Members
-
-Example:
-
-```java
-class A {
-
-    int x = 10;
-}
-```
-
-```java
-class B extends A {
-
-}
-```
-
-```java
-class C extends B {
-
-}
-```
-
-Main:
-
-```java
-public class Main {
-
-    public static void main(String[] args) {
-
-        C obj = new C();
-
-        System.out.println(obj.x);
-    }
-}
-```
-
-Output:
-
-```text
-10
-```
-
-The variable travels through the inheritance chain.
-
----
-
-# Advantages of Multilevel Inheritance
-
-## Code Reusability
-
-Write code once and reuse it across multiple levels.
-
----
-
-## Better Organization
-
-Common functionality stays in higher-level classes.
-
----
-
-## Reduced Duplication
-
-Avoid repeated methods and variables.
-
----
-
-## Easier Maintenance
-
-Changes in parent classes automatically affect descendants.
-
----
-
-# Common Mistakes
-
-## Creating Unnecessary Levels
-
-Bad:
-
-```text
-A
-↓
-B
-↓
-C
-↓
-D
-↓
-E
-↓
-F
-```
-
-Too many levels make code difficult to maintain.
-
----
-
-## Using Inheritance for HAS-A Relationships
-
-Wrong:
-
-```java
-class Engine extends Car
-```
-
-Engine is not a Car.
-
-Use Composition.
-
----
-
-Correct:
-
-```text
-Car HAS-A Engine
-```
-
----
-
-# Single vs Multilevel Inheritance
-
-## Single Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-```
-
-One Parent → One Child
-
----
-
-## Multilevel Inheritance
-
-```text
-Animal
-   │
-   ▼
-Dog
-   │
-   ▼
-Puppy
-```
-
-Inheritance Chain
-
----
-
-# Interview Questions
 
 ## What is Multilevel Inheritance?
 
-A type of inheritance where a class inherits from another inherited class.
+Multilevel Inheritance occurs when a subclass extends another subclass, establishing a multi-tier chain of parent-child relationships. 
+
+### Real-World Example:
+* **LivingThing** (Grandparent Class)
+  * $\rightarrow$ **Animal** (Parent Class / Intermediate)
+    * $\rightarrow$ **Dog** (Child Class / Subclass)
+
+In this structure:
+* All `LivingThing` objects can `breathe()`.
+* All `Animal` objects can also `eat()` (and breathe).
+* All `Dog` objects can also `bark()` (and eat and breathe).
 
 ---
 
-## Example?
+## Multilevel Inheritance Example
 
+Here is a complete program demonstrating how intermediate classes act as both children and parents in the hierarchy chain.
+
+```java
+// Grandparent Class
+class LivingThing {
+    public void breathe() {
+        System.out.println("Breathing oxygen...");
+    }
+}
+
+// Parent Class extending LivingThing
+class Animal extends LivingThing {
+    public void eat() {
+        System.out.println("Eating organic food...");
+    }
+}
+
+// Child Class extending Animal
+class Dog extends Animal {
+    public void bark() {
+        System.out.println("Barking... Woof!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        
+        // Invoking methods from all three levels of the chain
+        dog.breathe(); // Inherited from LivingThing
+        dog.eat();     // Inherited from Animal
+        dog.bark();    // Local to Dog
+    }
+}
+```
+
+### Output:
 ```text
-Animal
-   │
-   ▼
-Dog
-   │
-   ▼
-Puppy
+Breathing oxygen...
+Eating organic food...
+Barking... Woof!
 ```
 
 ---
 
-## Which Constructor Executes First?
+## Memory Representation
 
-Top-level parent constructor.
-
----
-
-## Can the Last Class Access Methods from the First Class?
-
-Yes.
-
----
-
-## Does Java Support Multilevel Inheritance?
-
-Yes.
-
----
-
-# Practice Challenges
-
-## Challenge 1
-
-Create:
+When a subclass at the bottom of the chain is instantiated, it inherits all properties and methods from its parent and grandparent classes.
 
 ```text
-LivingThing
-Animal
-Dog
-```
-
-and access methods from all classes.
-
----
-
-## Challenge 2
-
-Create:
-
-```text
-Person
-Student
-CollegeStudent
-```
-
-and display inherited information.
-
----
-
-## Challenge 3
-
-Create:
-
-```text
-Vehicle
-Car
-SportsCar
-```
-
-and reuse methods.
-
----
-
-## Challenge 4
-
-Print constructor execution order in a multilevel hierarchy.
-
----
-
-## Challenge 5
-
-Create:
-
-```text
-Employee
-Manager
-SeniorManager
-```
-
-and demonstrate inherited methods.
-
----
-
-# Concept Map
-
-```text
-Multilevel Inheritance
-          │
-          ▼
-      Class A
-          │
-          ▼
-      Class B
-          │
-          ▼
-      Class C
-          │
-          ▼
-      Code Reuse
-          │
-          ▼
-      Less Duplication
+Dog Object on the Heap
+┌──────────────────────────────────────┐
+│ Inherited from LivingThing:          │
+│ - breathe()                          │
+├──────────────────────────────────────┤
+│ Inherited from Animal:               │
+│ - eat()                              │
+├──────────────────────────────────────┤
+│ Local to Dog:                        │
+│ - bark()                             │
+└──────────────────────────────────────┘
 ```
 
 ---
 
-# Key Takeaways
+## Constructor Execution Flow in Multilevel Inheritance
 
-- Multilevel Inheritance creates an inheritance chain.
-- A child class can become a parent for another class.
-- The lowest class inherits members from all ancestor classes.
-- Constructors execute from top-level parent to child.
-- Java fully supports multilevel inheritance.
-- It improves code reuse and maintainability.
+Under multilevel inheritance, constructors execute in sequence from top-level parent to bottom-level child (top-down ordering).
+
+```java
+class LivingThing {
+    public LivingThing() {
+        System.out.println("LivingThing Constructor Executed");
+    }
+}
+
+class Animal extends LivingThing {
+    public Animal() {
+        System.out.println("Animal Constructor Executed");
+    }
+}
+
+class Dog extends Animal {
+    public Dog() {
+        System.out.println("Dog Constructor Executed");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+    }
+}
+```
+
+### Output:
+```text
+LivingThing Constructor Executed
+Animal Constructor Executed
+Dog Constructor Executed
+```
+
+```mermaid
+graph TD
+    Inst[new Dog()] -->|Calls| Child[Dog Constructor]
+    Child -->|Calls super() implicitly| Parent[Animal Constructor]
+    Parent -->|Calls super() implicitly| Grand[LivingThing Constructor]
+    Grand -->|Executes body| ParentBody[Executes Animal Constructor Body]
+    ParentBody -->|Executes body| ChildBody[Executes Dog Constructor Body]
+    ChildBody --> Ready[Dog Object Ready in Heap]
+```
 
 ---
 
-# Conclusion
+## Accessing Parent Variables Through Levels
 
-Multilevel Inheritance extends the idea of inheritance by creating a chain of parent-child relationships. This allows deeper code reuse and better organization of common functionality. Understanding multilevel inheritance is essential before learning Hierarchical Inheritance, Method Overriding, Runtime Polymorphism, and Abstract Classes.
+State variables declared in higher-level classes travel down the inheritance chain, remaining accessible to descendant child classes (provided they are not private).
+
+```java
+class A {
+    int x = 10;
+}
+
+class B extends A {}
+
+class C extends B {}
+
+public class Main {
+    public static void main(String[] args) {
+        C obj = new C();
+        System.out.println("Value of x: " + obj.x); // Output: Value of x: 10
+    }
+}
+```
+
+---
+
+## Advantages of Multilevel Inheritance
+
+* **Deep Code Reuse**: Subclasses automatically acquire all functionality declared across the entire ancestry chain.
+* **Granular Organization**: Methods can be declared at the exact conceptual level they belong to (e.g. `breathe()` in LivingThing, `eat()` in Animal).
+* **Maintainability**: Changes in the grandparent class propagate down through all child classes automatically.
+
+---
+
+## Common Mistakes
+
+### 1. Creating Excessively Deep Inheritance Chains
+Designing deep chains (e.g. $A \rightarrow B \rightarrow C \rightarrow D \rightarrow E \rightarrow F$) creates tight coupling. This makes the code fragile, hard to debug, and difficult to maintain. Limit multilevel inheritance to reasonable depths (usually 2–3 levels).
+
+### 2. Violating the IS-A Relationship in Intermediate Steps
+Every step in the chain must satisfy the `IS-A` relationship.
+```java
+// WRONG - Engine is not a Car
+class Vehicle {}
+class Car extends Vehicle {}
+class Engine extends Car {}
+```
+
+---
+
+## Concept Map
+
+```mermaid
+graph TD
+    Multi[Multilevel Inheritance]
+    Multi --> Chain[Grandparent -> Parent -> Child]
+    Chain --> Ex[LivingThing -> Animal -> Dog]
+    Multi --> TopDown[Top-Down Constructor execution]
+    Multi --> Prop[Properties propagate down the chain]
+```
+
+---
+
+## Interview Questions (FAQ)
+
+### What is multilevel inheritance?
+A type of inheritance where a subclass inherits from another subclass, forming a sequential parent-child inheritance chain.
+
+### Do constructors execution orders change in multilevel inheritance?
+No. Java always enforces top-down constructor execution: grandparent constructor runs first, then parent, and finally child.
+
+### Can a child class bypass the parent and call grandparent methods directly?
+Yes, inherited methods are part of the subclass's environment and can be called directly. However, if the intermediate parent class overrides the grandparent method, the subclass will invoke the overridden parent version. To bypass this and access the grandparent's overridden method directly is not possible in Java (e.g. `super.super.method()` is a compile error).
+
+---
+
+## Practice Challenges
+
+1. **Academic Student Hierarchy**: Create a grandparent class `Person` with a method `talk()`. Create a parent class `Student` extending `Person` with `study()`. Create a child class `CollegeStudent` extending `Student` with `research()`. Instantiate `CollegeStudent` and invoke all three methods.
+2. **Vehicle Category Chaining**: Design a `Vehicle` grandparent class, a `Car` parent class, and a `SportsCar` child class. Add unique methods to each class and demonstrate multilevel inheritance execution.
+
+---
+
+## Key Takeaways
+
+* Multilevel inheritance establishes a sequential chain of parent-child relationships.
+* The subclass at the bottom of the chain inherits members from all ancestor classes.
+* Constructors execute starting from the top-most superclass down to the bottom subclass.
+* Every step in the multilevel chain must satisfy the `IS-A` relationship.
+
+---
+
+**Back to Module Home:** [Object-Oriented Programming](README.md)
