@@ -7,7 +7,7 @@
 | **Ordering** | ❌ None (Unordered) | ✅ Insertion / Access Order |
 | **Internal Model** | Hashing bucket table | Hashing buckets + Doubly linked list |
 | **Memory Cost** | Low | Higher (Stores `before` & `after` pointers per entry) |
-| **Time Complexity** | ⚡ $\mathcal{O}(1)$ average | ⚡ $\mathcal{O}(1)$ average |
+| **Time Complexity** | ⚡ `O(1)` average | ⚡ `O(1)` average |
 
 ---
 

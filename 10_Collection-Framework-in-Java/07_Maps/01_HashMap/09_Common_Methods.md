@@ -34,8 +34,8 @@ if (cache.containsValue("XYZ123")) {
 
 > [!IMPORTANT]
 > **Performance Complexity Difference:**
-> * `containsKey()` is incredibly fast, running in constant time ($\mathcal{O}(1)$).
-> * `containsValue()` is slow, running in linear time ($\mathcal{O}(N)$), because the JVM must search through every bucket sequentially.
+> * `containsKey()` is incredibly fast, running in constant time (`O(1)`).
+> * `containsValue()` is slow, running in linear time (`O(N)`), because the JVM must search through every bucket sequentially.
 
 ---
 

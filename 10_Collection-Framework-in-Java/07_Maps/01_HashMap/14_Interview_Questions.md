@@ -17,8 +17,8 @@ The new value replaces the old value associated with that key, and the `put()` m
 ### Q3: How is key bucket collision handled internally?
 **Answer:**
 Java resolves collisions using **Chaining**:
-* **Prior to Java 8**: Colliding keys were stored as nodes in a Singly Linked List at that bucket index ($\mathcal{O}(N)$ worst-case lookup).
-* **Java 8+**: If a bucket's list size exceeds **8** and the overall map capacity is at least **64**, the list is treeified into a balanced **Red-Black Tree** ($\mathcal{O}(\log N)$ worst-case lookup).
+* **Prior to Java 8**: Colliding keys were stored as nodes in a Singly Linked List at that bucket index (`O(N)` worst-case lookup).
+* **Java 8+**: If a bucket's list size exceeds **8** and the overall map capacity is at least **64**, the list is treeified into a balanced **Red-Black Tree** (`O(log N)` worst-case lookup).
 
 ### Q4: Why must you override both `hashCode()` and `equals()` when using custom objects as keys?
 **Answer:**

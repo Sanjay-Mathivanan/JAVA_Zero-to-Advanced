@@ -13,7 +13,7 @@ Java provides three primary implementations of the `Map` interface. Choosing the
 | **Internal Model** | Hashing buckets | Hash buckets + Linked list | Red-Black Tree |
 | **Ordering** | ❌ None (Unordered) | ✅ Insertion / Access Order | ✅ Sorted Keys |
 | **Null Key Allowed?**| ✅ Yes (One key) | ✅ Yes (One key) | ❌ No (Throws NPE) |
-| **Search Time** | ⚡ $\mathcal{O}(1)$ average | ⚡ $\mathcal{O}(1)$ average | 🐢 $\mathcal{O}(\log N)$ guaranteed |
+| **Search Time** | ⚡ `O(1)` average | ⚡ `O(1)` average | 🐢 `O(log N)` guaranteed |
 | **Memory Footprint** | Low | Medium | High (Stores tree pointers) |
 
 ---

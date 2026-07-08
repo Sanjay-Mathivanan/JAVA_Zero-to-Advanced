@@ -16,7 +16,7 @@ No. Keys must be compared to sort the tree. Since `null` cannot be compared, put
 
 ### Q3: What is the time complexity of put() and get() in a TreeMap?
 **Answer:**
-Guaranteed **$\mathcal{O}(\log N)$** logarithmic complexity, because it traverses parent-child links in a balanced binary tree.
+Guaranteed **`O(log N)`** logarithmic complexity, because it traverses parent-child links in a balanced binary tree.
 
 ### Q4: How do you sort keys in custom order in a TreeMap?
 **Answer:**

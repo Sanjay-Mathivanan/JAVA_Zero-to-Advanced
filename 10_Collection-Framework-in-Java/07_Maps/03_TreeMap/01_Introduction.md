@@ -33,7 +33,7 @@ classDiagram
 ## TreeMap Invariants
 
 * **Key Sorting**: Keys are automatically sorted during insertion.
-* **Guaranteed Complexity**: backed by a Red-Black Tree, it guarantees logarithmic **$\mathcal{O}(\log N)$** time complexity for `get()`, `put()`, and `remove()`.
+* **Guaranteed Complexity**: backed by a Red-Black Tree, it guarantees logarithmic **`O(log N)`** time complexity for `get()`, `put()`, and `remove()`.
 * **No Null Keys**: **Does not allow null keys** (throws `NullPointerException` because it must compare keys to sort them).
 
 ---

@@ -11,7 +11,7 @@ Each index in this table is called a **bucket**. A bucket is either `null`, poin
 
 ```mermaid
 graph TD
-    subgraph Table Array (Capacity: 16)
+    subgraph "Table Array (Capacity: 16)"
         B0["[0]: Node A"]
         B1["[1]: null"]
         B2["[2]: Node C"]
@@ -26,6 +26,8 @@ graph TD
     NodeA --> NodeB
     B2 --> NodeC
 ```
+
+---
 
 ### The Node Class Structure:
 ```java
@@ -57,8 +59,11 @@ When you insert a key-value entry using `put(key, value)`:
 
 To place the key into the internal table array, the JVM calculates the bucket index using a bitwise AND operation (which is much faster than modulo `%` arithmetic):
 
-$$\text{Index} = \text{hash} \ \& \ (n - 1)$$
-*(where $n$ is the current table capacity, always a power of 2, like 16).*
+```java
+Index = hash & (n - 1)
+```
+
+*(where `n` is the current table capacity, always a power of 2, like 16).*
 
 ---
 
@@ -66,7 +71,7 @@ $$\text{Index} = \text{hash} \ \& \ (n - 1)$$
 
 When two different keys calculate to the same bucket index:
 * **Chaining**: HashMap appends the new node to the end of the Singly Linked List at that bucket index.
-* **JDK 8 Treeification**: If the linked list length at a single bucket exceeds **8** and the overall table capacity is at least **64**, the list is converted (treeified) into a balanced **Red-Black Tree**. This keeps search speeds fast ($\mathcal{O}(\log N)$ instead of $\mathcal{O}(N)$).
+* **JDK 8 Treeification**: If the linked list length at a single bucket exceeds **8** and the overall table capacity is at least **64**, the list is converted (treeified) into a balanced **Red-Black Tree**. This keeps search speeds fast (`O(log N)` instead of `O(N)`).
 
 ---
 

@@ -12,7 +12,7 @@ If you insert sorted keys (like `10, 20, 30, 40`) into a standard Binary Search 
       [30]
 ```
 
-This makes lookups slow ($\mathcal{O}(N)$ complexity). 
+This makes lookups slow (`O(N)` complexity). 
 
 To prevent this, `TreeMap` uses a **Red-Black Tree**, which rebalances itself automatically as items are added.
 
@@ -47,7 +47,7 @@ If an insertion violates these rules, the JVM performs:
 * **Color Flips**: Swapping red and black properties.
 * **Rotations**: Shifting parent/child nodes left or right to re-align depth paths.
 
-This guarantees that the tree depth remains balanced, keeping lookups fast at **$\mathcal{O}(\log N)$**.
+This guarantees that the tree depth remains balanced, keeping lookups fast at **`O(log N)`**.
 
 ---
 

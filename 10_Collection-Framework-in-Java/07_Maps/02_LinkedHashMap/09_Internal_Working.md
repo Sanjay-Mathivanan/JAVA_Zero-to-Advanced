@@ -36,7 +36,7 @@ graph TD
     style NodeC fill:#f9f,stroke:#333
 ```
 
-Each node is stored in a bucket index (for $\mathcal{O}(1)$ hashing lookups) and maintains references to the previous and next elements (for order preservation).
+Each node is stored in a bucket index (for `O(1)` hashing lookups) and maintains references to the previous and next elements (for order preservation).
 
 ---
 

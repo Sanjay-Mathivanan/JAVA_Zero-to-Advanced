@@ -4,8 +4,8 @@
 
 Consider a registry of 10,000 employee records. If we store these records in an `ArrayList` or `LinkedList`, searching for an employee by their unique ID (e.g., `"EMP9821"`) requires iterating through the elements:
 
-* **List Search Complexity**: $\mathcal{O}(N)$ linear time. In the worst-case scenario, the JVM checks all 10,000 slots.
-* **Array Binary Search**: $\mathcal{O}(\log N)$ logarithmic time, but requires the array to be kept sorted, introducing insertion and deletion overhead.
+* **List Search Complexity**: `O(N)` linear time. In the worst-case scenario, the JVM checks all 10,000 slots.
+* **Array Binary Search**: `O(log N)` logarithmic time, but requires the array to be kept sorted, introducing insertion and deletion overhead.
 
 ```text
 ArrayList Search (O(N)):
@@ -14,11 +14,11 @@ ArrayList Search (O(N)):
 
 ---
 
-## The HashMap Solution: Constant Time $\mathcal{O}(1)$
+## The HashMap Solution: Constant Time `O(1)`
 
 A `HashMap` bypasses sequential scanning by using a **hashing function**. 
 
-The map calculates a mathematical hash code from the key (`"EMP9821"`) and translates it directly into an array bucket index. The JVM jumps directly to the memory address, executing in **constant time** ($\mathcal{O}(1)$):
+The map calculates a mathematical hash code from the key (`"EMP9821"`) and translates it directly into an array bucket index. The JVM jumps directly to the memory address, executing in **constant time** (`O(1)`):
 
 ```mermaid
 graph LR
