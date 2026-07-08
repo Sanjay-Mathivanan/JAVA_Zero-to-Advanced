@@ -2,7 +2,7 @@
 
 ## The `put()` Method
 
-You insert entries using **`put(key, value)`**. The `TreeMap` immediately finds the correct sorted location for the key:
+When you call **`put(key, value)`**, the map traverses the internal binary tree to find the correct sorted position for the new key:
 
 ```java
 import java.util.Map;
@@ -10,27 +10,27 @@ import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, String> glossary = new TreeMap<>();
+        Map<String, String> directory = new TreeMap<>();
 
-        // Inserting alphabetically scrambled words
-        glossary.put("C", "Cherry");
-        glossary.put("A", "Apple");
-        glossary.put("B", "Banana");
+        // Inserting elements in random order
+        directory.put("C", "Charlie");
+        directory.put("A", "Alpha");
+        directory.put("B", "Bravo");
 
-        // Printed keys will be alphabetically sorted
-        System.out.println(glossary); // Output: {A=Apple, B=Banana, C=Cherry}
+        // The printed output is sorted by key
+        System.out.println(directory); // Output: {A=Alpha, B=Bravo, C=Charlie}
     }
 }
 ```
 
 ---
 
-## Overwriting Values
+## Overwriting Keys
 
-Just like HashMap, if you put a key that already exists, it updates the value:
+Overwriting a value uses the same key:
 
 ```java
-glossary.put("A", "Avocado"); // Updates Apple to Avocado
+directory.put("A", "New Alpha");
 ```
 
 ---

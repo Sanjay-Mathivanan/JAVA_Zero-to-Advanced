@@ -1,12 +1,12 @@
 # Time Complexity of HashMap Operations
 
-## Performance Overview
+## Algorithmic Complexity Profile
 
-Because `HashMap` jumps directly to a bucket slot using hashing calculations, it provides fast lookup and insertion times.
+Because `HashMap` jumps directly to bucket positions using array indexing, it provides fast lookup speeds on average.
 
-Here is the time complexity breakdown for the most common operations:
+Here is the operational complexity matrix:
 
-| Operation | Average Time Complexity | Worst-Case Time Complexity |
+| Operation | Average Complexity | Worst-Case Complexity |
 | :--- | :---: | :---: |
 | **`put()`** (Insert) | ⚡ $\mathcal{O}(1)$ | $\mathcal{O}(\log N)$ or $\mathcal{O}(N)$ |
 | **`get()`** (Lookup) | ⚡ $\mathcal{O}(1)$ | $\mathcal{O}(\log N)$ or $\mathcal{O}(N)$ |
@@ -16,17 +16,17 @@ Here is the time complexity breakdown for the most common operations:
 
 ---
 
-## Why does Worst-Case happen?
+## Why Worst-Case Occurs
 
-The worst-case scenario occurs when there are **excessive Hash Collisions** (e.g. if many keys hash to the same bucket). 
-* In Java 7, lookups in that bucket drop to $\mathcal{O}(N)$ because the JVM must scan a long linked list.
-* In Java 8+, the bucket is converted to a tree, ensuring that worst-case search complexity is kept to **$\mathcal{O}(\log N)$**.
+The worst-case scenario occurs under **high Hash Collision rates** (e.g. if many keys hash to the same bucket index):
+* **Prior to Java 8**: Lookup in a collided bucket required traversing a Singly Linked List, taking linear $\mathcal{O}(N)$ time.
+* **Java 8+**: The JVM treeifies long bucket lists into balanced Red-Black Trees when list length exceeds 8, keeping search time to logarithmic **$\mathcal{O}(\log N)$**.
 
 ---
 
 ## Why is `containsValue()` Slow?
 
-While the map indexes keys to find their corresponding bucket, it **does not index values**. To find a value, the JVM must scan through every single node in every bucket, running in linear $\mathcal{O}(N)$ time.
+While the map indexes keys to resolve their buckets instantly, it **does not index values**. To find a value, the JVM must scan through every bucket array slot and traverse every single node link, running in linear $\mathcal{O}(N)$ time.
 
 ---
 

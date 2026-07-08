@@ -1,8 +1,8 @@
 # Accessing Elements in a TreeMap
 
-## The `get()` Method
+## Standard Retrieval
 
-Retrieval is identical to standard maps:
+Retrieving elements uses the standard **`get(key)`** method:
 
 ```java
 import java.util.Map;
@@ -10,27 +10,28 @@ import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
-        Map<Integer, String> scores = new TreeMap<>();
-        scores.put(1, "Gold");
-        scores.put(2, "Silver");
+        Map<Integer, String> codes = new TreeMap<>();
+        codes.put(100, "Success");
 
-        System.out.println(scores.get(1)); // Output: Gold
+        System.out.println(codes.get(100)); // Output: Success
     }
 }
 ```
 
 ---
 
-## Null Key Warning
+## Null Key Restriction
 
 > [!WARNING]
-> **TreeMap does not allow `null` keys.**
-> If you try to insert or fetch a `null` key, Java throws a `NullPointerException` because it cannot compare `null` with other values:
+> **TreeMap does not permit null keys.**
+> Attempting to insert or access a null key throws a `NullPointerException` because the map must compare keys to navigate the binary tree:
 
 ```java
 // Throws NullPointerException!
-scores.put(null, "Bronze"); 
+codes.put(null, "Failure"); 
 ```
+
+*(Null values are permitted).*
 
 ---
 

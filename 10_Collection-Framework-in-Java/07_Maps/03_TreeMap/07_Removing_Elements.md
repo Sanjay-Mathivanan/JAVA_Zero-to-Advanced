@@ -1,8 +1,8 @@
 # Removing Elements from a TreeMap
 
-## The `remove()` Method
+## The `remove(Object key)` Method
 
-Use **`remove(key)`** to delete a key-value entry. This triggers internal tree balancing operations (rotations/recoloring) to maintain the tree invariants:
+The `remove(key)` method deletes the key-value entry from the map and triggers internal self-balancing operations to maintain the tree invariants:
 
 ```java
 import java.util.Map;
@@ -25,13 +25,13 @@ public class Main {
 
 ---
 
-## Clear the Map: `clear()`
+## Cleaning the Map: `clear()`
 
-To empty the entire map at once, use `clear()`:
+To empty the entire map and reset its size to 0, use `clear()`:
 
 ```java
 map.clear();
-System.out.println("Size: " + map.size()); // Size: 0
+System.out.println("Size after clear: " + map.size()); // 0
 ```
 
 ---

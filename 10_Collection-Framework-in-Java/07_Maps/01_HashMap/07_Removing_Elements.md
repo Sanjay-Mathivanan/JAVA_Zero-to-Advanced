@@ -1,8 +1,8 @@
 # Removing Elements from a HashMap
 
-## The `remove()` Method
+## The `remove(Object key)` Method
 
-To remove a key-value entry, pass the key to the **`remove(key)`** method. If the key exists, it removes the pair and returns the deleted value:
+The `remove(key)` method deletes the key-value entry from the map and returns the value that was removed (or `null` if the key was absent):
 
 ```java
 import java.util.HashMap;
@@ -10,13 +10,14 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, String> fruits = new HashMap<>();
-        fruits.put("A", "Apple");
-        fruits.put("B", "Banana");
+        Map<String, String> servers = new HashMap<>();
+        servers.put("ServerA", "Active");
+        servers.put("ServerB", "Inactive");
 
-        // 1. Remove by Key
-        fruits.remove("B"); 
-        System.out.println(fruits); // Output: {A=Apple}
+        // 1. Remove by key
+        String removedValue = servers.remove("ServerB");
+        System.out.println("Removed Value: " + removedValue); // Inactive
+        System.out.println(servers); // Output: {ServerA=Active}
     }
 }
 ```
@@ -25,22 +26,23 @@ public class Main {
 
 ## Conditional Removal
 
-You can also use a two-argument version of `remove(key, value)` to remove an entry **only if both key and value match**:
+You can also use a two-argument version: `remove(Object key, Object value)`. This deletes the entry **only if the key is currently mapped to that exact value**:
 
 ```java
-// B is mapped to Banana, not Mango. This call is ignored:
-fruits.remove("B", "Mango"); 
+// ServerA is active. This call is ignored because the value does not match:
+boolean removed = servers.remove("ServerA", "Inactive"); 
+System.out.println("Was ServerA removed? " + removed); // false
 ```
 
 ---
 
-## Clear the Map: `clear()`
+## Clearing the Map: `clear()`
 
-To empty the entire map at once, use `clear()`. The size of the map becomes 0:
+To empty the entire map and reset its size to 0, use `clear()`:
 
 ```java
-fruits.clear();
-System.out.println("Size: " + fruits.size()); // Size: 0
+servers.clear();
+System.out.println("Size after clear: " + servers.size()); // 0
 ```
 
 ---

@@ -4,17 +4,17 @@
 
 | Feature | `HashMap` | `LinkedHashMap` |
 | :--- | :--- | :--- |
-| **Ordering** | ❌ None (Unordered) | ✅ Insertion or Access Order |
+| **Ordering** | ❌ None (Unordered) | ✅ Insertion / Access Order |
 | **Internal Model** | Hashing bucket table | Hashing buckets + Doubly linked list |
 | **Memory Cost** | Low | Higher (Stores `before` & `after` pointers per entry) |
 | **Time Complexity** | ⚡ $\mathcal{O}(1)$ average | ⚡ $\mathcal{O}(1)$ average |
 
 ---
 
-## Performance Notes
+## Performance Considerations
 
-* **Lookup & Insertion Speed**: Both have $\mathcal{O}(1)$ average lookup times, but `LinkedHashMap` is slightly slower in practice due to the overhead of updating doubly-linked pointers during insertions and accesses.
-* **Iteration Speed**: `LinkedHashMap` can be faster to iterate through because it loops directly along the linked entries list, bypassing empty slots in the hashing buckets array.
+* **Overhead**: `LinkedHashMap` is slightly slower than `HashMap` during insertions and deletions because it must maintain the doubly linked list pointers (`before`/`after`).
+* **Iteration**: `LinkedHashMap` is faster to iterate through because it travels directly along the linked nodes, bypassing empty slots in the hashing buckets array.
 
 ---
 

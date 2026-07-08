@@ -1,8 +1,8 @@
 # Updating Elements in a HashMap
 
-## Updating with `put()`
+## Overwriting with `put()`
 
-As learned earlier, you can update a key's value by calling `put()` again with the same key. This simply overwrites the old value:
+You can update a value by calling `put()` again with the same key. The map replaces the old value with the new one:
 
 ```java
 import java.util.HashMap;
@@ -13,29 +13,38 @@ public class Main {
         Map<String, Double> prices = new HashMap<>();
         prices.put("Laptop", 999.99);
 
-        // Overwriting value
+        // Put will overwrite the old value
         prices.put("Laptop", 1099.99); 
-        System.out.println(prices); // Output: {Laptop=1099.99}
     }
 }
 ```
 
 ---
 
-## The `replace()` Method
+## Updating via `replace()`
 
-Java also provides a dedicated **`replace(key, newValue)`** method. 
-
-Unlike `put()`, which creates a new key if it is missing, `replace()` only updates the key **if it already exists** in the map:
+The `replace()` method behaves differently: it only updates the key **if it is already present** in the map. If the key is missing, it is ignored:
 
 ```java
-// Updates Laptop because it is already present
+// Updates Laptop because it exists
 prices.replace("Laptop", 1150.00); 
 
-// Will do nothing because Phone is not in the map
+// Ignored because Phone does not exist (does not insert it)
 prices.replace("Phone", 500.00); 
 
 System.out.println(prices); // Output: {Laptop=1150.00}
+```
+
+---
+
+## Conditional Replacement
+
+You can also use `replace(K key, V oldValue, V newValue)` to update a key **only if its current value matches** `oldValue`:
+
+```java
+// Replaces Laptop only if current value is 1150.00 (returns true)
+boolean replaced = prices.replace("Laptop", 1150.00, 1200.00);
+System.out.println("Was Laptop replaced? " + replaced); // true
 ```
 
 ---

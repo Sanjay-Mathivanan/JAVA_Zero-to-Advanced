@@ -1,8 +1,8 @@
 # Iterating Through a TreeMap
 
-## Sorted Traversal
+## Sorted Iteration
 
-When iterating through a `TreeMap`, Java performs an **in-order traversal** of the underlying binary tree. This guarantees that elements are accessed in ascending sorted key order:
+When you iterate through a `TreeMap`, Java performs an **in-order traversal** of the underlying binary search tree. This guarantees that elements are accessed in ascending sorted key order:
 
 ```java
 import java.util.Map;
@@ -26,6 +26,13 @@ public class Main {
     }
 }
 ```
+
+---
+
+## Other Traversal Loops
+
+* **KeySet iteration**: `for (Integer key : scores.keySet())` (traverses keys in sorted order).
+* **Lambda iteration**: `scores.forEach((key, val) -> ...)` (runs in sorted order).
 
 ---
 

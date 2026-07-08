@@ -2,33 +2,36 @@
 
 ## Beginner Questions
 
-### Q1: What is the default initial capacity of a HashMap?
+### Q1: What is the default initial capacity and load factor of a HashMap?
 **Answer:**
-The default initial capacity is **16**. The default load factor is **0.75**.
+The default initial capacity is **16** (always a power of 2) and the default load factor is **0.75** (75%).
 
-### Q2: What happens if you put a duplicate key in a HashMap?
+### Q2: What happens if you add a duplicate key to a HashMap?
 **Answer:**
-The HashMap will replace the old value associated with that key with the new value. It does not throw an error.
+The new value replaces the old value associated with that key, and the `put()` method returns the old value.
 
 ---
 
 ## Intermediate Questions
 
-### Q3: What is a Hash Collision and how does HashMap solve it?
+### Q3: How is key bucket collision handled internally?
 **Answer:**
-A hash collision occurs when two different keys calculate to the same bucket index. HashMap resolves this using **Chaining**: colliding elements are stored in a Singly Linked List at that bucket index.
+Java resolves collisions using **Chaining**:
+* **Prior to Java 8**: Colliding keys were stored as nodes in a Singly Linked List at that bucket index ($\mathcal{O}(N)$ worst-case lookup).
+* **Java 8+**: If a bucket's list size exceeds **8** and the overall map capacity is at least **64**, the list is treeified into a balanced **Red-Black Tree** ($\mathcal{O}(\log N)$ worst-case lookup).
 
-### Q4: Why is `get()` fast in a HashMap?
+### Q4: Why must you override both `hashCode()` and `equals()` when using custom objects as keys?
 **Answer:**
-Because it hashes the key to calculate the exact bucket index slot directly, instead of searching elements one by one. This runs in $\mathcal{O}(1)$ constant time.
+* `hashCode()` determines which bucket index the key maps to. If two equal keys return different hash codes, they will map to different buckets, and `get()` will return `null`.
+* `equals()` resolves collisions within a bucket. If different keys map to the same bucket, `equals()` is called to find the matching key.
 
 ---
 
 ## Advanced Questions
 
-### Q5: What is the Java 8 Treeifying threshold?
+### Q5: What is the Load Factor, and how does resizing work?
 **Answer:**
-If a bucket's linked list size exceeds **8** and the overall map capacity is at least **64**, the Singly Linked List is converted into a **Red-Black Tree** to keep search speeds fast ($\mathcal{O}(\log N)$ instead of $\mathcal{O}(N)$).
+The load factor (default `0.75`) represents the percentage of table capacity that must be full before resizing. Resizing occurs when $\text{size} > \text{Capacity} \times \text{Load Factor}$. The capacity is doubled, and all keys are rehashed.
 
 ---
 

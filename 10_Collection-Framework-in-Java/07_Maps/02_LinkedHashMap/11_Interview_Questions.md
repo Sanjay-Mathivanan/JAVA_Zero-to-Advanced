@@ -4,7 +4,7 @@
 
 ### Q1: What is the main difference between HashMap and LinkedHashMap?
 **Answer:**
-`HashMap` does not maintain any element order. `LinkedHashMap` maintains the elements in the exact order they were inserted.
+`HashMap` does not maintain any element order. `LinkedHashMap` maintains elements in the exact order they were inserted.
 
 ### Q2: Does LinkedHashMap consume more memory than HashMap?
 **Answer:**

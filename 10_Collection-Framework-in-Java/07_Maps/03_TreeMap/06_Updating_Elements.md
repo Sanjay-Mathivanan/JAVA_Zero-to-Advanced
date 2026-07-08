@@ -1,8 +1,8 @@
 # Updating Elements in a TreeMap
 
-## The `replace()` Method
+## Standard Updates
 
-Use **`replace(key, newValue)`** to update values:
+Like other map implementations, you can update values using **`replace(key, newValue)`**:
 
 ```java
 import java.util.Map;
@@ -10,14 +10,13 @@ import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, Integer> inventory = new TreeMap<>();
-        inventory.put("Apples", 50);
-        inventory.put("Bananas", 30);
+        Map<String, Integer> stock = new TreeMap<>();
+        stock.put("Apples", 50);
 
-        // Update value
-        inventory.replace("Apples", 45);
+        // Update Apples
+        stock.replace("Apples", 45);
 
-        System.out.println(inventory); // Output: {Apples=45, Bananas=30}
+        System.out.println(stock); // Output: {Apples=45}
     }
 }
 ```
@@ -26,7 +25,7 @@ public class Main {
 
 ## Behavior Notes
 
-Modifying a value in a `TreeMap` **does not change the sorted position of the key**, because the sorting sequence is determined purely by the key itself, not the value.
+Modifying a value in a `TreeMap` **does not change the sorted position of the key**, because sorting is determined by the key itself, not the value.
 
 ---
 

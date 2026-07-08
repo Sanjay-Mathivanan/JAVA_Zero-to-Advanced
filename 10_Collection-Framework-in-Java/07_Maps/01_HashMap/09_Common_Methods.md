@@ -1,8 +1,8 @@
 # Common Query Methods in HashMap
 
-## 1. Checking If a Key Exists: `containsKey()`
+## 1. Key Existence Check: `containsKey(Object key)`
 
-To check if a key is stored in the Map, use **`containsKey(key)`**:
+To check if a specific key is stored in the map:
 
 ```java
 import java.util.HashMap;
@@ -10,12 +10,11 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, String> contacts = new HashMap<>();
-        contacts.put("Rahul", "9876543210");
+        Map<String, String> cache = new HashMap<>();
+        cache.put("session_id", "XYZ123");
 
-        // Checking keys
-        if (contacts.containsKey("Rahul")) {
-            System.out.println("Rahul is in contacts."); // Prints
+        if (cache.containsKey("session_id")) {
+            System.out.println("Session key exists.");
         }
     }
 }
@@ -23,29 +22,31 @@ public class Main {
 
 ---
 
-## 2. Checking If a Value Exists: `containsValue()`
+## 2. Value Existence Check: `containsValue(Object value)`
 
-To check if a value exists, use **`containsValue(value)`**:
+To check if a specific value exists:
 
 ```java
-if (contacts.containsValue("9876543210")) {
-    System.out.println("Phone number exists."); // Prints
+if (cache.containsValue("XYZ123")) {
+    System.out.println("Session value exists.");
 }
 ```
 
-> [!NOTE]
-> `containsKey()` is very fast ($\mathcal{O}(1)$ complexity), whereas `containsValue()` is slower ($\mathcal{O}(N)$ complexity) because the JVM must search through all buckets to find the value.
+> [!IMPORTANT]
+> **Performance Complexity Difference:**
+> * `containsKey()` is incredibly fast, running in constant time ($\mathcal{O}(1)$).
+> * `containsValue()` is slow, running in linear time ($\mathcal{O}(N)$), because the JVM must search through every bucket sequentially.
 
 ---
 
-## 3. Map Size and Emptiness: `size()` & `isEmpty()`
+## 3. Size Queries: `size()` & `isEmpty()`
 
-* **`size()`**: Returns the total number of entries in the map.
-* **`isEmpty()`**: Returns `true` if the map contains 0 entries.
+* **`size()`**: Returns the total number of entries.
+* **`isEmpty()`**: Returns `true` if the map has 0 elements.
 
 ```java
-System.out.println("Total contacts: " + contacts.size()); // 1
-System.out.println("Is map empty? " + contacts.isEmpty()); // false
+System.out.println("Total items: " + cache.size()); // 1
+System.out.println("Is empty? " + cache.isEmpty()); // false
 ```
 
 ---

@@ -1,32 +1,37 @@
 # Why Do We Need TreeMap?
 
-## The Ordering Problem
+## The Key Sorting Problem
 
-Standard `HashMap` has no order, and `LinkedHashMap` only maintains insertion sequence. 
+A standard `HashMap` is unordered, and `LinkedHashMap` only maintains insertion sequence. 
 
-Suppose we build a **School Grading System** where we want to catalog students by their score ranges, or an **E-Commerce Price Directory** where products must be fetched in ascending price points. 
+If you are building an application where keys must be kept sorted—such as a **School Grading System** where students must be listed alphabetically, or a **Financial Ledger** sorting transactions by timestamp—sorting manually is inefficient.
 
-If we use a `HashMap`, we have to extract all keys, put them in a list, and sort them manually. 
-
-A `TreeMap` does this automatically:
+A `TreeMap` solves this by keeping elements sorted automatically:
 
 ```java
-// Keys are sorted automatically as you insert them:
-Map<Integer, String> scores = new TreeMap<>();
-scores.put(95, "Amit");
-scores.put(80, "Rahul");
-scores.put(90, "Priya");
+import java.util.Map;
+import java.util.TreeMap;
 
-System.out.println(scores); // Output is sorted by Key: {80=Rahul, 90=Priya, 95=Amit}
+public class Main {
+    public static void main(String[] args) {
+        // TreeMap maintains keys in natural order
+        Map<Integer, String> scores = new TreeMap<>();
+        scores.put(95, "Amit");
+        scores.put(80, "Rahul");
+        scores.put(90, "Priya");
+
+        System.out.println(scores); // Output: {80=Rahul, 90=Priya, 95=Amit}
+    }
+}
 ```
 
 ---
 
 ## Real-World Applications
 
-* **Financial Ledgers**: Sorting transactions by timestamps.
-* **Range Searching**: Finding all users whose age is between 20 and 30.
-* **System Log Sorters**: Cataloging system events by priority keys.
+* **Timelines and Event Log Sorters**: Cataloging events sequentially by Unix timestamp keys.
+* **Score Leaderboards**: Automatically ranking players by numeric scores.
+* **Range Searches**: Fetching all keys within specific numeric or alphabetic bounds.
 
 ---
 

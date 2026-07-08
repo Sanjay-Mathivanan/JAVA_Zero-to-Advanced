@@ -11,17 +11,18 @@ Java provides three primary implementations of the `Map` interface. Choosing the
 | Feature | `HashMap` | `LinkedHashMap` | `TreeMap` |
 | :--- | :--- | :--- | :--- |
 | **Internal Model** | Hashing buckets | Hash buckets + Linked list | Red-Black Tree |
-| **Ordering** | ❌ Unordered | ✅ Insertion Order | ✅ Sorted Keys |
-| **Null Keys** | ✅ Allowed (One) | ✅ Allowed (One) | ❌ Not Allowed (Throws NPE) |
-| **Search Time** | ⚡ $\mathcal{O}(1)$ average | ⚡ $\mathcal{O}(1)$ average | 🐢 $\mathcal{O}(\log N)$ |
+| **Ordering** | ❌ None (Unordered) | ✅ Insertion / Access Order | ✅ Sorted Keys |
+| **Null Key Allowed?**| ✅ Yes (One key) | ✅ Yes (One key) | ❌ No (Throws NPE) |
+| **Search Time** | ⚡ $\mathcal{O}(1)$ average | ⚡ $\mathcal{O}(1)$ average | 🐢 $\mathcal{O}(\log N)$ guaranteed |
+| **Memory Footprint** | Low | Medium | High (Stores tree pointers) |
 
 ---
 
-## Quick Choice Guide
+## Decision Flowchart
 
 ```mermaid
 graph TD
-    Start["Which Map to choose?"] --> Sorted{"Do keys need sorting?"}
+    Start["Choose Map Implementation"] --> Sorted{"Do keys need sorting?"}
     Sorted -->|Yes| TreeMap["Use TreeMap"]
     Sorted -->|No| Insert{"Do you need insertion order?"}
     Insert -->|Yes| LinkedHashMap["Use LinkedHashMap"]

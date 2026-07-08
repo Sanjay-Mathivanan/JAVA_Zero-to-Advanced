@@ -1,47 +1,36 @@
 # Creating a LinkedHashMap
 
-## Step 1: Import the Class
+## Basic Declaration
 
-Import the classes from the `java.util` package:
+Like `HashMap`, declare variables using the parent `Map` interface:
 
 ```java
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+// Map<KeyType, ValueType> map = new LinkedHashMap<>();
+Map<String, String> contacts = new LinkedHashMap<>();
 ```
+
+Ensure you use Wrapper types instead of primitives for keys and values.
 
 ---
 
-## Step 2: Declaration Syntax
+## LinkedHashMap Constructors
 
-```java
-Map<KeyType, ValueType> mapName = new LinkedHashMap<>();
-```
-
-### Example: Creating an Ordered Contact List:
-```java
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-public class Main {
-    public static void main(String[] args) {
-        // Key is String (Name), Value is String (Phone)
-        Map<String, String> contacts = new LinkedHashMap<>();
-        
-        System.out.println("Initialized LinkedHashMap: " + contacts); // Output: {}
-    }
-}
-```
-
----
-
-## Access-Ordering Mode Constructor
-
-`LinkedHashMap` provides a special constructor to order elements based on how recently they were **accessed** (read or written), rather than when they were inserted:
-
-```java
-// Parameters: initial capacity, load factor, accessOrder (true)
-LinkedHashMap<String, Integer> lruCache = new LinkedHashMap<>(16, 0.75f, true);
-```
+1. **Default Constructor**: Sets initial capacity to 16, load factor to 0.75, and insertion-order mode.
+   ```java
+   Map<String, String> map = new LinkedHashMap<>();
+   ```
+2. **Initial Capacity Constructor**:
+   ```java
+   Map<String, String> map = new LinkedHashMap__(32);
+   ```
+3. **Access-Order Constructor**:
+   If the third argument is set to `true`, the map uses **access-order** instead of insertion-order:
+   ```java
+   LinkedHashMap<String, String> map = new LinkedHashMap<>(16, 0.75f, true);
+   ```
 
 ---
 

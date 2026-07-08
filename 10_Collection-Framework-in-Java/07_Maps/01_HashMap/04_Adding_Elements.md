@@ -1,8 +1,8 @@
 # Adding Elements to a HashMap
 
-## The `put()` Method
+## The `put(K key, V value)` Method
 
-To add elements (key-value pairs) to a HashMap, use the **`put(key, value)`** method:
+To insert an entry into a `HashMap`, use the `put()` method. 
 
 ```java
 import java.util.HashMap;
@@ -10,44 +10,46 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, Integer> userAges = new HashMap<>();
+        Map<String, Integer> inventory = new HashMap<>();
 
-        // Adding entries
-        userAges.put("Rahul", 21);
-        userAges.put("Arun", 20);
+        // put returns null if the key was not present
+        Integer res1 = inventory.put("Apples", 50); 
+        System.out.println("Returned value: " + res1); // Output: null
 
-        System.out.println(userAges); // Output: {Arun=20, Rahul=21}
+        System.out.println(inventory); // Output: {Apples=50}
     }
 }
 ```
 
 ---
 
-## Overwriting Existing Keys
+## Overwriting Keys and Return Values
 
-If you call `put()` with a key that is already in the map, it will update that key with the new value:
+If the key already exists, `put()` replaces the value and **returns the old value**:
 
 ```java
-userAges.put("Rahul", 21);
-userAges.put("Rahul", 25); // Updates Rahul's age from 21 to 25
+// Overwriting existing key
+Integer oldValue = inventory.put("Apples", 75); 
 
-System.out.println(userAges); // Output: {Rahul=25, Arun=20}
+System.out.println("Old Value: " + oldValue); // Output: 50
+System.out.println("Updated Map: " + inventory); // Output: {Apples=75}
 ```
 
 ---
 
-## The `putIfAbsent()` Method
+## Safe Insertion: `putIfAbsent(K key, V value)`
 
-If you want to add a pair **only if the key is not already present**, use `putIfAbsent()`:
+To insert a key-value pair only if the key is not already in the map (preventing overwrites), use `putIfAbsent()`:
 
 ```java
-// Rahul already exists, so this call will be ignored
-userAges.putIfAbsent("Rahul", 30); 
+// Apples already exists, so this call is ignored and returns the current value 75
+Integer currentVal = inventory.putIfAbsent("Apples", 100); 
+System.out.println("Current Value returned: " + currentVal); // 75
 
-// Priya does not exist, so she will be added
-userAges.putIfAbsent("Priya", 22);
+// Bananas is not present, so it is inserted and returns null
+inventory.putIfAbsent("Bananas", 30); 
 
-System.out.println(userAges); // Output: {Rahul=25, Arun=20, Priya=22}
+System.out.println(inventory); // Output: {Apples=75, Bananas=30}
 ```
 
 ---

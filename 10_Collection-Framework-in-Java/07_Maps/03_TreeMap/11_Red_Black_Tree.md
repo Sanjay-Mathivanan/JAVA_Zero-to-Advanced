@@ -18,7 +18,7 @@ To prevent this, `TreeMap` uses a **Red-Black Tree**, which rebalances itself au
 
 ---
 
-## The Red-Black Tree Rules
+## Red-Black Tree Rules
 
 The tree colors nodes **Red** or **Black** and enforces strict rules:
 1. The **Root** node must always be **Black**.

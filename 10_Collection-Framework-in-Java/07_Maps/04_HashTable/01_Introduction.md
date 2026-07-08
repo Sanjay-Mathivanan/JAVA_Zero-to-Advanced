@@ -1,23 +1,36 @@
 # Introduction to Hashtable in Java
 
-## What is a Hashtable?
+## Overview
 
-A **Hashtable** is a legacy class in Java that stores key-value pairs. 
+A `Hashtable` is a legacy, synchronized class in Java that stores key-value pairs. 
 
-It is very similar to `HashMap`, but with one major difference: **it is synchronized**. This means it is safe to use in multi-threaded programs (where multiple threads access the map at the same time).
+Introduced in Java 1.0, it was later retrofitted to implement the `Map` interface. While it operates similarly to `HashMap`, it uses method-level synchronization to guarantee thread safety in concurrent environments.
 
-```text
-HashMap:      Multiple threads access ──> ❌ Can cause corruption (Not Thread-Safe)
-Hashtable:    Multiple threads access ──> ✅ Monitor Lock active (Thread-Safe)
+---
+
+## Class Inheritance Hierarchy
+
+```mermaid
+classDiagram
+    class Map {
+        <<interface>>
+    }
+    class Dictionary {
+        <<abstract>>
+    }
+    class Hashtable {
+    }
+    Map <|.. Hashtable : implements
+    Dictionary <|-- Hashtable : extends
 ```
 
 ---
 
-## Key Rules
+## Hashtable Characteristics
 
 * **Thread-Safe**: All public methods are synchronized, preventing concurrent access corruption.
 * **No Null Keys or Values**: **Does not allow null keys or null values**. If you put null, Java throws a `NullPointerException`.
-* **Legacy Class**: Introduced in Java 1.0. It was later retrofitted to implement the `Map` interface in Java 1.2.
+* **Legacy Class**: Extends the obsolete abstract class `Dictionary`.
 * **Unordered**: Does not guarantee any specific order of keys.
 
 ---

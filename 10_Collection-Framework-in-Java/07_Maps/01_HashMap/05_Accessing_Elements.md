@@ -1,8 +1,8 @@
 # Accessing Elements in a HashMap
 
-## The `get()` Method
+## The `get(Object key)` Method
 
-To fetch a value from the map, pass its unique key to the **`get(key)`** method:
+To retrieve a value associated with a key, use the `get()` method. If the key is not found, `get()` returns `null`:
 
 ```java
 import java.util.HashMap;
@@ -10,34 +10,31 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String, String> capitals = new HashMap<>();
-        capitals.put("India", "New Delhi");
-        capitals.put("Japan", "Tokyo");
+        Map<String, String> dict = new HashMap<>();
+        dict.put("Java", "A programming language");
 
-        // 1. Accessing existing key
-        String capital = capitals.get("India");
-        System.out.println("Capital of India: " + capital); // Output: New Delhi
+        // 1. Existing key lookup
+        String definition = dict.get("Java");
+        System.out.println("Java definition: " + definition); // A programming language
 
-        // 2. Accessing non-existing key
-        String unknown = capitals.get("USA");
-        System.out.println("Capital of USA: " + unknown); // Output: null
+        // 2. Missing key lookup
+        String missing = dict.get("Python");
+        System.out.println("Python definition: " + missing); // null
     }
 }
 ```
 
 ---
 
-## Preventing Nulls: `getOrDefault()`
+## Safe Retrieval: `getOrDefault(Object key, V defaultValue)`
 
-If a key is not present, `get()` returns `null`. This can cause a `NullPointerException` if you try to perform actions on the output.
-
-To prevent this, use **`getOrDefault(key, defaultValue)`**, which returns a custom default fallback value instead of `null`:
+To prevent `NullPointerException` errors when working with potentially missing keys, use `getOrDefault()`. It returns a specified fallback value if the key is absent:
 
 ```java
-// USA is not in the map, so it returns "Not Specified"
-String result = capitals.getOrDefault("USA", "Not Specified");
+// Python is missing, so it returns the default "Definition not found"
+String pythonDef = dict.getOrDefault("Python", "Definition not found");
 
-System.out.println("Capital of USA: " + result); // Output: Not Specified
+System.out.println("Python: " + pythonDef); // Output: Definition not found
 ```
 
 ---

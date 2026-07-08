@@ -1,37 +1,73 @@
 # Internal Working of LinkedHashMap
 
-## The Hybrid Structure
+## The Hybrid Architecture
 
-Under the hood, `LinkedHashMap` is a **hybrid data structure**:
-1. It maintains a standard `HashMap` hash table bucket array for indexing.
-2. It adds two extra pointers, `before` and `after`, to every Entry node object.
+Under the hood, `LinkedHashMap` extends `HashMap` by overlaying a **doubly linked list** on top of the standard hash table bucket array.
 
-This creates a **Doubly Linked List** running through all the map entries, independent of their bucket slots:
+Instead of standard `HashMap.Node` objects, the map instantiates **`LinkedHashMap.Entry`** nodes:
 
-```text
-Bucket [0] ──> Node A (before=null, after=Node B)
-Bucket [1] ──> null
-Bucket [2] ──> Node B (before=Node A, after=null)
+```java
+// Conceptual entry definition inside LinkedHashMap:
+static class Entry<K,V> extends HashMap.Node<K,V> {
+    Entry<K,V> before, after; // Pointers maintaining iteration order
+
+    Entry(int hash, K key, V value, Node<K,V> next) {
+        super(hash, key, value, next);
+    }
+}
 ```
 
 ```mermaid
-graph LR
-    subgraph Linked Chain
-        NodeA["Node A"] <--> NodeB["Node B"]
+graph TD
+    subgraph Hashing Buckets
+        B0["[0]"] --> NodeA["Node A<br>(Key: 1)"]
+        B1["[1]"] --> null
+        B2["[2]"] --> NodeC["Node C<br>(Key: 3)"]
+        B3["[3]"] --> NodeB["Node B<br>(Key: 2)"]
     end
+    
+    subgraph Doubly Linked Order
+        NodeA <--> NodeB
+        NodeB <--> NodeC
+    end
+    
+    style NodeA fill:#f9f,stroke:#333
+    style NodeB fill:#f9f,stroke:#333
+    style NodeC fill:#f9f,stroke:#333
 ```
 
----
-
-## Memory Overhead
-
-Because every Node must store a `before` and `after` pointer reference, a `LinkedHashMap` consumes more heap memory than a standard `HashMap`.
+Each node is stored in a bucket index (for $\mathcal{O}(1)$ hashing lookups) and maintains references to the previous and next elements (for order preservation).
 
 ---
 
-## LRU Caching Mechanics
+## LRU Caching Hooks
 
-When access-ordering mode is enabled, calling `get()` or `put()` triggers a pointer swap: the node is detached from its current place in the doubly linked list and re-attached at the end of the list.
+`LinkedHashMap` provides a built-in eviction hook for building **LRU (Least Recently Used) Caches**:
+
+```java
+protected boolean removeEldestEntry(Map.Entry<K,V> eldest)
+```
+
+By default, this method returns `false`. You can override it to remove the eldest entry (the head of the doubly linked list) when the map exceeds a maximum capacity:
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true); // true sets accessOrder mode
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity; // Evict eldest entry when capacity is exceeded
+    }
+}
+```
 
 ---
 

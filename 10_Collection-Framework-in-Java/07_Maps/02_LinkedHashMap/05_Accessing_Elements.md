@@ -1,8 +1,8 @@
 # Accessing Elements in a LinkedHashMap
 
-## The `get()` Method
+## Standard Retrieval
 
-You access elements using **`get(key)`**:
+Retrieving elements uses the standard **`get(key)`** method:
 
 ```java
 import java.util.LinkedHashMap;
@@ -23,7 +23,7 @@ public class Main {
 
 ## Access-Ordering Mode (LRU Cache Behavior)
 
-If you instantiate `LinkedHashMap` using the constructor with the `accessOrder` argument set to `true`, accessing any key shifts its entry to the end (tail) of the map:
+When you initialize a `LinkedHashMap` with the `accessOrder` parameter set to `true`, accessing any key shifts its entry to the tail (end) of the doubly linked list:
 
 ```java
 import java.util.LinkedHashMap;
@@ -39,11 +39,13 @@ public class Main {
         // Access "A"
         cache.get("A"); 
 
-        // "A" is moved to the end because it was accessed!
+        // "A" is moved to the end of the entry chain
         System.out.println(cache); // Output: {B=Banana, C=Cherry, A=Apple}
     }
 }
 ```
+
+This behavior is useful for implementing caching mechanisms, as the least recently used elements remain at the head of the list.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Preserving Order During Traversal
 
-When you loop through a `LinkedHashMap`, Java traverses the internal doubly linked list. This guarantees that elements are printed in the exact order they were inserted:
+When you loop through a `LinkedHashMap`, Java traverses the internal doubly linked list. This guarantees that elements are accessed in their insertion (or access) order, rather than the random order of a standard `HashMap`:
 
 ```java
 import java.util.LinkedHashMap;
@@ -15,7 +15,7 @@ public class Main {
         items.put("Bananas", 30);
         items.put("Oranges", 20);
 
-        // entrySet iteration - guaranteed insertion order
+        // entrySet iteration maintains insertion order
         for (Map.Entry<String, Integer> entry : items.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }

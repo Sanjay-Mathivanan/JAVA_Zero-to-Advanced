@@ -1,35 +1,15 @@
 # Creating a Hashtable in Java
 
-## Step 1: Import the Class
+## Basic Declaration
 
-Import the class from `java.util`:
+Declare variables using the parent `Map` interface:
 
 ```java
 import java.util.Hashtable;
 import java.util.Map;
-```
 
----
-
-## Step 2: Declaration Syntax
-
-```java
-Map<KeyType, ValueType> mapName = new Hashtable<>();
-```
-
-### Example: Creating a Thread-Safe Balance Directory:
-```java
-import java.util.Hashtable;
-import java.util.Map;
-
-public class Main {
-    public static void main(String[] args) {
-        // Key is String (Name), Value is Integer (Balance)
-        Map<String, Integer> balances = new Hashtable<>();
-        
-        System.out.println("Initialized Hashtable: " + balances); // Output: {}
-    }
-}
+// Map<KeyType, ValueType> map = new Hashtable<>();
+Map<String, Integer> balances = new Hashtable<>();
 ```
 
 ---
@@ -45,6 +25,19 @@ public class Main {
 balances.put(null, 500); 
 balances.put("Rahul", null);
 ```
+
+---
+
+## Hashtable Constructors
+
+1. **Default Constructor**: Sets initial capacity to 11 and load factor to 0.75.
+   ```java
+   Map<String, Integer> map = new Hashtable<>();
+   ```
+2. **Initial Capacity Constructor**:
+   ```java
+   Map<String, Integer> map = new Hashtable<>(50);
+   ```
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## The `put()` Method
 
-Adding entries is exactly identical to HashMap using the **`put(key, value)`** method:
+Adding elements uses the **`put(key, value)`** method. Elements are appended to the tail of the internal doubly linked list:
 
 ```java
 import java.util.LinkedHashMap;
@@ -12,12 +12,11 @@ public class Main {
     public static void main(String[] args) {
         Map<String, String> playlist = new LinkedHashMap<>();
 
-        // Adding songs in order
+        // Adding elements in sequence
         playlist.put("Song A", "Artist X");
         playlist.put("Song B", "Artist Y");
         playlist.put("Song C", "Artist Z");
 
-        // Elements are printed in the exact order they were put()
         System.out.println(playlist); // Output: {Song A=Artist X, Song B=Artist Y, Song C=Artist Z}
     }
 }
@@ -25,14 +24,15 @@ public class Main {
 
 ---
 
-## Overwriting and Insertion Order
+## Overwriting Keys and Insertion Order
 
-If you overwrite an existing key's value, the key **remains at its original position** in the insertion order; it does not jump to the end:
+If you overwrite the value of an existing key, the key **remains at its original position** in the insertion order sequence:
 
 ```java
-playlist.put("Song B", "New Artist"); // Overwrites "Song B"
+// Overwriting "Song B"
+playlist.put("Song B", "New Artist");
 
-// "Song B" is still second in order
+// "Song B" remains second in the print order:
 System.out.println(playlist); // Output: {Song A=Artist X, Song B=New Artist, Song C=Artist Z}
 ```
 

@@ -1,23 +1,40 @@
 # Introduction to TreeMap in Java
 
-## What is a TreeMap?
+## Overview
 
-A **TreeMap** is a class in Java that stores key-value pairs in **sorted order**.
+A `TreeMap` is a sorted implementation of the `Map` interface in Java. 
 
-Whenever you add a key-value entry into a `TreeMap`, it compares the key with existing keys and automatically places it in the correct sorted position (either numerically or alphabetically):
+Unlike `HashMap` (unordered) and `LinkedHashMap` (insertion order), `TreeMap` maintains its keys in **sorted order**. By default, it sorts keys according to their natural ordering (e.g. numerical or alphabetical), or by a custom `Comparator` provided at creation time.
 
-```text
-HashMap (Random Order):    [Banana]  [Orange]  [Apple]
-TreeMap (Sorted Order):     [Apple] ──> [Banana] ──> [Orange] (Alphabetically sorted keys)
+---
+
+## Class Inheritance Hierarchy
+
+```mermaid
+classDiagram
+    class Map {
+        <<interface>>
+    }
+    class SortedMap {
+        <<interface>>
+    }
+    class NavigableMap {
+        <<interface>>
+    }
+    class TreeMap {
+    }
+    Map <|-- SortedMap : extends
+    SortedMap <|-- NavigableMap : extends
+    NavigableMap <|.. TreeMap : implements
 ```
 
 ---
 
-## Key Rules
+## TreeMap Invariants
 
-* **Sorted Keys**: Keys are kept in natural sorted order, or in custom order using a Comparator.
-* **Red-Black Tree backing**: Under the hood, it is a binary tree, providing guaranteed logarithmic $\mathcal{O}(\log N)$ speeds.
-* **No Null Keys**: **You cannot have null keys** in a TreeMap because it needs to compare them to sort. (Null values are allowed).
+* **Key Sorting**: Keys are automatically sorted during insertion.
+* **Guaranteed Complexity**: backed by a Red-Black Tree, it guarantees logarithmic **$\mathcal{O}(\log N)$** time complexity for `get()`, `put()`, and `remove()`.
+* **No Null Keys**: **Does not allow null keys** (throws `NullPointerException` because it must compare keys to sort them).
 
 ---
 
