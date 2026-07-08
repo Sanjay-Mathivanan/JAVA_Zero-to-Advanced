@@ -30,8 +30,11 @@ A **Map** represents an object that maps unique keys to values. A Map cannot con
 * [Internal Working](03_TreeMap/10_Internal_Working.md) & [Red-Black Tree balancing](03_TreeMap/11_Red_Black_Tree.md)
 * [Comparison with HashMap](03_TreeMap/12_Comparison_with_HashMap.md) & [Interview Questions](03_TreeMap/13_Interview_Questions.md)
 
-### 4. [Hashtable](04_HashTable/01_HashTable-Basics-and-Operations.md) (Thread-safe monitor lock, Obsolete)
-* [Hashtable Basics and Operations](04_HashTable/01_HashTable-Basics-and-Operations.md): Synchronized operations, null key restrictions, why it is obsolete, and ConcurrentHashMap alternatives.
+### 4. [Hashtable](04_HashTable/README.md) (Thread-safe monitor lock, Obsolete)
+* [Hashtable Introduction](04_HashTable/01_Introduction.md) & [Why HashTable](04_HashTable/02_Why_HashTable.md)
+* [Creating HashTable](04_HashTable/03_Creating_HashTable.md) & [Common Methods](04_HashTable/04_Common_Methods.md)
+* [Internal Working](04_HashTable/05_Internal_Working.md) & [HashTable vs. HashMap](04_HashTable/06_HashTable_vs_HashMap.md)
+* [Interview Questions](04_HashTable/07_Interview_Questions.md)
 
 ---
 
