@@ -43,9 +43,9 @@ By the end of this module, you will understand:
 
 ### 3. Key-Value Maps
 * **Maps Subfolder**: [Maps Overview](07_Maps/README.md)
-  1. [HashMap Basics](07_Maps/01_HashMap/01_HashMap-Basics-and-Creation.md) & [Operations](07_Maps/01_HashMap/02_HashMap-Basic-Operations.md)
-  2. [HashMap Internal Workings](07_Maps/01_HashMap/03_HashMap-Internal-Workings.md) & [Comparisons / Q&As](07_Maps/01_HashMap/04_HashMap-Comparisons-and-Interview-Questions.md)
-  3. [LinkedHashMap Basics](07_Maps/02_LinkedHashMap/01_LinkedHashMap-Basics-and-Operations.md) & [Internal Workings](07_Maps/02_LinkedHashMap/02_LinkedHashMap-Internal-Workings-and-Comparison.md)
+  1. [HashMap Introduction](07_Maps/01_HashMap/01_Introduction.md) & [Operations](07_Maps/01_HashMap/04_Adding_Elements.md)
+  2. [HashMap Internal Workings](07_Maps/01_HashMap/10_Internal_Working.md) & [Comparisons / Q&As](07_Maps/01_HashMap/13_HashMap_vs_LinkedHashMap_vs_TreeMap.md)
+  3. [LinkedHashMap Basics](07_Maps/02_LinkedHashMap/01_Introduction.md) & [Internal Workings](07_Maps/02_LinkedHashMap/09_Internal_Working.md)
   4. [TreeMap Basics](07_Maps/03_TreeMap/01_TreeMap-Basics-and-Operations.md) & [Internal Workings](07_Maps/03_TreeMap/02_TreeMap-Internal-Workings-and-Comparison.md)
   5. [Hashtable Basics and Operations](07_Maps/04_HashTable/01_HashTable-Basics-and-Operations.md)
 

@@ -16,8 +16,11 @@ A **Map** represents an object that maps unique keys to values. A Map cannot con
 * [HashMap Interview Questions](01_HashMap/14_Interview_Questions.md)
 
 ### 2. [LinkedHashMap](02_LinkedHashMap/README.md) (Preserves Insertion/Access Order)
-* [LinkedHashMap Basics and Operations](02_LinkedHashMap/01_LinkedHashMap-Basics-and-Operations.md): Preserving ordering and access-ordering mode.
-* [LinkedHashMap Internal Workings](02_LinkedHashMap/02_LinkedHashMap-Internal-Workings-and-Comparison.md): Doubly-linked bucket nodes, LRU caching implementation (`removeEldestEntry()`), and comparison tables.
+* [LinkedHashMap Introduction](02_LinkedHashMap/01_Introduction.md) & [Why LinkedHashMap](02_LinkedHashMap/02_Why_LinkedHashMap.md)
+* [Creating LinkedHashMap](02_LinkedHashMap/03_Creating_LinkedHashMap.md) & [Adding](02_LinkedHashMap/04_Adding_Elements.md) / [Accessing Elements](02_LinkedHashMap/05_Accessing_Elements.md)
+* [Updating](02_LinkedHashMap/06_Updating_Elements.md) & [Removing Elements](02_LinkedHashMap/07_Removing_Elements.md)
+* [Iteration](02_LinkedHashMap/08_Iteration.md) & [Internal Working](02_LinkedHashMap/09_Internal_Working.md)
+* [Comparison with HashMap](02_LinkedHashMap/10_Comparison_with_HashMap.md) & [Interview Questions](02_LinkedHashMap/11_Interview_Questions.md)
 
 ### 3. [TreeMap](03_TreeMap/README.md) (Sorted Key Ordering)
 * [TreeMap Basics and Operations](03_TreeMap/01_TreeMap-Basics-and-Operations.md): NavigableMap range query APIs.
