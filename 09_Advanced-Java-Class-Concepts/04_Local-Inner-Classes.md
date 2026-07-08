@@ -77,10 +77,10 @@ One of the most important concepts regarding local inner classes is the rule:
 
 ```mermaid
 graph TD
-    subgraph Stack (Short-lived)
+    subgraph Stack["Stack (Short-lived)"]
         Var["Local variable 'number = 10'"]
     end
-    subgraph Heap (Long-lived)
+    subgraph Heap["Heap (Long-lived)"]
         Obj["Inner Class Object<br>val$number = 10 (Copied read-only field)"]
     end
     
