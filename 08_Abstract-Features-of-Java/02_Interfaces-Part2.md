@@ -1,986 +1,225 @@
----
+# Interfaces in Java (Part 2)
 
-# Default Methods in Interfaces (Java 8)
+## Default Methods in Interfaces (Java 8)
 
-Before Java 8, every method inside an interface had to be **abstract**.
+Prior to Java 8, every method inside a Java interface was required to be strictly `abstract` (no method body allowed). This design created a significant maintenance challenge when maintaining large APIs:
 
-This created a problem.
-
-Suppose an interface is used by thousands of classes.
-
-```
-Interface
-   │
-   ├── Class A
-   ├── Class B
-   ├── Class C
-   ├── Class D
-   └── ...
+```mermaid
+graph TD
+    Interface["Interface (Core Contract)"]
+    Interface --> ClassA["Class A"]
+    Interface --> ClassB["Class B"]
+    Interface --> ClassC["Class C"]
+    Interface --> ClassN["Class N (Thousands of implementations)"]
 ```
 
-If we add one new abstract method to the interface,
+If we added a single new abstract method to this interface, **every implementing class was forced to implement it immediately**, otherwise compilation failed. Updating thousands of classes in client codebases was virtually impossible.
 
-every implementing class must implement it.
-
-Otherwise,
-
-```
-Compilation Error
-```
-
-Updating hundreds or thousands of classes becomes difficult.
-
-To solve this problem, **Java 8 introduced Default Methods.**
+To resolve this API evolution problem, **Java 8 introduced Default Methods**.
 
 ---
 
-# What is a Default Method?
+## What is a Default Method?
 
-A **default method** is a method inside an interface that already contains a body.
+A **Default Method** is an interface method declared with the `default` modifier that contains a default body implementation. Implementing classes automatically inherit this method and can:
+1. **Use it directly** without writing any local implementation.
+2. **Override it** to provide custom logic.
 
-The implementing class **may use it directly** or **override** it.
-
----
-
-# Syntax
-
+### Syntax:
 ```java
 interface InterfaceName {
-
     default void methodName() {
-
-        // implementation
-
+        // Default implementation body
     }
-
 }
 ```
 
 ---
 
-# Example 1
+## Default Method Example
 
 ```java
 interface Animal {
-
     default void sleep() {
-
-        System.out.println("Animal is Sleeping");
-
+        System.out.println("Animal is sleeping...");
     }
-
 }
 
 class Dog implements Animal {
-
+    // No need to implement sleep()
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
         Dog obj = new Dog();
-
-        obj.sleep();
-
+        obj.sleep(); // Prints: Animal is sleeping...
     }
-
 }
 ```
 
----
+### Method Resolution Lookup Flow:
+When invoking a method, the JVM searches the class hierarchy starting at the concrete instance:
 
-# Output
-
-```
-Animal is Sleeping
-```
-
----
-
-# Explanation
-
-The Dog class did not implement
-
-```java
-sleep()
-```
-
-because the interface already provides its implementation.
-
-```
-Interface
-
-sleep()
-
-      ▲
-
-      │
-
-Dog
-
-uses directly
+```mermaid
+graph TD
+    Start["Call obj.sound() on Dog instance"] --> CheckDog{"Does Dog override sound()?"}
+    CheckDog -->|Yes| ExecDog["Execute Dog.sound() Override"]
+    CheckDog -->|No| ExecInterface["Execute default Animal.sound() from Interface"]
 ```
 
 ---
 
-# Memory Representation
+## Static Methods in Interfaces (Java 8)
 
-```
-Stack
+Java 8 also introduced **Static Methods** inside interfaces. Static interface methods belong to the interface class itself, rather than to instances of implementing classes.
 
-+--------------------+
-| obj                |
-+---------|----------+
-          |
-          ▼
+* They are commonly used for utility helper methods.
+* **Important Rule**: Unlike static class fields, static interface methods **are not inherited** by implementing subclasses.
 
-Heap
-
-+----------------------+
-| Dog Object           |
-+----------------------+
-
-Method Resolution
-
-Dog
- │
- │
- ▼
-Animal Interface
- │
- ▼
-default sleep()
-```
-
----
-
-# Overriding Default Methods
-
-An implementing class can provide its own implementation.
-
----
-
-## Example
-
-```java
-interface Animal {
-
-    default void sound() {
-
-        System.out.println("Animal Sound");
-
-    }
-
-}
-
-class Dog implements Animal {
-
-    @Override
-    public void sound() {
-
-        System.out.println("Dog Barks");
-
-    }
-
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Dog obj = new Dog();
-
-        obj.sound();
-
-    }
-
-}
-```
-
----
-
-# Output
-
-```
-Dog Barks
-```
-
----
-
-# Method Resolution
-
-```
-Dog.sound()
-
-Exists?
-
-     │
-
- Yes ▼
-
-Execute Dog Method
-
-No
-
-↓
-
-Execute Interface Default Method
-```
-
----
-
-# Why Default Methods?
-
-Imagine a mobile application.
-
-Version 1
-
-```
-Login
-Register
-Logout
-```
-
-Thousands of developers implement it.
-
-Later,
-
-Version 2
-
-adds
-
-```
-Forgot Password
-```
-
-Without default methods,
-
-every implementation breaks.
-
-With default methods,
-
-```
-Forgot Password
-
-already implemented
-
-↓
-
-No code breaks.
-```
-
----
-
-# Static Methods in Interfaces
-
-Java 8 also introduced
-
-```
-static methods
-```
-
-inside interfaces.
-
----
-
-# Why?
-
-Sometimes a method belongs to the interface itself,
-
-not to the implementing object.
-
-Example
-
-```
-Math.max()
-
-Collections.sort()
-
-Objects.requireNonNull()
-```
-
-These methods belong to the class,
-
-not objects.
-
-Similarly,
-
-interfaces can also contain static methods.
-
----
-
-# Syntax
-
+### Code Example:
 ```java
 interface Vehicle {
-
     static void rules() {
-
-        System.out.println("Follow Traffic Rules");
-
+        System.out.println("Vehicles must follow local traffic rules.");
     }
-
-}
-```
-
----
-
-# Example
-
-```java
-interface Vehicle {
-
-    static void rules() {
-
-        System.out.println("Follow Traffic Rules");
-
-    }
-
 }
 
 public class Main {
-
     public static void main(String[] args) {
-
-        Vehicle.rules();
-
+        Vehicle.rules(); // Valid: Called directly on the interface
+        
+        // Car.rules(); // Compiler Error: static interface methods cannot be inherited
     }
-
 }
 ```
 
 ---
 
-# Output
+## Private Methods in Interfaces (Java 9)
 
-```
-Follow Traffic Rules
-```
+Java 9 introduced **Private Methods** (both instance and static) inside interfaces. 
 
----
+### Why do we need private methods in an interface?
+If multiple default or static methods share duplicate initialization code, we can extract the common logic into a private helper method inside the interface. This hides internal helper code from implementing classes.
 
-# Important Rule
-
-Static interface methods
-
-cannot be inherited.
-
-Wrong
-
-```java
-Car.rules();
+```mermaid
+graph TD
+    Call["call() (Default method)"] --> Common["common() (Private helper method)"]
+    Message["message() (Default method)"] --> Common
+    Common --> Network["Check Network Access"]
 ```
 
-Correct
-
-```java
-Vehicle.rules();
-```
-
----
-
-# Internal Working
-
-```
-Vehicle Interface
-
-     │
-
-Static Method
-
-     │
-
-Called using
-
-Vehicle.rules()
-
-Not
-
-Object.rules()
-```
-
----
-
-# Can We Override Static Methods?
-
-No.
-
-Static methods belong to
-
-the interface,
-
-not objects.
-
----
-
-# Private Methods in Interfaces (Java 9)
-
-Java 9 introduced
-
-```
-private methods
-```
-
-inside interfaces.
-
----
-
-# Why?
-
-Suppose multiple default methods contain duplicate code.
-
-Example
-
-```
-login()
-
-logout()
-
-register()
-```
-
-All of them
-
-print
-
-```
-Checking Database...
-
-Checking User...
-
-Checking Permission...
-```
-
-Instead of writing the same code repeatedly,
-
-we can create one private method.
-
----
-
-# Syntax
-
-```java
-interface Demo {
-
-    private void message(){
-
-    }
-
-}
-```
-
----
-
-# Example
-
+### Code Example:
 ```java
 interface Mobile {
-
     default void call() {
-
-        common();
-
-        System.out.println("Calling");
-
+        commonNetworkCheck();
+        System.out.println("Placing call...");
     }
 
     default void message() {
-
-        common();
-
-        System.out.println("Messaging");
-
+        commonNetworkCheck();
+        System.out.println("Sending message...");
     }
 
-    private void common() {
-
-        System.out.println("Checking Network");
-
+    private void commonNetworkCheck() {
+        System.out.println("Checking cell tower network signal...");
     }
-
 }
 
-class Samsung implements Mobile {
-
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Samsung obj = new Samsung();
-
-        obj.call();
-
-        obj.message();
-
-    }
-
-}
+class Samsung implements Mobile { }
 ```
 
 ---
 
-# Output
+## Summary: Methods Permitted in Java Interfaces
 
-```
-Checking Network
-
-Calling
-
-Checking Network
-
-Messaging
-```
+| Method Type | Modifier Keyword | Java Version | Can be Inherited? |
+| :--- | :--- | :--- | :--- |
+| **Abstract** | none (implicit) | Java 1.0 | Yes (Must override) |
+| **Default** | `default` | Java 8 | Yes (Optional override) |
+| **Static** | `static` | Java 8 | No |
+| **Private** | `private` | Java 9 | No |
+| **Private Static**| `private static` | Java 9 | No |
 
 ---
 
-# Internal Working
+## Functional Interfaces
 
-```
-call()
+A **Functional Interface** is an interface that contains **exactly one abstract method**. It is also referred to as a Single Abstract Method (SAM) Interface. It can contain any number of default, static, or private methods, as long as it has only one abstract method.
 
- │
+### Why do we use them?
+Functional interfaces are the foundation for **Lambda Expressions** in Java.
 
- ▼
-
-common()
-
- │
-
- ▼
-
-Print
-
-Checking Network
-
- │
-
- ▼
-
-Calling
-```
-
----
-
-# Can Classes Access Private Interface Methods?
-
-No.
-
-Wrong
-
-```java
-obj.common();
-```
-
-Compilation Error.
-
-Private methods
-
-are visible
-
-only inside the interface.
-
----
-
-# Types of Methods Allowed in Interfaces
-
-| Method Type | Java Version |
-|-------------|--------------|
-| Abstract | Java 1.0 |
-| Default | Java 8 |
-| Static | Java 8 |
-| Private | Java 9 |
-| Private Static | Java 9 |
-
----
-
-# Functional Interface
-
-One of the most important interview topics.
-
----
-
-# Definition
-
-A Functional Interface
-
-contains
-
-exactly
-
-```
-ONE
-
-abstract method.
-```
-
-It may also contain
-
-- default methods
-- static methods
-- private methods
-
-But only
-
-ONE abstract method.
-
----
-
-# Examples
-
-```
-Runnable
-
-Callable
-
-Comparator
-
-Predicate
-
-Consumer
-
-Supplier
-```
-
-All are functional interfaces.
-
----
-
-# Syntax
+### The `@FunctionalInterface` Annotation:
+This annotation tells the compiler to validate that the interface has exactly one abstract method. If a developer accidentally adds a second abstract method, a compilation error occurs.
 
 ```java
 @FunctionalInterface
-
-interface Calculator{
-
-    int add(int a,int b);
-
+interface Calculator {
+    int calculate(int a, int b); // Single Abstract Method
 }
 ```
 
 ---
 
-# Why Functional Interface?
+## Lambda Expressions Introduction
 
-Because
+Lambda expressions provide a highly concise way to instantiate functional interfaces without writing verbose anonymous inner classes.
 
-Lambda Expressions
-
-work only with
-
-Functional Interfaces.
-
-```
-Functional Interface
-
-        │
-
-        ▼
-
-Lambda Expression
-```
-
----
-
-# Example
-
+### 1. Verbose Anonymous Class (Before Java 8):
 ```java
-@FunctionalInterface
-interface Greeting {
-
-    void sayHello();
-
-}
-
-class Student implements Greeting {
-
-    public void sayHello() {
-
-        System.out.println("Hello");
-
-    }
-
-}
-
-public class Main {
-
-    public static void main(String[] args) {
-
-        Student obj = new Student();
-
-        obj.sayHello();
-
-    }
-
-}
-```
-
----
-
-# Output
-
-```
-Hello
-```
-
----
-
-# What is @FunctionalInterface?
-
-It is an annotation.
-
-It tells the compiler
-
-"This interface should always have exactly one abstract method."
-
----
-
-# Example
-
-```java
-@FunctionalInterface
-interface Demo{
-
-    void show();
-
-}
-```
-
-Correct.
-
----
-
-Wrong
-
-```java
-@FunctionalInterface
-
-interface Demo{
-
-    void show();
-
-    void print();
-
-}
-```
-
-Compiler Error
-
-because
-
-```
-Two abstract methods
-```
-
----
-
-# Can Functional Interfaces Have Default Methods?
-
-Yes.
-
-Example
-
-```java
-@FunctionalInterface
-interface Demo {
-
-    void display();
-
-    default void message() {
-
-        System.out.println("Hello");
-
-    }
-
-}
-```
-
-Still valid.
-
-Because
-
-only
-
-```
-display()
-```
-
-is abstract.
-
----
-
-# Lambda Expression Introduction
-
-Without Lambda
-
-```java
-Greeting g = new Greeting() {
-
+Runnable r = new Runnable() {
     @Override
-    public void sayHello() {
-
-        System.out.println("Hello");
-
+    public void run() {
+        System.out.println("Running in thread...");
     }
-
 };
 ```
 
-With Lambda
-
+### 2. Concise Lambda Expression (Java 8+):
 ```java
-Greeting g = () -> System.out.println("Hello");
-```
-
-Much shorter.
-
-Much cleaner.
-
----
-
-# Functional Interface Flow
-
-```
-Functional Interface
-
-      │
-
-One Abstract Method
-
-      │
-
-      ▼
-
-Lambda Expression
-
-      │
-
-      ▼
-
-Runtime Object
-
-      │
-
-      ▼
-
-Method Execution
+Runnable r = () -> System.out.println("Running in thread...");
 ```
 
 ---
 
-# Marker Interface
+## Marker Interfaces
 
-A Marker Interface
+A **Marker Interface** (also called a **Tagging Interface**) contains **no methods and no fields**. Its sole purpose is to serve as metadata, marking or tagging a class as possessing a specific capability or license for the JVM or framework.
 
-contains
+### Popular Built-in Marker Interfaces:
+* `java.io.Serializable`: Tells the JVM that the object is safe to be serialized into bytes.
+* `java.lang.Cloneable`: Permits the use of `Object.clone()` on the class.
 
-```
-NO METHODS
-```
-
-and
-
-```
-NO FIELDS
-```
-
-Its purpose is
-
-to provide information
-
-to the JVM or framework.
-
----
-
-# Example
-
-```java
-interface Student{
-
-}
+```mermaid
+graph TD
+    Obj["Student Object"] -->|"implements"| Marker["Serializable (Marker interface)"]
+    Marker --> JVM["JVM knows object is safe to serialize"]
+    JVM --> Output["Output: Writes object to stream bytes"]
 ```
 
 ---
 
-# Popular Marker Interfaces
+## Functional Interface vs. Marker Interface
 
-```
-Serializable
-
-Cloneable
-
-Remote
-```
-
----
-
-# Why Marker Interfaces?
-
-Example
-
-```
-Serializable
-```
-
-When JVM sees
-
-```
-implements Serializable
-```
-
-it knows
-
-```
-Object can be serialized.
-```
+| Feature | Functional Interface | Marker Interface |
+| :--- | :--- | :--- |
+| **Abstract Methods** | Exactly one abstract method | Zero methods |
+| **Primary Purpose** | Enables Lambda expressions | Provides metadata/license to JVM |
+| **Behavior** | Contains active abstract/default methods | Holds no code logic or properties |
+| **Introduced** | Java 8 | Since early Java 1.0 |
 
 ---
 
-# Diagram
+## Key Takeaways
 
-```
-Student Object
-
-      │
-
-implements
-
-      │
-
-Serializable
-
-      │
-
-JVM
-
-knows object can be converted
-
-↓
-
-Bytes
-```
+* Default methods allow interfaces to evolve without breaking existing implementations.
+* Static interface methods belong to the interface itself and cannot be inherited.
+* Private methods serve as private helpers inside the interface block.
+* Functional interfaces contain exactly one abstract method.
+* Marker interfaces act as structural metadata labels with no methods.
 
 ---
 
-# Difference Between Functional Interface and Marker Interface
-
-| Functional Interface | Marker Interface |
-|----------------------|------------------|
-| One abstract method | No methods |
-| Used for Lambda | Used to provide metadata |
-| Has behavior | No behavior |
-| Java 8 feature | Available since early Java |
-
----
-
-# Key Takeaways (Part 2)
-
-- Default methods allow interfaces to evolve without breaking existing implementations.
-- Static methods belong to the interface and are called using the interface name.
-- Private methods help eliminate duplicate code inside interfaces.
-- Functional interfaces contain exactly one abstract method.
-- `@FunctionalInterface` helps the compiler validate the interface.
-- Lambda expressions work with functional interfaces.
-- Marker interfaces contain no methods and provide metadata to the JVM or frameworks.
+**Back to Module Home:** [Abstract Features](README.md)
