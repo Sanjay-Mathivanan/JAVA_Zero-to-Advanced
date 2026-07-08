@@ -23,8 +23,12 @@ A **Map** represents an object that maps unique keys to values. A Map cannot con
 * [Comparison with HashMap](02_LinkedHashMap/10_Comparison_with_HashMap.md) & [Interview Questions](02_LinkedHashMap/11_Interview_Questions.md)
 
 ### 3. [TreeMap](03_TreeMap/README.md) (Sorted Key Ordering)
-* [TreeMap Basics and Operations](03_TreeMap/01_TreeMap-Basics-and-Operations.md): NavigableMap range query APIs.
-* [TreeMap Internal Workings](03_TreeMap/02_TreeMap-Internal-Workings-and-Comparison.md): Red-Black self-balancing BST model, rotations, color flips, and comparisons.
+* [TreeMap Introduction](03_TreeMap/01_Introduction.md) & [Why TreeMap](03_TreeMap/02_Why_TreeMap.md)
+* [Creating TreeMap](03_TreeMap/03_Creating_TreeMap.md) & [Adding](03_TreeMap/04_Adding_Elements.md) / [Accessing Elements](03_TreeMap/05_Accessing_Elements.md)
+* [Updating](03_TreeMap/06_Updating_Elements.md) & [Removing Elements](03_TreeMap/07_Removing_Elements.md)
+* [Iteration](03_TreeMap/08_Iteration.md) & [NavigableMap Methods](03_TreeMap/09_NavigableMap_Methods.md)
+* [Internal Working](03_TreeMap/10_Internal_Working.md) & [Red-Black Tree balancing](03_TreeMap/11_Red_Black_Tree.md)
+* [Comparison with HashMap](03_TreeMap/12_Comparison_with_HashMap.md) & [Interview Questions](03_TreeMap/13_Interview_Questions.md)
 
 ### 4. [Hashtable](04_HashTable/01_HashTable-Basics-and-Operations.md) (Thread-safe monitor lock, Obsolete)
 * [Hashtable Basics and Operations](04_HashTable/01_HashTable-Basics-and-Operations.md): Synchronized operations, null key restrictions, why it is obsolete, and ConcurrentHashMap alternatives.

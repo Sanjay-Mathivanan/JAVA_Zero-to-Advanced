@@ -46,7 +46,7 @@ By the end of this module, you will understand:
   1. [HashMap Introduction](07_Maps/01_HashMap/01_Introduction.md) & [Operations](07_Maps/01_HashMap/04_Adding_Elements.md)
   2. [HashMap Internal Workings](07_Maps/01_HashMap/10_Internal_Working.md) & [Comparisons / Q&As](07_Maps/01_HashMap/13_HashMap_vs_LinkedHashMap_vs_TreeMap.md)
   3. [LinkedHashMap Basics](07_Maps/02_LinkedHashMap/01_Introduction.md) & [Internal Workings](07_Maps/02_LinkedHashMap/09_Internal_Working.md)
-  4. [TreeMap Basics](07_Maps/03_TreeMap/01_TreeMap-Basics-and-Operations.md) & [Internal Workings](07_Maps/03_TreeMap/02_TreeMap-Internal-Workings-and-Comparison.md)
+  4. [TreeMap Basics](07_Maps/03_TreeMap/01_Introduction.md) & [Internal Workings](07_Maps/03_TreeMap/10_Internal_Working.md)
   5. [Hashtable Basics and Operations](07_Maps/04_HashTable/01_HashTable-Basics-and-Operations.md)
 
 ---
