@@ -7,10 +7,13 @@ A **Map** represents an object that maps unique keys to values. A Map cannot con
 ## Implementing Classes Map
 
 ### 1. [HashMap](01_HashMap/README.md) (Unordered, Default Choice)
-* [HashMap Basics and Creation](01_HashMap/01_HashMap-Basics-and-Creation.md): Characteristics, constructors, and syntax.
-* [HashMap Basic Operations](01_HashMap/02_HashMap-Basic-Operations.md): Appending, modifying, removing, and iterating over keys/values.
-* [HashMap Internal Workings](01_HashMap/03_HashMap-Internal-Workings.md): Hashing calculation, bucket linked lists, collisions, load factors, and treeifying threshold of 8.
-* [HashMap Comparisons and Q&As](01_HashMap/04_HashMap-Comparisons-and-Interview-Questions.md): Detailed comparison tables and interview Q&As.
+* [HashMap Introduction](01_HashMap/01_Introduction.md) & [Why HashMap](01_HashMap/02_Why_HashMap.md)
+* [Creating HashMap](01_HashMap/03_Creating_HashMap.md) & [Adding Elements](01_HashMap/04_Adding_Elements.md)
+* [Accessing](01_HashMap/05_Accessing_Elements.md), [Updating](01_HashMap/06_Updating_Elements.md) & [Removing Elements](01_HashMap/07_Removing_Elements.md)
+* [Iteration](01_HashMap/08_Iteration.md) & [Common Methods](01_HashMap/09_Common_Methods.md)
+* [HashMap Internal Workings](01_HashMap/10_Internal_Working.md) & [Time Complexity](01_HashMap/11_Time_Complexity.md)
+* [HashMap vs. HashTable](01_HashMap/12_HashMap_vs_HashTable.md) & [Comparisons / Q&As](01_HashMap/13_HashMap_vs_LinkedHashMap_vs_TreeMap.md)
+* [HashMap Interview Questions](01_HashMap/14_Interview_Questions.md)
 
 ### 2. [LinkedHashMap](02_LinkedHashMap/README.md) (Preserves Insertion/Access Order)
 * [LinkedHashMap Basics and Operations](02_LinkedHashMap/01_LinkedHashMap-Basics-and-Operations.md): Preserving ordering and access-ordering mode.
