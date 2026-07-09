@@ -55,6 +55,12 @@ By the end of this module, you will understand:
   2. [LinkedHashSet Basics](08_Sets/02_LinkedHashSet/01_LinkedHashSet.md) & [Internal Workings](08_Sets/02_LinkedHashSet/02_Internal_Working.md)
   3. [TreeSet Basics](08_Sets/03_TreeSet/01_TreeSet.md) & [Internal Workings](08_Sets/03_TreeSet/02_Internal_Working.md)
 
+### 5. Queues and Deques
+* **Queues Subfolder**: [Queues Overview](09_Queue/README.md)
+  1. [Queue Interface Basics](09_Queue/01_Queue_Interface/01_Queue.md) & [Internal Workings](09_Queue/01_Queue_Interface/02_Internal_Working.md)
+  2. [PriorityQueue Basics](09_Queue/02_PriorityQueue/01_PriorityQueue.md) & [Internal Workings](09_Queue/02_PriorityQueue/02_Internal_Working.md)
+  3. [ArrayDeque Basics](09_Queue/03_ArrayDeque/01_ArrayDeque.md) & [Internal Workings](09_Queue/03_ArrayDeque/02_Internal_Working.md)
+
 ---
 
 ## Core JCF Structural Architecture
