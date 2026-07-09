@@ -65,6 +65,10 @@ By the end of this module, you will understand:
 * **Stacks Subfolder**: [Stacks Overview](10_Stack/README.md)
   1. [Stack Basics](10_Stack/01_Stack/01_Stack.md) & [Internal Workings](10_Stack/01_Stack/02_Internal_Working.md)
 
+### 7. Generics
+* **Generics Subfolder**: [Generics Overview](11_Generics/README.md)
+  1. [Generics Basics](11_Generics/01_Generics.md) & [Internal Workings](11_Generics/02_Internal_Working.md)
+
 ---
 
 ## Core JCF Structural Architecture

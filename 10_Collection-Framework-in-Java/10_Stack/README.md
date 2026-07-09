@@ -1,3 +1,4 @@
+
 # Stack in Java Collections Framework
 
 This directory covers `Stack` implementation in Java, designed for LIFO processing.
