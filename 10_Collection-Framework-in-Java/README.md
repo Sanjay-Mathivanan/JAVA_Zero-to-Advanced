@@ -49,6 +49,12 @@ By the end of this module, you will understand:
   4. [TreeMap Basics](07_Maps/03_TreeMap/01_Introduction.md) & [Internal Workings](07_Maps/03_TreeMap/10_Internal_Working.md)
   5. [Hashtable Basics](07_Maps/04_HashTable/01_Introduction.md) & [Internal Workings](07_Maps/04_HashTable/05_Internal_Working.md)
 
+### 4. Unique Sets
+* **Sets Subfolder**: [Sets Overview](08_Sets/README.md)
+  1. [HashSet Basics](08_Sets/01_HashSet/01_HashSet.md) & [Internal Workings](08_Sets/01_HashSet/02_Internal_Working.md)
+  2. [LinkedHashSet Basics](08_Sets/02_LinkedHashSet/01_LinkedHashSet.md) & [Internal Workings](08_Sets/02_LinkedHashSet/02_Internal_Working.md)
+  3. [TreeSet Basics](08_Sets/03_TreeSet/01_TreeSet.md) & [Internal Workings](08_Sets/03_TreeSet/02_Internal_Working.md)
+
 ---
 
 ## Core JCF Structural Architecture
