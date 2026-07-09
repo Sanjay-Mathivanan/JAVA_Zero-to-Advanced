@@ -61,6 +61,10 @@ By the end of this module, you will understand:
   2. [PriorityQueue Basics](09_Queue/02_PriorityQueue/01_PriorityQueue.md) & [Internal Workings](09_Queue/02_PriorityQueue/02_Internal_Working.md)
   3. [ArrayDeque Basics](09_Queue/03_ArrayDeque/01_ArrayDeque.md) & [Internal Workings](09_Queue/03_ArrayDeque/02_Internal_Working.md)
 
+### 6. Stacks
+* **Stacks Subfolder**: [Stacks Overview](10_Stack/README.md)
+  1. [Stack Basics](10_Stack/01_Stack/01_Stack.md) & [Internal Workings](10_Stack/01_Stack/02_Internal_Working.md)
+
 ---
 
 ## Core JCF Structural Architecture
