@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 13px; text-anchor: middle; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 10px; text-anchor: middle; fill: #4a5568; }
+    .step-num { font-family: 'Outfit', 'Inter', system-ui, sans-serif; font-weight: 800; font-size: 16px; fill: #ffffff; text-anchor: middle; }
+    
+    .node-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 2; rx: 8; }
+    .compiler-box { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2; rx: 8; }
+    .jvm-box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2; rx: 8; }
+    .os-box { fill: #edf2f7; stroke: #4a5568; stroke-width: 2; rx: 8; }
+    
+    .node-title { fill: #2d3748; }
+    .compiler-title { fill: #2b6cb0; }
+    .jvm-title { fill: #dd6b20; }
+    
+    .arrow { stroke: #a0aec0; stroke-width: 2; fill: none; }
+    .arrow-head { fill: #a0aec0; }
+    
+    .badge { fill: #e53e3e; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .node-box { fill: #1a202c; stroke: #4a5568; }
+      .compiler-box { fill: #1A365D; stroke: #4299e1; }
+      .jvm-box { fill: #5c3e21; stroke: #ed8936; }
+      .os-box { fill: #2d3748; stroke: #718096; }
+      
+      .node-title { fill: #e2e8f0; }
+      .compiler-title { fill: #90cdf4; }
+      .jvm-title { fill: #fbd38d; }
+      .desc { fill: #a0aec0; }
+      .arrow { stroke: #4a5568; }
+      .arrow-head { fill: #4a5568; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Node 1: Source Code -->
+  <g transform="translate(30, 80)">
+    <rect class="node-box" width="110" height="120" />
+    <text class="label node-title" x="55" y="40">Source Code</text>
+    <text class="label node-title" x="55" y="60" font-family="monospace">HelloWorld.java</text>
+    <text class="desc" x="55" y="95">Written by Developer</text>
+    
+    <!-- Step Badge -->
+    <circle cx="55" cy="0" r="14" class="badge" />
+    <text class="step-num" x="55" y="6">1</text>
+  </g>
+
+  <!-- Arrow 1 to 2 -->
+  <g>
+    <path class="arrow" d="M 140 140 L 170 140" />
+    <polygon class="arrow-head" points="170,136 178,140 170,144" />
+  </g>
+
+  <!-- Node 2: Compiler -->
+  <g transform="translate(180, 80)">
+    <rect class="compiler-box" width="110" height="120" />
+    <text class="label compiler-title" x="55" y="40">Compiler</text>
+    <text class="label compiler-title" x="55" y="60" font-family="monospace">javac</text>
+    <text class="desc" x="55" y="90">Checks syntax</text>
+    <text class="desc" x="55" y="105">Translates to bytecode</text>
+    
+    <!-- Step Badge -->
+    <circle cx="55" cy="0" r="14" class="badge" />
+    <text class="step-num" x="55" y="6">2</text>
+  </g>
+
+  <!-- Arrow 2 to 3 -->
+  <g>
+    <path class="arrow" d="M 290 140 L 320 140" />
+    <polygon class="arrow-head" points="320,136 328,140 320,144" />
+  </g>
+
+  <!-- Node 3: Bytecode -->
+  <g transform="translate(330, 80)">
+    <rect class="node-box" width="110" height="120" />
+    <text class="label node-title" x="55" y="40">Bytecode</text>
+    <text class="label node-title" x="55" y="60" font-family="monospace">HelloWorld.class</text>
+    <text class="desc" x="55" y="90">Platform-neutral</text>
+    <text class="desc" x="55" y="105">binary instruction set</text>
+    
+    <!-- Step Badge -->
+    <circle cx="55" cy="0" r="14" class="badge" />
+    <text class="step-num" x="55" y="6">3</text>
+  </g>
+
+  <!-- Arrow 3 to 4 -->
+  <g>
+    <path class="arrow" d="M 440 140 L 470 140" />
+    <polygon class="arrow-head" points="470,136 478,140 470,144" />
+  </g>
+
+  <!-- Node 4: JVM -->
+  <g transform="translate(480, 80)">
+    <rect class="jvm-box" width="110" height="120" />
+    <text class="label jvm-title" x="55" y="45">JVM (java)</text>
+    <text class="desc" x="55" y="75">Class Loader</text>
+    <text class="desc" x="55" y="90">Execution Engine</text>
+    <text class="desc" x="55" y="105">(Interpreter &amp; JIT)</text>
+    
+    <!-- Step Badge -->
+    <circle cx="55" cy="0" r="14" class="badge" />
+    <text class="step-num" x="55" y="6">4</text>
+  </g>
+
+  <!-- Arrow 4 to 5 -->
+  <g>
+    <path class="arrow" d="M 590 140 L 620 140" />
+    <polygon class="arrow-head" points="620,136 628,140 620,144" />
+  </g>
+
+  <!-- Node 5: OS & Hardware -->
+  <g transform="translate(630, 80)">
+    <rect class="os-box" width="100" height="120" />
+    <text class="label node-title" x="50" y="45">OS / Hardware</text>
+    <text class="desc" x="50" y="80">Windows/macOS/Linux</text>
+    <text class="desc" x="50" y="95">Executes native machine</text>
+    <text class="desc" x="50" y="108">code instructions</text>
+    
+    <!-- Step Badge -->
+    <circle cx="50" cy="0" r="14" class="badge" />
+    <text class="step-num" x="50" y="6">5</text>
+  </g>
+</svg>

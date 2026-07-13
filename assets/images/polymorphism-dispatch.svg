@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; }
+    
+    .stack-box { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2.5; rx: 12; }
+    .stack-text { fill: #2b6cb0; }
+    
+    .heap-box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 12; }
+    .heap-text { fill: #9c4221; }
+    
+    .sub-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 1.5; rx: 6; }
+    .sub-text { fill: #2d3748; }
+    
+    .arrow { stroke: #e53e3e; stroke-width: 2; fill: none; stroke-dasharray: 4 4; }
+    .arrow-head { fill: #e53e3e; }
+    
+    .call-arrow { stroke: #319795; stroke-width: 2.5; fill: none; }
+    .call-head { fill: #319795; }
+    .call-text { fill: #234e52; font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 12px; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .stack-box { fill: #1A365D; stroke: #4299e1; }
+      .stack-text { fill: #90cdf4; }
+      
+      .heap-box { fill: #5c3e21; stroke: #ed8936; }
+      .heap-text { fill: #fbd38d; }
+      
+      .sub-box { fill: #1a202c; stroke: #4a5568; }
+      .sub-text { fill: #e2e8f0; }
+      
+      .arrow { stroke: #f56565; }
+      .arrow-head { fill: #f56565; }
+      
+      .call-arrow { stroke: #4fd1c5; }
+      .call-head { fill: #4fd1c5; }
+      .call-text { fill: #e6fffa; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Stack Area -->
+  <g transform="translate(30, 30)">
+    <rect class="stack-box" width="230" height="240" />
+    <text class="label stack-text" x="20" y="28">Stack Memory</text>
+    <text class="desc stack-text" x="20" y="45">Compile-Time Reference Type</text>
+
+    <!-- Reference variable -->
+    <g transform="translate(15, 75)">
+      <rect class="sub-box" width="200" height="90" />
+      <text class="label sub-text" x="12" y="25">Animal animal</text>
+      <text class="desc sub-text" x="12" y="45">Ref Type: Animal (Parent)</text>
+      <text class="desc sub-text" x="12" y="62">Holds Address: 0x8a9b</text>
+      <text class="desc sub-text" x="12" y="78">Method Checked: sound()</text>
+    </g>
+  </g>
+
+  <!-- Heap Area -->
+  <g transform="translate(390, 30)">
+    <rect class="heap-box" width="230" height="240" />
+    <text class="label heap-text" x="20" y="28">Heap Memory</text>
+    <text class="desc heap-text" x="20" y="45">Runtime Object Type</text>
+
+    <!-- Object in Heap -->
+    <g transform="translate(15, 75)">
+      <rect class="sub-box" width="200" height="135" />
+      <text class="label sub-text" x="15" y="28">Dog Object</text>
+      <text class="desc sub-text" x="15" y="48">Address: 0x8a9b</text>
+      
+      <line x1="15" y1="62" x2="185" y2="62" stroke="#cbd5e0" stroke-width="1.5" />
+      
+      <!-- Methods of subclass -->
+      <g transform="translate(15, 75)">
+        <rect class="sub-box" width="170" height="45" />
+        <text class="label sub-text" x="10" y="20">sound() { @Override }</text>
+        <text class="desc sub-text" x="10" y="36">Outputs: "Dog barks"</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Pointer Arrow from Stack Reference to Heap Object -->
+  <g>
+    <path class="arrow" d="M 260 150 C 310 150, 320 150, 390 150" />
+    <polygon class="arrow-head" points="390,146 398,150 390,154" />
+  </g>
+
+  <!-- Dynamic Method Dispatch Execution Line -->
+  <g transform="translate(30, 0)">
+    <!-- Execute Line -->
+    <path class="call-arrow" d="M 125 195 C 125 250, 480 250, 480 200" />
+    <polygon class="call-head" points="476,200 480,192 484,200" />
+    
+    <!-- Code label -->
+    <rect x="200" y="225" width="200" height="30" class="sub-box" rx="6" />
+    <text class="call-text" x="235" y="244">animal.sound();</text>
+  </g>
+</svg>

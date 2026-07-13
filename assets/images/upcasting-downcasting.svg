@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; fill: #4a5568; }
+    .title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 800; font-size: 15px; fill: #1a202c; }
+    
+    .box-super { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 8; }
+    .text-super { fill: #9c4221; }
+    
+    .box-sub { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2.5; rx: 8; }
+    .text-sub { fill: #2b6cb0; }
+    
+    .inner-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 1.5; rx: 6; }
+    .inner-text { fill: #2d3748; }
+    
+    .up-arrow { stroke: #319795; stroke-width: 3; fill: none; }
+    .up-head { fill: #319795; }
+    .up-text { fill: #234e52; font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 12px; }
+    
+    .down-arrow { stroke: #e53e3e; stroke-width: 3; fill: none; }
+    .down-head { fill: #e53e3e; }
+    .down-text { fill: #742a2a; font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 12px; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .title { fill: #f7fafc; }
+      .box-super { fill: #5c3e21; stroke: #ed8936; }
+      .text-super { fill: #fbd38d; }
+      .box-sub { fill: #1A365D; stroke: #4299e1; }
+      .text-sub { fill: #90cdf4; }
+      .inner-box { fill: #1a202c; stroke: #4a5568; }
+      .inner-text { fill: #e2e8f0; }
+      .desc { fill: #cbd5e0; }
+      
+      .up-arrow { stroke: #4fd1c5; }
+      .up-head { fill: #4fd1c5; }
+      .up-text { fill: #e6fffa; }
+      
+      .down-arrow { stroke: #f56565; }
+      .down-head { fill: #f56565; }
+      .down-text { fill: #fff5f5; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Superclass Class Box (Top Center) -->
+  <g transform="translate(225, 30)">
+    <rect class="box-super" width="200" height="50" />
+    <text class="label text-super" x="15" y="24">Superclass: Animal</text>
+    <text class="desc text-super" x="15" y="40">General base type</text>
+  </g>
+
+  <!-- Subclass Class Box (Bottom Center) -->
+  <g transform="translate(225, 210)">
+    <rect class="box-sub" width="200" height="50" />
+    <text class="label text-sub" x="15" y="24">Subclass: Dog</text>
+    <text class="desc text-sub" x="15" y="40">Specific specialized type</text>
+  </g>
+
+  <!-- Left: Upcasting Flow -->
+  <g transform="translate(20, 30)">
+    <text class="title" x="0" y="20">Upcasting</text>
+    <text class="desc" x="0" y="38">Implicit conversion (Automatic &amp; Safe)</text>
+    
+    <!-- Code Box -->
+    <rect x="0" y="115" width="180" height="45" class="inner-box" />
+    <text class="inner-text label" x="10" y="141">Animal a = new Dog();</text>
+    
+    <!-- Upward arrow -->
+    <g transform="translate(160, 0)">
+      <path class="up-arrow" d="M 30 170 L 30 65" />
+      <polygon class="up-head" points="26,65 30,55 34,65" />
+      <text class="up-text" x="42" y="120">Upcasting</text>
+    </g>
+  </g>
+
+  <!-- Right: Downcasting Flow -->
+  <g transform="translate(430, 30)">
+    <text class="title" x="20" y="20">Downcasting</text>
+    <text class="desc" x="20" y="38">Explicit conversion (Requires Cast)</text>
+    
+    <!-- Code Box -->
+    <rect x="20" y="115" width="180" height="45" class="inner-box" />
+    <text class="inner-text label" x="30" y="141">Dog d = (Dog) a;</text>
+    
+    <!-- Downward arrow -->
+    <g transform="translate(0, 0)">
+      <path class="down-arrow" d="M 5 65 L 5 170" />
+      <polygon class="down-head" points="1,170 5,180 9,170" />
+      <text class="down-text" x="-90" y="120">Downcasting</text>
+    </g>
+  </g>
+</svg>

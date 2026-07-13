@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 360" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; }
+    
+    .meta-box { fill: #f0f4f8; stroke: #4f46e5; stroke-width: 2.5; rx: 12; }
+    .meta-text { fill: #312e81; }
+    
+    .heap-box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 12; }
+    .heap-text { fill: #9c4221; }
+    
+    .sub-box { fill: #ffffff; stroke: #cbd5e0; stroke-width: 1.5; rx: 6; }
+    .sub-text { fill: #2d3748; }
+    
+    .arrow { stroke: #4f46e5; stroke-width: 1.5; stroke-dasharray: 3 3; fill: none; }
+    .arrow-head { fill: #4f46e5; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .meta-box { fill: #2e2a72; stroke: #818cf8; }
+      .meta-text { fill: #e0e7ff; }
+      
+      .heap-box { fill: #5c3e21; stroke: #ed8936; }
+      .heap-text { fill: #fbd38d; }
+      
+      .sub-box { fill: #1a202c; stroke: #4a5568; }
+      .sub-text { fill: #e2e8f0; }
+      
+      .arrow { stroke: #818cf8; }
+      .arrow-head { fill: #818cf8; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Metaspace (Class Level - Loaded Once) -->
+  <g transform="translate(30, 30)">
+    <rect class="meta-box" width="240" height="300" />
+    <text class="label meta-text" x="20" y="28">Metaspace / Method Area</text>
+    <text class="desc meta-text" x="20" y="45">Shared class-level data (Loaded once)</text>
+
+    <!-- Student Class Metadata -->
+    <g transform="translate(15, 65)">
+      <rect class="sub-box" width="210" height="215" />
+      <text class="label sub-text" x="15" y="25">Student Class Template</text>
+      
+      <!-- Static Variables -->
+      <g transform="translate(15, 45)">
+        <text class="label sub-text" x="5" y="15">Static Members:</text>
+        <rect class="sub-box" width="180" height="40" y="25" />
+        <text class="desc sub-text" x="10" y="48">college = &quot;KGISL Tech&quot;</text>
+        <text class="desc sub-text" x="10" y="58" font-size="8" fill="#718096">(Shared across all instances)</text>
+        
+        <rect class="sub-box" width="180" height="40" y="75" />
+        <text class="desc sub-text" x="10" y="98">static void printCollege()</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Heap Memory (Instance Level - Object Specific) -->
+  <g transform="translate(360, 30)">
+    <rect class="heap-box" width="260" height="300" />
+    <text class="label heap-text" x="20" y="28">Heap Memory (Objects)</text>
+    <text class="desc heap-text" x="20" y="45">Stores individual object instances &amp; states</text>
+
+    <!-- Object 1 -->
+    <g transform="translate(15, 65)">
+      <rect class="sub-box" width="230" height="100" />
+      <text class="label sub-text" x="15" y="22">student1 Object (Instance)</text>
+      <text class="desc sub-text" x="15" y="38">Address: 0x8a1b</text>
+      
+      <g transform="translate(15, 48)">
+        <rect class="sub-box" width="200" height="40" />
+        <text class="desc sub-text" x="10" y="24">name = &quot;Sanjay&quot; (Instance)</text>
+      </g>
+    </g>
+
+    <!-- Object 2 -->
+    <g transform="translate(15, 180)">
+      <rect class="sub-box" width="230" height="100" />
+      <text class="label sub-text" x="15" y="22">student2 Object (Instance)</text>
+      <text class="desc sub-text" x="15" y="38">Address: 0x9c4f</text>
+      
+      <g transform="translate(15, 48)">
+        <rect class="sub-box" width="200" height="40" />
+        <text class="desc sub-text" x="10" y="24">name = &quot;Rahul&quot; (Instance)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connection Lines (Logical Sharing) -->
+  <g>
+    <!-- Arrow from Object 1 to Static College -->
+    <path class="arrow" d="M 375 125 C 320 125, 320 180, 255 180" />
+    <polygon class="arrow-head" points="257,176 247,180 257,184" />
+    
+    <!-- Arrow from Object 2 to Static College -->
+    <path class="arrow" d="M 375 240 C 320 240, 320 180, 255 180" />
+    <polygon class="arrow-head" points="257,176 247,180 257,184" />
+  </g>
+</svg>

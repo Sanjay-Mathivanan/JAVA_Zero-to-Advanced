@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 13px; text-anchor: middle; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; text-anchor: middle; fill: #4a5568; }
+    .code { font-family: monospace; font-size: 12px; font-weight: bold; }
+    
+    .start-node { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2; rx: 20; }
+    .decision-node { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2; }
+    .block-node { fill: #f0fff4; stroke: #38a169; stroke-width: 2; rx: 6; }
+    .exit-node { fill: #edf2f7; stroke: #4a5568; stroke-width: 2; rx: 6; }
+    
+    .flow-line { stroke: #4a5568; stroke-width: 2; fill: none; }
+    .flow-arrow { fill: #4a5568; }
+    
+    .text-title { fill: #2c5282; }
+    .text-dec { fill: #dd6b20; }
+    .text-block { fill: #22543d; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .start-node { fill: #1A365D; stroke: #4299e1; }
+      .decision-node { fill: #2C5282; stroke: #ed8936; }
+      .block-node { fill: #1C4532; stroke: #48bb78; }
+      .exit-node { fill: #2d3748; stroke: #a0aec0; }
+      
+      .flow-line { stroke: #a0aec0; }
+      .flow-arrow { fill: #a0aec0; }
+      
+      .text-title { fill: #90cdf4; }
+      .text-dec { fill: #fbd38d; }
+      .text-block { fill: #9ae6b4; }
+      .desc { fill: #cbd5e0; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- Title -->
+  <text class="label" x="340" y="35" font-size="16" fill="#2d3748">Java Switch Statement Routing Flow</text>
+
+  <!-- Start Node -->
+  <g transform="translate(240, 60)">
+    <rect class="start-node" width="200" height="40" rx="8" />
+    <text class="label text-title" x="100" y="24">Evaluate Expression</text>
+  </g>
+
+  <!-- Flow Line Start to Branch Point -->
+  <path class="flow-line" d="M 340 100 L 340 130" />
+  <polygon class="flow-arrow" points="336,130 340,138 344,130" />
+
+  <!-- Decision Fork / Diamond -->
+  <!-- We'll draw branching flow lines from x=340, y=140 -->
+  
+  <!-- Path to Case 1 (Left) -->
+  <path class="flow-line" d="M 340 140 L 140 140 L 140 180" />
+  <polygon class="flow-arrow" points="136,180 140,188 144,180" />
+  
+  <!-- Path to Case 2 (Center) -->
+  <path class="flow-line" d="M 340 140 L 340 180" />
+  <polygon class="flow-arrow" points="336,180 340,188 344,180" />
+
+  <!-- Path to Default (Right) -->
+  <path class="flow-line" d="M 340 140 L 540 140 L 540 180" />
+  <polygon class="flow-arrow" points="536,180 540,188 544,180" />
+
+  <!-- Branch Labels -->
+  <text class="desc" x="220" y="132">Matches Value A</text>
+  <text class="desc" x="390" y="165">Matches Value B</text>
+  <text class="desc" x="460" y="132">No Match</text>
+
+  <!-- Case 1 Block -->
+  <g transform="translate(40, 190)">
+    <rect class="block-node" width="200" height="80" />
+    <text class="label text-block" x="100" y="25">case Value A</text>
+    <text class="code text-block" x="20" y="45">executeCaseABlock();</text>
+    <text class="code text-block" x="20" y="62">break; // Exit Switch</text>
+  </g>
+
+  <!-- Case 2 Block (Demonstrates Fall-through without Break) -->
+  <g transform="translate(240, 190)">
+    <rect class="block-node" width="200" height="80" stroke-dasharray="3 3" />
+    <text class="label text-block" x="100" y="25">case Value B</text>
+    <text class="code text-block" x="20" y="45">executeCaseBBlock();</text>
+    <text class="code text-block" x="20" y="62" fill="#e53e3e">(No break statement)</text>
+  </g>
+
+  <!-- Default Block -->
+  <g transform="translate(440, 190)">
+    <rect class="block-node" width="200" height="80" />
+    <text class="label text-block" x="100" y="25">default</text>
+    <text class="code text-block" x="20" y="45">executeDefaultBlock();</text>
+    <text class="code text-block" x="20" y="62">break;</text>
+  </g>
+
+  <!-- Flow Lines from Blocks to Exit -->
+  
+  <!-- Case 1 Exit (Direct to Exit because of break) -->
+  <path class="flow-line" d="M 140 270 L 140 340 L 240 340" />
+  <polygon class="flow-arrow" points="240,336 248,340 240,344" />
+
+  <!-- Case 2 Fall-through to Default -->
+  <path class="flow-line" d="M 340 270 L 340 300 L 540 300 L 540 270" />
+  <polygon class="flow-arrow" points="536,275 540,270 544,275" />
+  <text class="desc" x="420" y="295" fill="#e53e3e">Fall-through</text>
+
+  <!-- Default Exit -->
+  <path class="flow-line" d="M 540 270 L 540 340 L 440 340" />
+  <polygon class="flow-arrow" points="440,344 432,340 440,336" />
+
+  <!-- Exit Node -->
+  <g transform="translate(240, 320)">
+    <rect class="exit-node" width="200" height="40" />
+    <text class="label" x="100" y="24" fill="#4a5568">Exit Switch Structure</text>
+  </g>
+</svg>

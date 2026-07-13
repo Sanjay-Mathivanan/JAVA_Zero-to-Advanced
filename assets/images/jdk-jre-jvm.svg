@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" width="100%">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 14px; }
+    .desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 11px; }
+    
+    .jdk-box { fill: #ebf8ff; stroke: #3182ce; stroke-width: 2.5; rx: 12; }
+    .jdk-text { fill: #2b6cb0; }
+    
+    .jre-box { fill: #f0fff4; stroke: #38a169; stroke-width: 2.5; rx: 10; }
+    .jre-text { fill: #276749; }
+    
+    .jvm-box { fill: #fffaf0; stroke: #dd6b20; stroke-width: 2.5; rx: 8; }
+    .jvm-text { fill: #9c4221; }
+    
+    .tool-box { fill: #edf2f7; stroke: #4a5568; stroke-width: 1.5; stroke-dasharray: 4 4; rx: 6; }
+    .tool-text { fill: #2d3748; }
+
+    .lib-box { fill: #edf2f7; stroke: #4a5568; stroke-width: 1.5; stroke-dasharray: 4 4; rx: 6; }
+    .lib-text { fill: #2d3748; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      
+      .jdk-box { fill: #1A365D; stroke: #4299e1; }
+      .jdk-text { fill: #90cdf4; }
+      
+      .jre-box { fill: #1C4532; stroke: #48bb78; }
+      .jre-text { fill: #9ae6b4; }
+      
+      .jvm-box { fill: #5c3e21; stroke: #ed8936; }
+      .jvm-text { fill: #fbd38d; }
+      
+      .tool-box { fill: #1a202c; stroke: #718096; }
+      .tool-text { fill: #e2e8f0; }
+
+      .lib-box { fill: #1a202c; stroke: #718096; }
+      .lib-text { fill: #e2e8f0; }
+    }
+  </style>
+
+  <rect width="100%" height="100%" class="bg" rx="16" />
+
+  <!-- JDK (Java Development Kit) Outer Container -->
+  <g transform="translate(20, 20)">
+    <rect class="jdk-box" width="560" height="340" />
+    <text class="label jdk-text" x="20" y="28">JDK (Java Development Kit)</text>
+    <text class="desc jdk-text" x="20" y="45">Complete development environment: Compiler, Debugger, and tools + JRE</text>
+
+    <!-- Development Tools (Only in JDK) -->
+    <g transform="translate(20, 65)">
+      <rect class="tool-box" width="130" height="255" />
+      <text class="label tool-text" x="15" y="25">Dev Tools</text>
+      
+      <g transform="translate(15, 45)">
+        <text class="desc tool-text" x="0" y="10">🔨 javac (Compiler)</text>
+        <text class="desc tool-text" x="0" y="35">📦 jar (Archiver)</text>
+        <text class="desc tool-text" x="0" y="60">🔍 jdb (Debugger)</text>
+        <text class="desc tool-text" x="0" y="85">📖 javadoc (Docs)</text>
+        <text class="desc tool-text" x="0" y="110">💻 jshell (REPL)</text>
+      </g>
+    </g>
+
+    <!-- JRE (Java Runtime Environment) Container -->
+    <g transform="translate(170, 65)">
+      <rect class="jre-box" width="370" height="255" />
+      <text class="label jre-text" x="20" y="25">JRE (Java Runtime Environment)</text>
+      <text class="desc jre-text" x="20" y="40">Provides libraries and resources to run Java applications</text>
+
+      <!-- Library Classes (Only in JRE) -->
+      <g transform="translate(20, 60)">
+        <rect class="lib-box" width="140" height="175" />
+        <text class="label lib-text" x="15" y="25">Libraries &amp; Files</text>
+        <g transform="translate(15, 45)">
+          <text class="desc lib-text" x="0" y="10">📚 rt.jar (Core APIs)</text>
+          <text class="desc lib-text" x="0" y="35">📂 java.base</text>
+          <text class="desc lib-text" x="0" y="60">⚙️ Config Files</text>
+          <text class="desc lib-text" x="0" y="85">🗺️ Charset Libs</text>
+        </g>
+      </g>
+
+      <!-- JVM (Java Virtual Machine) Container -->
+      <g transform="translate(180, 60)">
+        <rect class="jvm-box" width="170" height="175" />
+        <text class="label jvm-text" x="15" y="25">JVM (Virtual Machine)</text>
+        <text class="desc jvm-text" x="15" y="40">Executes the bytecode</text>
+        <g transform="translate(15, 65)">
+          <text class="desc jvm-text" x="0" y="10">🔄 Class Loader</text>
+          <text class="desc jvm-text" x="0" y="30">🚀 Execution Engine</text>
+          <text class="desc jvm-text" x="0" y="50">⚡ JIT Compiler</text>
+          <text class="desc jvm-text" x="0" y="70">🧹 Garbage Collector</text>
+          <text class="desc jvm-text" x="0" y="90">🧠 Memory Areas</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
