@@ -1,0 +1,15 @@
+# MkDocs build and temporary directories
+docs/
+site/
+venv/
+.venv/
+mkdocs.yml
+__pycache__/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.class
+*.jar
