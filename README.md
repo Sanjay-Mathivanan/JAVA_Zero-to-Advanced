@@ -19,6 +19,7 @@ Here is the directory map of the learning path:
 9. **[09. Advanced Java Class Concepts](09_Advanced-Java-Class-Concepts/)**: Inner classes, local classes, anonymous classes, lambda expressions, and functional interfaces.
 10. **[10. Collection Framework](10_Collection-Framework-in-Java/)**: Lists, Sets, Maps, Queues, Iterators, and algorithm complex analysis.
 11. **[Exception and Buffer](11_Exception-and-Buffer/)**: Checked vs. Unchecked exceptions, try-catch-finally, custom Exceptions, try-with-resources, StringBuffer, StringBuilder, and BufferedReader/Writer.
+12. **[Multithreading](12_Multithreading-in-Java/)**: Concurrency vs. parallelism, thread creation (Thread vs. Runnable), priority & core methods (sleep, join, yield), synchronization locks, volatile memory visibility, wait/notify, and ExecutorServices.
 
 ---
 
