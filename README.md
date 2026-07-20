@@ -22,6 +22,7 @@ Here is the directory map of the learning path:
 12. **[Multithreading](12_Multithreading-in-Java/)**: Concurrency vs. parallelism, thread creation (Thread vs. Runnable), priority & core methods (sleep, join, yield), synchronization locks, volatile memory visibility, wait/notify, and ExecutorServices.
 13. **[Lambda Expressions](13_Lambda-Expressions/)**: Imperative vs. functional paradigm shift, lambda syntax patterns, Single Abstract Method (SAM) rule, built-in functional interfaces (Predicate, Consumer, Supplier, Function), method references, and lexical scoping/variable capture rules.
 14. **[Regular Expressions](14_Regular-Expressions/)**: Pattern matching syntax, double backslash escaping (`\\`), Pattern compilation, Matcher engines, capturing groups, Greedy/Lazy/Possessive quantifiers, and lookaround assertions.
+15. **[File Handling](15_File-Handling/)**: Stream abstractions, Byte Streams vs. Character Streams, File metadata, Object Serialization (`transient`/`serialVersionUID`), and modern Java 7+ NIO.2 (`Path` and `Files`).
 
 ---
 
