@@ -20,6 +20,7 @@ Here is the directory map of the learning path:
 10. **[10. Collection Framework](10_Collection-Framework-in-Java/)**: Lists, Sets, Maps, Queues, Iterators, and algorithm complex analysis.
 11. **[Exception and Buffer](11_Exception-and-Buffer/)**: Checked vs. Unchecked exceptions, try-catch-finally, custom Exceptions, try-with-resources, StringBuffer, StringBuilder, and BufferedReader/Writer.
 12. **[Multithreading](12_Multithreading-in-Java/)**: Concurrency vs. parallelism, thread creation (Thread vs. Runnable), priority & core methods (sleep, join, yield), synchronization locks, volatile memory visibility, wait/notify, and ExecutorServices.
+13. **[Lambda Expressions](13_Lambda-Expressions/)**: Imperative vs. functional paradigm shift, lambda syntax patterns, Single Abstract Method (SAM) rule, built-in functional interfaces (Predicate, Consumer, Supplier, Function), method references, and lexical scoping/variable capture rules.
 
 ---
 
