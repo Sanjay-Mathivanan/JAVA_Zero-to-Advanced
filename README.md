@@ -18,6 +18,7 @@ Here is the directory map of the learning path:
 8. **[08. Abstract Features of Java](08_Abstract-Features-of-Java/)**: Deeper focus on interfaces, static vs default methods, and abstraction levels.
 9. **[09. Advanced Java Class Concepts](09_Advanced-Java-Class-Concepts/)**: Inner classes, local classes, anonymous classes, lambda expressions, and functional interfaces.
 10. **[10. Collection Framework](10_Collection-Framework-in-Java/)**: Lists, Sets, Maps, Queues, Iterators, and algorithm complex analysis.
+11. **[Exception and Buffer](11_Exception-and-Buffer/)**: Checked vs. Unchecked exceptions, try-catch-finally, custom Exceptions, try-with-resources, StringBuffer, StringBuilder, and BufferedReader/Writer.
 
 ---
 
